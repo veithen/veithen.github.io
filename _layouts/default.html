@@ -28,9 +28,11 @@
             <h1 class="site-name"><a href="{{ site.baseurl }}/">Andreas Veithen's blog</a></h1>
           </div>
           
+          {% if page.name == 'index.html' %}
           <nav>
             <a href="{{ site.baseurl }}/opinion.html">Opinion</a>
           </nav>
+          {% endif %}
         </header>
       </div>
     </div>
@@ -39,6 +41,7 @@
       {{ content }}
     </div>
 
+    {% if page.category == 'tech' %}
     <div class="wrapper-footer">
       <div class="container">
         <footer class="footer">
@@ -49,5 +52,6 @@
         </footer>
       </div>
     </div>
+    {% endif %}
   </body>
 </html>
