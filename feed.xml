@@ -7,7 +7,7 @@ layout: null
     <title>Andreas Veithen's blog</title>
     <link>http://veithen.github.io/</link>
     <atom:link href="http://veithen.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    {% for post in site.posts limit:10 %}
+    {% for post in site.categories.tech limit:10 %}
       <item>
         <title>{{ post.title | xml_escape }}</title>
         <description>{{ post.content | xml_escape }}</description>
