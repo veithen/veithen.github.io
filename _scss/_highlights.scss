@@ -17,8 +17,15 @@
  
 code {
   font-family: 'Courier', monospace;
-  font-size: 14px;
   color: #999
+}
+
+a code {
+  color: inherit
+}
+
+pre code {
+  font-size: 14px
 }
  
 // Solarized Light Pygments 
