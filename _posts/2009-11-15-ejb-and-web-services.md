@@ -2,6 +2,9 @@
 layout: post
 title: "EJB and Web Services: getting the best of both worlds"
 category: tech
+tags:
+ - JavaEE
+ - WebServices
 ---
 
 If you have ever worked in a project where both EJBs and Web Services are used,

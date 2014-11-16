@@ -2,6 +2,10 @@
 layout: post
 title: "How to propagate SIGTERM to a child process in a Bash script"
 category: tech
+tags:
+ - Bash
+ - Docker
+ - Supervisord
 ---
 
 [Supervisord](http://supervisord.org/) requires that the programs it is configured to run

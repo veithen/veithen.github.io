@@ -2,6 +2,9 @@
 layout: post
 title: How to change the StAX implementation in an OSGi environment
 category: tech
+tags:
+ - StAX
+ - OSGi
 ---
 
 <p>The StAX API uses the so called <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html#Service%20Provider">JDK 1.3 service provider discovery</a> mechanism to locate providers of its three factory classes (<code>XMLInputFactory</code>, <code>XMLOutputFactory</code> and <code>XMLEventFactory</code>). This mechanism uses the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html#getContextClassLoader()">thread context class loader</a> to look up resources under <tt>META-INF/services/</tt>. Switching to a StAX implementation other than the one shipped with the JRE therefore requires deploying the JAR containing that implementation in such a way that it becomes visible to the thread context class loader.</p>
