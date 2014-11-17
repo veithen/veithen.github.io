@@ -111,9 +111,10 @@ img {
   max-width: 100%;
 }
 
-.date {
+.post time.published {
   font-style: italic;
   color: $gray;
+  display: block
 }
 
 // Specify the color of the selection
