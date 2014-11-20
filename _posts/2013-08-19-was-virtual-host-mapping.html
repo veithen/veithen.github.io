@@ -1,0 +1,83 @@
+---
+layout: post
+title: "Understanding virtual host mapping in WebSphere Application Server"
+category: tech
+tags:
+ - WebSphere
+---
+
+<p>
+Together with the context root, the virtual host assigned to a Web module determines under which URLs that Web module will be accessible. In WebSphere, a virtual host is simply a set of host aliases, where each alias specifies a host name (or a <code>*</code> wildcard to match any host name) and a port number. Configuring virtual hosts is pretty straightforward, but problems may occur if there are multiple virtual host definitions that have overlapping host aliases, i.e. if the same host name/port combination is matched by multiple virtual hosts.
+</p>
+<p>
+To see why this happens, it is important to understand how virtual host mapping in WebSphere works internally. Each application server maintains a map with the following structure:
+</p>
+<p>
+{ host alias &rarr; { context root &rarr; Web module } }
+</p>
+<p>
+That means that for each host alias, there is a separate map that maps from the context root to the Web module. Entries in these data structures are created (resp. removed) as Web modules are started (resp. stopped). Note that at this point wildcards are not replaced yet.
+</p>
+<p>
+To illustrate how this works, consider the following sample topology:
+</p>
+<ul>
+<li>A WebSphere application cluster with two members running on hosts <code>srv-a.example.org</code> and <code>srv-b.example.org</code> and listening on port 9080.</li>
+<li>A Web server having two host names <code>web1.example.org</code> and <code>web2.example.org</code> and listening on port 80.</li>
+<li>Two Web modules <code>module1</code> (with context root <code>/app1</code>) and <code>module2</code> (with context root <code>/app2</code>) that are expected to answer requests on host names <code>web1.example.org</code> and <code>web2.example.org</code> respectively.</li>
+</ul>
+<p>
+If one further assumes that <code>module1</code> and <code>module2</code> should also accept requests sent directly to <code>srv-a.example.org</code> and <code>srv-b.example.org</code> (i.e. without going through the Web server), then one would define the following virtual hosts:
+</p>
+<ul>
+<li><code>vhost1</code> with aliases <code>web1.example.org:80</code> and <code>*:9080</code>.</li>
+<li><code>vhost2</code> with aliases <code>web2.example.org:80</code> and <code>*:9080</code>.</li>
+</ul>
+<p>
+<code>module1</code> would be mapped to <code>vhost1</code> and <code>module2</code> would be mapped to <code>vhost2</code>. Both cluster members would then build the following map internally:
+</p>
+<table>
+<thead>
+<tr><th>Alias</th><th>Context root</th><th>Web module</th></tr>
+</thead>
+<tbody>
+<tr><td><code>web1.example.org:80</code></td><td><code>/app1</code></td><td><code>module1</code></td></tr>
+<tr><td><code>web2.example.org:80</code></td><td><code>/app2</code></td><td><code>module2</code></td></tr>
+<tr><td rowspan="2"><code>*:9080</code></td><td><code>/app1</code></td><td><code>module1</code></td></tr>
+<tr><td><code>/app2</code></td><td><code>module2</code></td></tr>
+</tbody>
+</table>
+<p>
+The structure of the map described above implies that mapping a request to a Web module is a two-step process. WebSphere will first match the <code>Host</code> header of the incoming request. At this point, wildcards are processed. WebSphere will then use the corresponding { context root &rarr; Web module } map to look up the Web module based on the path part of the URL.
+</p>
+<p>
+In the example shown above, the fact that the same host alias appears in multiple virtual host definition doesn't cause any issue. Any request sent directly to the application servers via port 9080 will be routed correctly to the expected Web module.
+</p>
+<p>
+Now consider a slightly different virtual host configuration:
+</p>
+<ul>
+<li><code>vhost1</code> with aliases <code>web1.example.org:80</code> and <code>*:9080</code>.</li>
+<li><code>vhost2</code> with aliases <code>web2.example.org:80</code>, <code>srv-a.example.org:9080</code> and <code>srv-b.example.org:9080</code>.</li>
+</ul>
+<p>
+This will result in the following map:
+</p>
+<table>
+<thead>
+<tr><th>Alias</th><th>Context root</th><th>Web module</th></tr>
+</thead>
+<tbody>
+<tr><td><code>web1.example.org:80</code></td><td><code>/app1</code></td><td><code>module1</code></td></tr>
+<tr><td><code>web2.example.org:80</code></td><td><code>/app2</code></td><td><code>module2</code></td></tr>
+<tr><td><code>*:9080</code></td><td><code>/app1</code></td><td><code>module1</code></td></tr>
+<tr><td><code>srv-a.example.org:9080</code></td><td><code>/app2</code></td><td><code>module2</code></td></tr>
+<tr><td><code>srv-b.example.org:9080</code></td><td><code>/app2</code></td><td><code>module2</code></td></tr>
+</tbody>
+</table>
+<p>
+In this case, things will not work as expected. In fact, requests for <code>http://srv-a.example.org:9080/app1/index.html</code> will not be routed to <code>module1</code>. As noted earlier, WebSphere will first match the <code>Host</code> header against the host aliases. The value of that header (<code>srv-a.example.org:9080</code>) matches both <code>*:9080</code> and <code>srv-a.example.org:9080</code>, but WebSphere will select the second one because it is more specific than the alias with the wildcard. WebSphere will then look at the { context root &rarr; Web module } map for that alias. The problem is that this map now contains a single entry mapping <code>/app2</code> to <code>module2</code>, i.e. there is no entry matching <code>/app1/index.html</code>.
+</p>
+<p>
+The conclusion is that when configuring virtual hosts, a problem will occur if one virtual host has an alias of the form host:port and another one has an alias *:port with the same port number.
+</p>
