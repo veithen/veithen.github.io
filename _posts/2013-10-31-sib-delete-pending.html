@@ -1,0 +1,47 @@
+---
+layout: post
+title: "How to get rid of SIBus queue points in state DELETE_PENDING"
+category: tech
+tags:
+ - WebSphere
+blogger: /2013/10/sib-delete-pending.html
+---
+
+<p>
+Sometimes, when deleting a destination from a SIBus, the corresponding queue point is not deleted from the underlying messaging engine, but remains in state <code>DELETE_PENDING</code>. This manifests itself in three ways:
+</p>
+<ol>
+<li><p>The queue point is still visible in the runtime view of the messaging engine in the admin console. To see this, go to the admin console page for the messaging engine, switch to the "Runtime" tab and then click on "Queue points".</p></li>
+<li><p>The MBean for the queue point is still registered by the messaging engine. The <code>state</code> attribute of that MBean will have value <code>DELETE_PENDING</code>.</p></li>
+<li><p>Each time the messaging engine is started, the following message appears in the logs:</p>
+<pre><code>CWSIP0063I: The local destination <i>&lt;name></i> with UUID <i>&lt;uuid></i> has been marked for deletion.</code></pre></li>
+</ol>
+<p>
+It is not exactly clear under which conditions this issue occurs, but apparently it has to do with the existence of remote queue points, i.e. with the production or consumption of messages through a remote messaging engine.
+</p>
+<p>
+To clean up these queue points and eliminate the recurring <code>CWSIP0063I</code> messages, use the following <code>wsadmin</code> script:
+</p>
+<pre style="font-size: 85%"><code>
+objName = AdminControl.makeObjectName('WebSphere:type=SIBQueuePoint,*')
+queuepoints = AdminControl.queryNames_jmx(objName, None)
+for queuepoint in queuepoints:
+    name = queuepoint.getKeyProperty("name")
+    if (not name.startswith("_") and AdminControl.invoke_jmx(queuepoint, 'getState', [], []) == 'DELETE_PENDING'):
+        print 'Found SIBQueuePoint in state DELETE_PENDING: ' + name
+        irs = AdminControl.invoke_jmx(queuepoint, 'listInboundReceivers', [], [])
+        for ir in irs:
+            AdminControl.invoke_jmx(queuepoint, 'flush', [ir], ['com.ibm.websphere.sib.admin.SIBInboundReceiver'])
+            print 'Called flush on SIBQueuePoint for inbound receiver: ' + name
+        cts = AdminControl.invoke_jmx(queuepoint, 'listRemoteConsumerTransmitters', [], [])
+        for ct in cts:
+            AdminControl.invoke_jmx(queuepoint, 'flush', [ct], ['com.ibm.websphere.sib.admin.SIBRemoteConsumerTransmitter'])
+            print 'Called flush on SIBQueuePoint for remote consumer transmitter: ' + name
+</code></pre>
+<p>
+<b>Update:</b>
+</p>
+<ul>
+<li>The <code>flush</code> operations used by the script are actually deprecated, but it the <a href="https://pic.dhe.ibm.com/infocenter/wasinfo/v8r0/topic/com.ibm.websphere.javadoc.doc/web/mbeanDocs/SIBQueuePoint.html">documentation</a> doesn't specify which operations should be used instead.</li>
+<li>The script may fail because the queue may already be deleted after the flush of the <code>SIBInboundReceiver</code> objects. In that case subsequent operations fail because the MBean no longer exist. As a workaround, simply reexecute the script.</li>
+</ul>

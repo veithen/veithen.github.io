@@ -1,0 +1,128 @@
+---
+layout: post
+title: "How to divide a WebSphere topology into cells"
+category: tech
+tags:
+ - WebSphere
+blogger: /2013/11/divide-websphere-topology-into-cells.html
+---
+
+<p>
+A WebSphere cell is a logical grouping of nodes (each of which runs one or more application servers) that
+are centrally managed:
+</p>
+<ul>
+<li>
+There is a single configuration repository for the entire cell. Each individual node receives a read-only
+copy of the part of the configuration relevant for that node.
+</li>
+<li>
+There is a single administrative console for the entire cell. This console is hosted on the deployment
+manager and allows to manage the configuration repository as well as the runtime state of all WebSphere
+instances in the cell.
+</li>
+<li>
+The MBean servers in the cell are federated. By connecting to the deployment manager, one can interact
+with any MBean on any WebSphere instance in the cell.
+</li>
+</ul>
+<p>
+One of the primary tasks when designing a WebSphere topology is to decide how WebSphere instances should be grouped
+into cells. There is no golden rule, and this generally requires a tradeoff between multiple considerations:
+</p>
+<ol>
+<li>
+<p>
+Applications deployed on different clusters can easily communicate over JMS if the clusters are in the
+same cell. The reason is that SIBuses are cell scoped resources and that each WebSphere instance in a
+cell has information about the topology of the cell, so that it can easily locate the messaging engine to
+connect to. This means that making two applications in the same cell interact with each other over JMS
+only requires minimal configuration, even if they are deployed on different clusters. On the other hand,
+doing this for applications deployed in different cells requires more configuration because WebSphere
+instances in one cell are not aware of the messaging topology in the other cell.
+</p>
+</li>
+<li>
+<p>
+Setting up remote EJB calls over IIOP between applications deployed on different clusters is easier if
+the clusters are in the same cell: the applications don't need to make any particular provisions to support
+this, and no additional configuration is required on the server. In that case, making two applications
+interact over IIOP only requires using a special JNDI name (such as <code>cell/clusters/cluster1/ejb/SomeEJB</code>) that routes the requests to the right target cluster. On the other hand, doing this for
+applications deployed in different cells requires additional configuration:
+</p>
+<ul>
+<li>A <a href="http://pic.dhe.ibm.com/infocenter/wasinfo/v8r5/topic/com.ibm.websphere.nd.doc/ae/tnam_foreigncell_bindings.html">foreign cell binding</a> needs to be created between the cells.</li>
+<li>For cells where security is enabled, it is also required to establish trust between these cells, i.e. to exchange the SSL certificates and to synchronize the LTPA keys.</li>
+<li>Routing and workload management for IIOP works
+better inside a cell (actually inside a core group, but there is generally a single core group for the entire
+cell), because the application server that hosts the calling application knows about the runtime state
+of the members of the target cluster. To get the same quality of service for IIOP calls between different cells
+it is necessary to set up core group bridges between the core groups in these cells, and the complexity of the bridge
+configuration is O(N<sup>2</sup>), where N is the number of cells involved.</li>
+</ul>
+</li>
+<li>
+<p>
+Applications are defined at cell scope and then mapped to target servers and clusters. This implies
+that application names must be unique in a cell and that it is not possible to deploy multiple versions
+of the same application under the same name. Deploying multiple versions of the same application
+therefore requires renaming that application (by changing the value of the <code>display-name</code> element in
+the <code>application.xml</code> descriptor). Note that this works well for J2EE applications, but not for SCA
+modules deployed on WebSphere Process Server or ESB. The reason is that during the deployment of an SCA modules, WebSphere
+automatically creates SIBus resources with names that depend on the original application name. In this
+case, changing <code>application.xml</code> is not enough.
+</p>
+</li>
+<li>
+<p>
+A single Web server instance can be used as a reverse proxy for multiple clusters. However, WebSphere
+can only maintain the plug-in configuration automatically if the Web server and the clusters are all
+part of the same cell. Using a single Web server for multiple clusters in different cells is possible
+but additional procedures are required to maintain that configuration. This means that the larger the cells are, the more flexibility one has for the
+Web server configuration.
+</p>
+</li>
+<li>
+<p>
+One possible strategy to upgrade WebSphere environments to a new major version is
+to migrate the configuration as is using the tools (<a href="http://pic.dhe.ibm.com/infocenter/wasinfo/v8r5/topic/com.ibm.websphere.nd.doc/ae/rmig_WASPreUpgrade.html">WASPreUpgrade</a> and <a href="http://pic.dhe.ibm.com/infocenter/wasinfo/v8r5/topic/com.ibm.websphere.nd.doc/ae/rmig_WASPostUpgrade.html">WASPostUpgrade</a>) provided by IBM. The first step in this process is
+always to migrate the deployment manager profile. WebSphere supports mixed version cells (as long
+as the deployment manager has the highest version), so that the individual nodes can be migrated one
+by one later. Larger cells slightly reduce the amount of work required during an upgrade (because there
+are fewer deployment managers), but at the price of increased risk: if something unexpected happens
+during the migration of the deployment manager, the impact will be larger and more difficult to manage.
+</p>
+</li>
+<li>
+<p>
+Some configurations are done at the cell level. This includes e.g. the security configuration (although
+that configuration can be overridden at the server level). Having larger cells reduces the amount of work
+required to apply and maintain these configurations.
+</p>
+</li>
+<li>
+<p>
+There are good reasons to use separate cells for products that augment WebSphere Application Server
+(such as WebSphere Process Server), although technically it is possible to mix different products in
+the same cell:
+</p>
+<ul>
+<li>The current releases of these products is not necessarily based on the latest WebSphere Application
+Server release. Since the deployment manager must be upgraded first, this may block the upgrade
+to a newer WebSphere Application Server release.</li>
+<li>Typically, upgrades of products such as WPS are considerably more complex than WAS upgrades. If
+both products are mixed in a single cell, then this may slow down the adoption of new WAS versions.</li>
+</ul>
+</li>
+</ol>
+<p>
+Some of these arguments are in favor of larger cells, while others are in favor of smaller cells. There is no single argument that can be used to determine the cell topology and one always
+has to do a tradeoff between multiple considerations. There are however two rules that should always apply:
+</p>
+<ul>
+<li>A cell should never span multiple environments (development, acceptance, production, etc.).</li>
+<li>There is a document from IBM titled <a href="http://www.ibm.com/developerworks/websphere/library/techarticles/0710_largetopologies/0710_largetopologies.html">Best Practices for Large WebSphere Application Server
+Topologies</a> that indicates that a (single cell) topology is considered large if it contains dozens of nodes
+with hundreds of application servers. Most organizations are far away from these numbers, so that in practice one can usually consider that there is no upper limit on the
+number of application servers in a cell.</li>
+</ul>
