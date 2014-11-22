@@ -1,0 +1,75 @@
+---
+layout: post
+title: "Reducing the impact of DB2 client reroutes on applications deployed on WebSphere"
+category: tech
+tags:
+ - DB2
+ - WebSphere
+blogger: /2014/02/reducing-impact-of-db2-client-reroutes.html
+---
+
+<p>
+In a <a href="/2013/04/06/db2-hadr-acr-websphere-pitfalls.html">previous blog post</a> I discussed a couple of common pitfalls when using HADR and automatic client reroute with DB2 and WebSphere. In the present post I will analyze another closely related topic, namely how WebSphere and applications deployed on WebSphere react to a client reroute and what can be done to minimize the impact of a failover.
+</p>
+<p>
+There are a couple of things one needs to be aware of in order to analyze these questions:
+</p>
+<ul>
+<li>
+<p>
+The failover of a database always causes all <a href="https://www.ibm.com/developerworks/community/wikis/home?lang=en#!/wiki/DB2HADR/page/HADR%20takeover?section=What_happens_during_a_takeover">active transactions on that database to be rolled back</a>. The fundamental reason is that HADR doesn’t replicate locks to the standby database, as mentioned <a href="http://www.ibm.com/developerworks/data/library/techarticle/dm-1205hadrstandby/">here</a>. Note that, on the other hand, HADR does ship log records for uncommitted operations (which means that transactions that are rolled back on the primary also cause a roll back on the standby). The standby therefore has enough information to reconstruct the data in an active transaction, but the fact that locks are not replicated implies that it cannot fully reconstruct the state of the active transactions during a failover. It therefore cannot allow these transactions to continue and is forced to perform a rollback.
+</p>
+</li>
+<li>
+<p>
+By default, when the JDBC driver performs a client reroute after detecting that a database has failed over, it will trigger a <code>com.ibm.db2.jcc.am.ClientRerouteException</code> (with <code>ERRORCODE=-4498</code> and <code>SQLSTATE=08506</code>). This exception will be mapped by WebSphere to a <code>com.ibm.websphere.ce.cm.StaleConnectionException</code> before it is received by the application.
+</p>
+<p>
+Note that this occurs during the first attempt to reuse an existing connection after the failover. Since connections are pooled, there may be a significant delay between the failover and the occurrence of the <code>ClientRerouteException</code>/<code>StaleConnectionException</code>.
+</p>
+</li>
+</ul>
+<p>
+The correct way to react to a <code>ClientRerouteException</code>/<code>StaleConnectionException</code> would therefore be to reexecute the entire transaction. Obviously there is a special case, namely a reroute occurring while attempting to execute the first query in a transaction. In this situation, only a single operation needs to be reexecuted. Note that this is actually the most common case because it occurs for transactions started after the failover, but that attempt to reuse a connection established before the failover. Typically this is more likely than a failover in the middle of a transaction (except of course on very busy systems or applications that use long running transactions).
+</p>
+<p>
+The JDBC data source can be configured to automatically handle that special case. This feature is called <i>seamless failover</i>. The <a href="http://pic.dhe.ibm.com/infocenter/db2luw/v10r5/topic/com.ibm.db2.luw.apdv.java.doc/src/tpc/imjcc_c0056175.html">DB2 documentation</a> describes the conditions that need to be satisfied for seamless failover to be effective:
+</p>
+<blockquote>
+<p>
+If seamless failover is enabled, the driver retries the transaction on the new server, without notifying the application.
+</p>
+<p>
+The following conditions must be satisfied for seamless failover to occur:
+</p>
+<ul>
+<li>The <code>enableSeamlessFailover</code> property is set to <code>DB2BaseDataSource.YES</code>. [...]</li>
+<li>The connection is not in a transaction. That is, the failure occurs when the first SQL statement in the transaction is executed.</li>
+<li>There are no global temporary tables in use on the server.</li>
+<li>There are no open, held cursors.</li>
+</ul>
+</blockquote>
+<p>
+This still leaves the case where the failover occurs in the middle of a transaction. The DB2 documentation has an <a href="http://pic.dhe.ibm.com/infocenter/db2luw/v10r5/topic/com.ibm.db2.luw.admin.ha.doc/doc/r0011978.html">example</a> that shows how an application could react in this situation by reexecuting the entire transaction. However, the approach suggested by that example is not realistic for real world applications. There are multiple reasons for that:
+</p>
+<ul>
+<li>It requires lot of boilerplate error handling code to be added to the application. That code would be much more complex than what is suggested by the example. Just to name a few complications that may occur: reuse of the same data access code in different transactions, container managed transactions, distributed transactions, the option to <a href="http://docs.oracle.com/javaee/6/api/javax/ejb/TransactionAttributeType.html#REQUIRED">join an existing transaction</a>, transactions started by and imported from remote clients, etc.</li>
+<li>Writing and maintaining that code is very error-prone. It is very easy to get it wrong, so that instead of reexecuting the current transaction, the code would only partially reexecute the transaction or reexecute queries that are part of a previous transaction that has already been committed. Since the code is not executed during normal program flow, such bugs will not be noticed immediately.</li>
+<li>It is virtually impossible to test this code. One would have to find a way to trigger or simulate a database failover at a well defined moment during code execution. One would then have to apply this technique to every possible partially executed transaction that can occur in the application. This is simply not realistic.</li>
+</ul>
+<p>
+A more realistic option would be to handle this at the framework level. E.g. it is likely that Spring could be set up or extended to support automatic transaction reexecution in case of a client reroute. If this support is designed carefully and tested thoroughly, then one can reasonably assume that it just works transparently for any transaction, removing the need to test it individually for every transaction.
+</p>
+<p>
+However, before embarking on this endeavor, you should ask yourself if the return on investment is actually high enough. You should take into account the following aspects in your evaluation:
+</p>
+<ul>
+<li>There may be multiple frameworks in use in your organization (e.g. EJB and Spring). Automatic transaction reexecution would have to be implemented for each of these frameworks separately. For some frameworks, it may be impossible to implement this in a way that is transparent for applications.</li>
+<li>Database failovers are expected to be rare events. If seamless failover is enabled, then only transactions that are active at the time of the failover will be impacted. This means that the failure rate may be very low.</li>
+<li>When the primary DB2 instance goes down because of a crash, it will take some time before the standby takes over. Even if the application successfully reexecutes the transaction, the client of the application may still receive an error because of timeouts. On the other hand, in case of a manual takeover for maintenance reasons, one can usually reduce the impact on clients by carefully scheduling the takeover.</li>
+<li>There are lots of reasons why a client request may fail, and database failovers are only one possible cause. Other causes include application server crashes and network issues. It is likely that implementing automatic transaction reexecution would reduce the overall failure rate only marginally. It may actually be more interesting to implement a mechanism that retries requests on the client side for any kind of failure.</li>
+<li>Message driven beans already provide a retry mechanism that is transactionally safe. In some cases this may be a better option than implementing a custom solution.</li>
+</ul>
+<p>
+The conclusion is that while it is in general a good idea to enable seamless failover, in most cases it is not worth trying to intercept <code>ClientRerouteException</code>/<code>StaleConnectionException</code> and to automatically reexecute transactions.
+</p>
