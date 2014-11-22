@@ -5,6 +5,7 @@ category: tech
 tags:
  - JavaEE
  - WebServices
+blogger: /2009/11/ejb-and-web-services-getting-best-of.html
 ---
 
 If you have ever worked in a project where both EJBs and Web Services are used,

@@ -4,6 +4,7 @@ title: "Building and installing a vanilla Linux kernel on Ubuntu"
 category: tech
 tags:
  - Linux
+blogger: /2013/12/ubuntu-vanilla-kernel.html
 ---
 
 This post describes a simple procedure to build and install a new Linux kernel on Ubuntu using the

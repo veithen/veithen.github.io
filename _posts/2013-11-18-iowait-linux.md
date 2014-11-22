@@ -4,6 +4,7 @@ title: "The precise meaning of I/O wait time in Linux"
 category: tech
 tags:
  - Linux
+blogger: /2013/11/iowait-linux.html
 ---
 
 Some time ago I had a discussion with some systems guys about the exact meaning of the I/O wait time
