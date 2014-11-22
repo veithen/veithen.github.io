@@ -1,0 +1,76 @@
+---
+layout: post
+title: "Integrating ServiceMix with WebSphere's SIBus"
+category: tech
+tags:
+ - ServiceMix
+ - WebSphere
+---
+
+<p>
+This article describes how to integrate Apache ServiceMix with WebSphere's SIBus. More precisely we will explore how to deploy a Camel route that sends messages to a SIBus destination in WebSphere. We assume that connection factories and queue objects are created using the API described in the <a href="http://pic.dhe.ibm.com/infocenter/wasinfo/v7r0/topic/com.ibm.websphere.base.doc/info/aes/ae/tmj_pgmng.html">Programming to use JMS and messaging directly</a> page in the WebSphere infocenter instead of looking them up using JNDI. This makes the configuration considerably simpler because there is no need to create JNDI objects in the WebSphere configuration.
+</p>
+<p>
+In this scenario, it's enough to install the SIB thin client and <a href="http://pic.dhe.ibm.com/infocenter/wasinfo/v8r5/topic/com.ibm.websphere.nd.multiplatform.doc/ae/rjj_jmsthcli_migrate602.html">we don't need the EJB thin client and IBM ORB</a> (as would be the case in a scenario that uses JNDI lookups). The SIB thin client can be found in the <code>runtimes</code> directory of the WebSphere installation. It is actually packaged as an OSGi bundle that can be deployed out of the box in ServiceMix. This has been successfully tested with the client from WAS 7.0.0.25 and 8.5.5.0. Note that earlier 8.5 versions seem to have some issues because they actually require the EJB thin client and IBM ORB.
+</p>
+<p>
+To deploy the SIB thin client, simply use the following command in the ServiceMix console (Adapt the path and version as necessary):
+</p>
+<pre><code>
+osgi:install -s file:///opt/IBM/WebSphere/AppServer/runtimes/com.ibm.ws.sib.client.thin.jms_8.5.0.jar
+</code></pre>
+<p>
+The thin client should then appear in the list of deployed bundles as follows (Use the <code>osgi:list</code> command to display that list):
+</p>
+<pre><code>
+[ 182] [Active     ] [            ] [       ] [   80] IBM SIB JMS Thin Client (8.5.0)
+</code></pre>
+<p>
+We can now create and deploy a Camel route. We will do that using a Spring context file. As mentioned earlier, the necessary connection factory and queue objects will be created using the <a href="http://pic.dhe.ibm.com/infocenter/wasinfo/v8r5/topic/com.ibm.websphere.javadoc.doc/web/apidocs/com/ibm/websphere/sib/api/jms/JmsFactoryFactory.html"><code>com.ibm.websphere.sib.api.jms.JmsFactoryFactory</code></a> API. Since Spring supports creating beans using <a href="http://docs.spring.io/spring/docs/3.0.x/reference/beans.html#beans-factory-class-static-factory-method">static</a> and <a href="http://docs.spring.io/spring/docs/3.0.x/reference/beans.html#beans-factory-class-instance-factory-method">instance</a> factory methods (including <a href="http://forum.spring.io/forum/spring-projects/container/48256-using-factory-beans-with-factory-method-parameters">factory methods with parameters</a>) this can be done entirely in the Spring configuration without writing any code.
+</p>
+<p>
+The following sample configuration sets up a Camel route that reads files from a directory and sends them to a SIBus destination:
+</p>
+<pre><code>
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://camel.apache.org/schema/spring
+    http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+  &lt;camelContext xmlns="http://camel.apache.org/schema/spring">
+    &lt;route>
+      &lt;from uri="file://test"/>
+      &lt;to uri="sib:queue:testQ"/>
+    &lt;/route>
+  &lt;/camelContext>
+  
+  &lt;bean id="jmsFactoryFactory" class="com.ibm.websphere.sib.api.jms.JmsFactoryFactory"
+        factory-method="getInstance"/>
+  
+  &lt;bean id="testQ"
+        factory-bean="jmsFactoryFactory" factory-method="createQueue">
+    &lt;constructor-arg>
+      &lt;value>queue://test&lt;/value>
+    &lt;/constructor-arg>
+  &lt;/bean>
+  
+  &lt;bean id="testCF" factory-bean="jmsFactoryFactory" factory-method="createConnectionFactory">
+    &lt;property name="busName" value="test"/>
+    &lt;property name="providerEndpoints" value="isis:7276:BootstrapBasicMessaging"/>
+    &lt;property name="targetTransportChain" value="InboundBasicMessaging"/>
+  &lt;/bean>
+  
+  &lt;bean id="sib" class="org.apache.camel.component.jms.JmsComponent">
+    &lt;property name="connectionFactory" ref="testCF"/>
+    &lt;property name="destinationResolver">
+      &lt;bean class="org.springframework.jms.support.destination.BeanFactoryDestinationResolver"/>
+    &lt;/property>
+  &lt;/bean>
+&lt;/beans>
+</code></pre>
+<p>
+To run this sample, change the queue name, bus name and the provider endpoint as required by your environment. Then copy the Spring context to the <code>deploy</code> directory in your ServiceMix installation. This should create a <code>test</code> directory where you can put the files to be sent to the SIBus destination. 
+</p>
