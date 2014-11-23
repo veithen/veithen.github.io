@@ -17,10 +17,20 @@
     		a.appendTo(li)
             a.click(function(e) {
                 e.preventDefault()
-                $("ul.post-list li").hide();
-                $("ul.post-list li").removeClass("hidden");
-                $("ul.post-list li article[data-tag-" + tag + "]").parent().fadeIn()
+                $("ul.post-list meta[itemprop='keywords']").each(function() {
+                	var li = $(this).parent().parent()
+                	var matches = $(this).attr("content").split(",").indexOf(tag) != -1
+                	if (matches != $(li).is(":visible")) {
+	                	if (matches) {
+	                		$(li).show("slow")
+	                	} else {
+	                		$(li).hide("slow")
+	                	}
+                	}
+                })
             })
     	})
+        $("ul.post-list li").hide();
+        $("ul.post-list li").removeClass("hidden");
     });
 })()
