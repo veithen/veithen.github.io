@@ -4,6 +4,7 @@ title: "WebSphere & ApacheDS quick setup guide"
 category: tech
 tags:
  - WebSphere
+ - LDAP
 blogger: /2013/11/websphere-apacheds-quick-setup-guide.html
 ---
 

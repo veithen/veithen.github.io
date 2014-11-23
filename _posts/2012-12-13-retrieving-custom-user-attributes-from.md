@@ -2,7 +2,9 @@
 layout: post
 title: Retrieving custom user attributes from LDAP in WebSphere
 category: tech
-tags: WebSphere
+tags:
+ - WebSphere
+ - LDAP
 blogger: /2012/12/retrieving-custom-user-attributes-from.html
 ---
 
