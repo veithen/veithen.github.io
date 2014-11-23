@@ -1,0 +1,56 @@
+.ui-helper-clearfix:before,
+.ui-helper-clearfix:after {
+    content: "";
+    display: table;
+    border-collapse: collapse;
+}
+.ui-helper-clearfix:after {
+    clear: both;
+}
+.ui-helper-clearfix {
+    min-height: 0; /* support: IE7 */
+}
+.ui-tabs {
+    position: relative;/* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+    padding: .2em;
+}
+.ui-tabs .ui-tabs-nav {
+    margin: 0;
+    padding: 0;
+}
+.ui-tabs .ui-tabs-nav li {
+    list-style: none;
+    float: left;
+    position: relative;
+    top: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+    float: left;
+    padding: .3em .7em;
+    text-decoration: none;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+    margin-bottom: -2px;
+}
+.ui-tabs .ui-tabs-panel {
+    padding: .5em .3em;
+}
+.ui-widget-header {
+    border-bottom: 2px solid #dfdfdf;
+    color: rgb(60, 64, 64);
+}
+.ui-state-default a,
+.ui-state-default a:link,
+.ui-state-default a:visited {
+    color: inherit;
+    cursor: pointer;
+    outline: none;
+}
+.ui-state-default a:hover {
+    background: #eee
+}
+.ui-tabs-active {
+    border-bottom: 2px solid #80b2b2
+}
