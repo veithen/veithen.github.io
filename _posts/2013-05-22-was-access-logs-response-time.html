@@ -1,0 +1,26 @@
+---
+layout: post
+title: "Customizing WebSphere access logs to include the response time"
+category: tech
+tags:
+ - WebSphere
+blogger: /2013/05/was-access-logs-response-time.html
+---
+
+<p>
+WebSphere Application Server always had the option to enable HTTP access logging. In the admin console, this feature is called "NCSA access logging" because the log format is compatible with the old <a href="http://en.wikipedia.org/wiki/NCSA_HTTPd">NCSA HTTPd</a>. Quite naturally, being based on the original NCSA code, Apache HTTPD also supports the same log format. In addition, Apache HTTPD allows to customize the access log. Until recently, this was not the case in WebSphere and the administrator only had the choice between two standard log formats: "Common" and "Combined".
+</p>
+<p>
+Customized access logs were introduced by the APARs <a href="http://www-01.ibm.com/support/docview.wss?uid=swg1PM46717">PM46717</a> and <a href="http://www-01.ibm.com/support/docview.wss?uid=swg1PM68250">PM68250</a> in WAS 7.0.0.25 and 8.0.0.2. They are enabled by a custom property called <code>accessLogFormat</code> that needs to be configured on the HTTP channel. As noted in PM46717 this will only work if <i>the "Use chain-specific logging" option is enabled on the HTTP Channel where the previously mentioned property is enabled</i>. The <code>accessLogFormat</code> property uses a syntax similar to the <code>LogFormat</code> directive in HTTPD. In particular, the <code>%D</code> format string can be used to add the response time to the logs. However, there are a couple of issues with that:
+</p>
+<ul>
+<li>As described in the previously mentioned APARs, the time is measured with <i>millisecond accuracy [and] microsecond precision</i>. The last three digits are always 0. That is a bit surprising considering that Java has a <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/System.html#nanoTime()">method</a> that gives access to a timer with sub-millisecond resolution. The reason may be that in some Java versions that method relies on a per-CPU timer and using it to calculate time differences on a multi-processor system may yield incorrect results. Fortunately, millisecond accuracy should be enough in most cases.</li>
+<li>According to APAR <a href="http://www-01.ibm.com/support/docview.wss?uid=swg1PM81277">PM81277</a>, the <code>%D</code> format string was not correctly implemented before WAS 7.0.0.29.</li>
+<li>On WAS 8.5.0.1 and 8.5.0.2 (other versions have not been tested but are likely affected too) <code>%D</code> actually doesn't represent the time elapsed between the reception of the request and the transmission of the response, but the time elapsed between the establishment of the HTTP connection and the transmission of the response. This is fine if the client uses a new connection for each request, but it obviously makes the feature totally useless with clients that use persistent HTTP connections.</li>
+</ul>
+<p>
+Finally, it is important to note that for obvious reasons the elapsed time measured on the server side always differs from the actual response time seen by the client. If one assumes that network delays are negligible, then one can expect that both are approximately equal. However, there is one case where there can be a large discrepancy between the value reported by WebSphere and the actual response time, namely if the Web container thread pool becomes saturated. The reason is that the HTTP transport in WebSphere uses a single thread pool to process asynchronous I/O events and to let applications handle HTTP requests. That means that if all available threads are blocked in application code (e.g. waiting for the execution of data base requests), then this will also prevent WebSphere from processing I/O events. These I/O events will then be queued in the operating system until more threads become available again. That effectively protects the server from overload, but it introduces a bias into the response time measurement because the timer only starts when WebSphere begins processing the request.
+</p>
+<p>
+That problem doesn't occur with the access logs produced by a Web server (such as IBM HTTP Server with the WebSphere plug-in) in front of WAS. Therefore, in that kind of setup it is always better to rely on the response time measured by the Web server (which will be much closer to the actual response time seen by the client) and not to use the WAS access logs as a substitute for the Web server access logs.
+</p>
