@@ -3,8 +3,8 @@ layout: post
 title: "EJB and Web Services: getting the best of both worlds"
 category: tech
 tags:
- - JavaEE
- - WebServices
+ - EJB
+ - JAX-WS
 blogger: /2009/11/ejb-and-web-services-getting-best-of.html
 ---
 
