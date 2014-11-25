@@ -1,0 +1,33 @@
+---
+layout: post
+title: "WebSphere problems related to new default nproc limit in RHEL 6"
+category: tech
+tags:
+ - WebSphere
+ - Linux
+blogger: /2013/10/was-rhel6-nproc-ulimit.html
+---
+
+<p>
+We recently had an incident on one of our production systems running under Red Hat Enterprise Linux where under certain load conditions WebSphere Application Server would fail with an <code>OutOfMemoryError</code> with the following message:
+</p>
+<pre><code>Failed to create a thread: retVal -1073741830, errno 11</code></pre>
+<p>
+Error number 11 corresponds to <code>EAGAIN</code> and indicates that the C library function creating the thread fails because of insufficient resources. Often this is related to native memory starvation, but in our case it turned out that it was the <code>nproc</code> limit that was reached. That limit puts an upper bound on the number of processes a given user can create. It may affect WebSphere because in this context, Linux counts each thread as a distinct process.
+</p>
+<p>
+Starting with RHEL 6, the soft <code>nproc</code> limit is set to 1024 by default, while in previous releases <a href="https://bugzilla.redhat.com/show_bug.cgi?id=919793">this was not the case</a>. The corresponding configuration can be found in <code>/etc/security/limits.d/90-nproc.conf</code>. Generally a WebSphere instance only uses a few hundred of threads so that this problem may go unnoticed for some time before being triggered by an unusual load condition. You should also take into account that the limit applies to the sum of all threads created by all processes running with the same user as the WebSphere instance. In particular it is not unusual to have IBM HTTP Server running with the same user on the same host. Since the WebSphere plug-in uses a multithreaded processing model (and not an synchronous one), the <code>nproc</code> limit may be reached if the number of concurrent requests increases too much.
+</p>
+<p>
+One solution is to remove or edit the <code>90-nproc.conf</code> file to increase the <code>nproc</code> limit for all users. However, since the purpose of the new default value in RHEL 6 is to prevent accidental fork bombs, it may be better to define new hard and soft <code>nproc</code> limits only for the user running the WebSphere instance. While this is easy to configure, there is one other problem that needs to be taken into account.
+</p>
+<p>
+For some unknown reasons, <code>sudo</code> (in contrast to <code>su</code>) is unable to set the soft limit for the new process to a value larger than the hard limit set on the parent process. If that occurs, instead of failing, <code>sudo</code> creates the new process with the same soft limit as the parent process. This means that if the hard <code>nproc</code> limit for normal users is lower than the soft <code>nproc</code> limit of the WebSphere user and an administrator uses <code>sudo</code> to start a WebSphere instance, then that instance will not have the expected soft <code>nproc</code> limit. To avoid this problem, you should do the following:
+</p>
+<ul>
+<li>Increase the soft <code>nproc</code> limit for the user running WebSphere.</li>
+<li>Increase the hard <code>nproc</code> for all users to the same (or a higher) value, keeping the soft limit unchanged (to avoid accidental fork bombs).</li>
+</ul>
+<p>
+Note that you can verify that the limits are set correctly for a running WebSphere instance by determining the PID of the instance and checking the <code>/proc/&lt;pid>/limits</code> file.
+</p>

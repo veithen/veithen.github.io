@@ -1,0 +1,73 @@
+---
+layout: post
+title: "Broken by design: changing the StAX implementation in a JEE application on WebSphere"
+category: tech
+tags:
+ - WebSphere
+ - StAX
+ - OSGi
+blogger: /2013/10/broken-by-design-websphere-stax.html
+---
+
+<p>
+To change the StAX implementation used in a Java EE application it should normally be enough to simply add the JAR with the third party StAX implementation (such as Woodstox) to the application. E.g. if the application is a simple Web application, then it should be enough to add the JAR to <code>WEB-INF/lib</code>. The same is true for the SAX, DOM and XSLT implementations. The reason is that all these APIs (which are part of JAXP) use the so called <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html#Service%20Provider">JDK 1.3 service provider discovery</a> mechanism. That mechanism uses the thread context class loader to locate the service provider (the StAX implementation in this case). On the other hand, the Java EE specification requires that the application server sets the thread context class loader correctly before handing over a request to the application. For a servlet request, this will be the class loader of the Web module, while for a call to an EJB (packaged in an EJB-JAR), this will be the application class loader (i.e. the class loader corresponding to the EAR). That makes it possible to have different applications deployed on the same server use different StAX implementations without the need to modify these applications.
+</p>
+<p>
+All this works as expected on most application servers, except on WebSphere. On WebSphere, even with a third party StAX implementation packaged in the application, JAXP will still return the factories (<code>XMLInputFactory</code>, etc.) from the StAX implementation packaged with WebSphere, at least if the application uses the default (parent first) class loader delegation mode. Note that the implementation returned by JAXP is not the StAX implementation in the JDK shipped with WebSphere (which is XLXP 1), but the one found in <code>plugins/com.ibm.ws.prereq.xlxp.jar</code> (which is XLXP 2). The only way to work around this issue is to switch the delegation mode of the application or Web module to parent last (with all the difficulties that this implies on WebSphere) or to create a shared library with isolated class loader (which always uses parent last delegation mode).
+</p>
+<p>
+In this blog post I will explain why this is so and what this tells us about the internals of WebSphere. First of all, remember that starting with version 6.1, WebSphere actually runs in an OSGi container. That is, the WebSphere runtime is actually composed of a set of OSGi bundles. These are the files that you can find in the <code>plugins</code> directory in the WebSphere installation, and as mentioned earlier, the StAX implementation used by WebSphere is actually packaged in one of these bundles. If you are familiar with OSGi, then you should know that each bundle has its own class loader. This raises an interesting question: how is JAXP actually able to load that StAX implementation from the thread context class loader in a Java EE application?
+</p>
+<p>
+To answer that question, let's have a look at the class loader hierarchy of a typical Java EE application deployed on WebSphere (as seen in the class loader viewer in the admin console):
+</p>
+<img src="/assets/2013-10-02-broken-by-design-websphere-stax/classloaders.png" />
+<p>
+Some of the class loaders in that hierarchy are easy to identify:
+</p>
+<ul>
+<li>1 and 2 are created by the JRE. They load the classes that are required to bootstrap the OSGi container in which WebSphere runs.</li>
+<li>6 and 7 are the class loaders for the application and the (Web or EJB) module.</li>
+</ul>
+<p>
+The interesting things actually happen in class loader number 3 (of type <code>org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader</code>). Unfortunately there is no way to see this in the admin console, but it turns out that this is actually the class loader for one of the OSGi bundles of the WebSphere runtime, namely <code>com.ibm.ws.runtime.gateway</code>. That bundle doesn't really contain any code, but its manifest has the following entry:
+</p>
+<pre><code>DynamicImport-Package: *</code></pre>
+<p>
+What this means is that all packages exported by all OSGi bundles are visible to the class loader of that bundle. In other words, class loader number 3 not only delegates to its parent, but it can also delegate to the class loader of any of the WebSphere OSGi bundles, including of course <code>com.ibm.ws.prereq.xlxp.jar</code>. This is why JAXP is able to load that StAX implementation.
+</p>
+<p>
+Note that before <b>loading</b> the StAX implementation, JAXP first needs to <b>locate</b> it. It does this by doing a lookup of the relevant <code>META-INF/services</code> resource (e.g. <code>META-INF/services/javax.xml.stream.XMLInputFactory</code>). That resource request is also delegated to all OSGi bundles. It appears that class loader number 4 is somehow involved in this, but this detail is not really relevant for the present discussion. The important thing to remember is that in the class loader hierarchy of a Java EE application, there is a class loader that delegates class loading and resource requests to all OSGi bundles of the WebSphere runtime.
+</p>
+<p>
+Obviously this particular class loader hierarchy was not designed specifically for StAX. It actually ensures that applications have access to the standard Java EE and WebSphere specific APIs contained in the WebSphere bundles.
+</p>
+<p>
+Now it is easy to understand why it is not possible to override the StAX implementation if the application is configured with the default parent first delegation mode: the lookup of the <code>META-INF/services</code> resource will return the resource included in <code>com.ibm.ws.prereq.xlxp.jar</code>, not the one in the StAX implementation packaged with the application. This changes when switching to parent last delegation mode (either by changing the configuration of the application/module class loader or by configuring a shared library with isolated class loader): in this case, the <code>META-INF/services</code> resource from the third party StAX implementation is returned first.
+</p>
+<p>
+What has been said up to now applies to Java EE applications. On the other hand, WebSphere also uses StAX internally. E.g. the SCA runtime in WebSphere uses StAX to parse certain configuration files or deployment descriptors. This raises another interesting question. The JDK 1.3 service provider discovery mechanism has been designed with J2SE and J2EE environments in mind. On the other hand, it is a well known fact that this mechanism doesn't work well in an OSGi environment. The reason is that each OSGi bundle has its own class loader and that the thread context class loader is undefined in an OSGi environment. That is why well designed OSGi based containers don't load the StAX API classes (and other APIs that use the JDK 1.3 service provider discovery mechanism) from the JRE, but from custom bundles. Here are a couple of examples of such containers together with the link to the source code of the custom StAX API bundle:
+</p>
+<ul>
+<li>Apache Geronimo: <a href="http://svn.apache.org/repos/asf/geronimo/specs/trunk/geronimo-stax-api_1.0_spec/">http://svn.apache.org/repos/asf/geronimo/specs/trunk/geronimo-stax-api_1.0_spec/</a></li>
+<li>Apache ServiceMix: <a href="http://svn.apache.org/repos/asf/servicemix/smx4/specs/trunk/stax-api-1.0/">http://svn.apache.org/repos/asf/servicemix/smx4/specs/trunk/stax-api-1.0/</a></li>
+</ul>
+<p>
+Although the details differ, these bundles share a common feature: the code is basically identical to the code in the JRE, except for the implementation of <code>XMLEventFactory</code>, <code>XMLInputFactory</code> and <code>XMLOutputFactory</code>. With respect to the code in the JRE, these classes are modified to use an alternate provider discovery mechanism that is compatible with OSGi.
+</p>
+<p>
+WebSphere doesn't use this approach. There is no StAX API bundle, and both Java EE applications and the code in the WebSphere bundles use the API classes loaded from the JRE. The question is then how the JDK 1.3 service provider discovery mechanism can return the expected StAX implementation if it is triggered by code in the WebSphere runtime. Obviously, if the code in the WebSphere runtime is invoked by a Java EE application, then the thread context class loader is set as described earlier and there is no problem. The question therefore only applies to WebSphere code executed outside of the context of any Java EE application, e.g. during the server startup or during the processing of an incoming request that has not yet been dispatched to an application.
+</p>
+<p>
+The answer is that WebSphere ensures that all threads it creates have the context class loader set by default to the <code>com.ibm.ws.bootstrap.ExtClassLoader</code> we already encountered in the class loader hierarchy for a Java EE application shown above (see class loader 4). This is the case e.g. for all threads in the <code>startup</code> thread pool (which as the name suggests is used during server startup) and all idle Web container threads. Since that class loader can delegate to any bundle class loader, the JDK 1.3 service provider discovery mechanism will indeed be able to locate the StAX implementation in the <code>com.ibm.ws.prereq.xlxp.jar</code> bundle.
+</p>
+<p>
+To summarize, the difficulties to change the StAX implementation can be traced back to the combination of two decisions made by IBM in the design of WebSphere:
+</p>
+<ol>
+<li>The decision not to use the StAX implementation in the JRE, but instead to use another StAX implementation deployed as an OSGi bundle in the WebSphere runtime. (Note that this is specific to StAX. For SAX, DOM and XSLT, WebSphere uses the default implementations in the JRE. This explains why the issue described in this post only occurs for StAX.)</li>
+<li>The decision to use the StAX API classes from the JRE and therefore to rely on the JDK 1.3 service provider discovery mechanism. If IBM had chosen to use the same design pattern as Geronimo and ServiceMix (and others), then they could have implemented a modified provider discovery mechanism that doesn't need the <code>META-INF/services</code> resources to locate the default StAX implementation in the <code>com.ibm.ws.prereq.xlxp.jar</code> bundle.</li>
+</ol>
+<p>
+The conclusion is that the need to switch to parent last delegation mode to make this work is due to WebSphere's design. Whether one considers this as "working as designed" or "broken by design" is of course purely subjective... IBM support will of course tell you that it is working as designed and that changing the class loader delegation mode is not a workaround, but simply a requirement in order to use a third party StAX implementation. Your mileage may vary.
+</p>
