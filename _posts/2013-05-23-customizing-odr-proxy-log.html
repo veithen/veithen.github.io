@@ -1,0 +1,35 @@
+---
+layout: post
+title: "Customizing the proxy.log file of a WebSphere Proxy Server or ODR"
+category: tech
+tags:
+ - WebSphere
+blogger: /2013/05/customizing-odr-proxy-log.html
+---
+
+<p>
+In a <a href="/2013/05/22/was-access-logs-response-time.html">previous post</a> I discussed how the HTTP access logs on a WebSphere application server can be customized. In this post I will analyze how to do that with the access logs of a WebSphere 8.5 proxy server or on-demand router (ODR).
+</p>
+<p>
+The access logs for a proxy sever (resp. ODR) can be configured under "Proxy settings" (resp. "On Demand Router settings") in the admin console. They are enabled by default, and the location of the log file is <code>${SERVER_LOG_ROOT}/proxy.log</code>. The file uses the standard NCSA format. That means that it misses two important pieces of information that one usually wants to have for an HTTP proxy server:
+</p>
+<ul>
+<li>The response time.</li>
+<li>The address (and port number) of the application server that handled the request.</li>
+</ul>
+<p>
+With IBM HTTP Server, one would add that information to the access logs using the <code>%D</code> and <code>%{WAS}e</code> format strings in the <code>LogFormat</code> directive. The question is whether this can also be done with ODR.
+</p>
+<p>
+It turns out that the format of the <code>proxy.log</code> file is not customizable. In fact, entries are written to the log file by an instance of <code>com.ibm.ws.proxy.log.http.HttpProxyLogImpl</code> and that instance is managed by <code>com.ibm.ws.proxy.log.http.HttpLogFilter</code>. One can see from the package name that these classes are specific to the HTTP proxy code in WebSphere; although the output format is similar, they don't reuse the code responsible for writing the HTTP access logs in WebSphere application server (i.e. <code>com.ibm.ws.http.logging.impl.AccessLogger</code>). That means that the access log customization feature introduced by <a href="http://www-01.ibm.com/support/docview.wss?uid=swg1PM46717">PM46717</a> doesn't apply to <code>proxy.log</code>.
+</p>
+<p>
+On the other hand, on a proxy server or ODR it is still possible to enable the standard access logs on the HTTP channel used by the proxy transport. In the admin console, these settings can be found under "Proxy server transports" or "On Demand Router transports" (and then <code>HTTP_PROXY_CHAIN</code> or <code>HTTPS_PROXY_CHAIN</code> depending on the protocol that is used). The format of that access log can then be specified using the <code>accessLogFormat</code> custom property. Unfortunately that doesn't give the expected result:
+</p>
+<ul>
+<li>The response time values produced by <code>%D</code> are incorrect for clients that use persistent HTTP connections. As noted in my <a href="/2013/05/22/was-access-logs-response-time.html">previous post</a>, this is already broken in WAS, and it is not so surprising that it doesn't work in proxy server and ODR either. What is more surprising is that the feature is not broken in the same way: for a connection with keep-alive, the proxy server or ODR reports the time elapsed between the transmission of the previous response and the transmission of the current response, while WAS reports the time elapsed between the establishment of the persistent connection and the transmission of the current response.</li>
+<li><code>%h</code> no longer outputs the client IP address but the address of the application server that has handled the request. On the other hand, <code>%a</code> and <code>%A</code> both output the address of the host where the proxy server or ODR is running. This means that it is no longer possible to log the IP address of the client. In addition, there is no way to log the port number of the application server that handled the request.</li>
+</ul>
+<p>
+Unfortunately the conclusion is that (as of version 8.5.0.2) it is not possible to configure a proxy server or ODR to produce custom access logs that include the response time and the address/port of the target application server. At least, that can't be achieved using out-of-the-box features available in WebSphere. There is however another option, namely to create a custom log filter as described in the WebSphere infocenter (<a href="http://pic.dhe.ibm.com/infocenter/wasinfo/v8r5/topic/com.ibm.websphere.nd.multiplatform.doc/ae/tjpx_proxyfilter.html">Creating a custom filter and deploying it to a proxy server</a>). That's a bit of an overkill if the goal is simply to customize the access logs, but it would also offer the interesting option to send the access logs directly to a centralized log management system such as <a href="http://logstash.net/">logstash</a>.
+</p>
