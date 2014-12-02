@@ -1,7 +1,8 @@
 (function(){
     $(document).ready(function() {
         $("#tabs").tabs();
-        $(".ui-tabs-panel").each(function() {
+        $("#tabs .ui-tabs-panel").each(function() {
+            var category = $(this).attr("id").substring(5);
             var tagCloud = $(this).find("ul.tag-box")
             var postList = $(this).find("ul.post-list")
             var tags = {}
@@ -14,28 +15,54 @@
                     }
                 })
             })
+            $(this).bind("tagSelected", function(event, tag) {
+                postList.find("meta[itemprop='keywords']").each(function() {
+                    var li = $(this).parent().parent()
+                    var matches = $(this).attr("content").split(",").indexOf(tag) != -1
+                    if (matches != $(li).is(":visible")) {
+                        if (matches) {
+                            $(li).show("slow")
+                        } else {
+                            $(li).hide("slow")
+                        }
+                    }
+                })
+            });
             $.each(tags, function(tag, count) {
                 var li = $("<li></li>")
                 li.appendTo(tagCloud)
                 var a = $("<a href=''>" + tag + " <span>" + count + "</span></a>")
                 a.appendTo(li)
+                // TODO: we might use a simple href as well, but we will support multiple selections later
                 a.click(function(e) {
                     e.preventDefault()
-                    postList.find("meta[itemprop='keywords']").each(function() {
-                        var li = $(this).parent().parent()
-                        var matches = $(this).attr("content").split(",").indexOf(tag) != -1
-                        if (matches != $(li).is(":visible")) {
-                            if (matches) {
-                                $(li).show("slow")
-                            } else {
-                                $(li).hide("slow")
-                            }
-                        }
-                    })
+                    window.location = "#" + category + ";" + tag;
                 })
             })
             postList.find("li").hide();
             postList.find("li").removeClass("hidden");
         })
+        processHash = function() {
+            var hash = window.location.hash;
+            if (hash && hash.substring(0, 1) == "#") {
+                var parts = hash.substring(1).split(";");
+                if (parts.length == 2) {
+                    var selectedCategory = parts[0];
+                    var selectedTag = parts[1];
+                    var index = 0;
+                    $("#tabs .ui-tabs-panel").each(function() {
+                        if ($(this).attr("id") == "tabs-" + selectedCategory) {
+                            $("#tabs").tabs("option", "active", index);
+                            $(this).trigger("tagSelected", [selectedTag]);
+                        }
+                        index++;
+                    });
+                }
+            }
+        };
+        processHash();
+        $(window).bind("hashchange", function(e) {
+            processHash();
+        });
     });
 })()
