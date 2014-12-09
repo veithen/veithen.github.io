@@ -10,7 +10,7 @@ layout: default
 
   <ul class="taglist">
   {% for tag in page.tags %}
-    <li class="tag">{{ tag }}</li>
+    <li class="tag"><a href="/#{{ page.category }};{{ tag }}">{{ tag }}</a></li>
   {% endfor %}
   </ul>
 

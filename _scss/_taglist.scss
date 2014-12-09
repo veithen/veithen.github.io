@@ -16,6 +16,10 @@ ul.taglist li.tag {
   border-radius: 0.8em
 }
 
+ul.taglist li.tag a {
+  color: inherit
+}
+
 // Tag index
 .tag-box {
   list-style: none;
