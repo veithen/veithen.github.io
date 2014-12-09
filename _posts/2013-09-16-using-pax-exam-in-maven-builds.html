@@ -1,0 +1,92 @@
+---
+layout: post
+title: "Using Pax Exam in Maven builds"
+category: tech
+tags:
+ - Maven
+ - OSGi
+blogger: /2013/09/using-pax-exam-in-maven-builds.html
+---
+
+<p>
+The <a href="http://wiki.ops4j.org/display/paxexam/Pax+Exam+-+Tutorial+1">recommended approach</a> (see also <a href="http://docs.peergreen.com/peergreen_server/latest/reference/xhtml-single/peergreen-server-osgi-paxexam-junit-guide.xhtml">here</a>) to run OSGi unit tests with Pax Exam in a Maven build relies on the <code>pax-url-aether</code> library. This library allows to resolve Maven artifacts and to provision them as bundles to the OSGi runtime started by Pax Exam. Assuming that the bundles to be provisioned are declared as Maven dependencies in the project, a typical Pax Exam configuration would look as follows (Note that <code>asInProject()</code> relies on the execution of the <code>org.apache.servicemix.tooling:depends-maven-plugin</code> during the build):
+</p>
+<pre><code>@Configuration
+public static Option[] configuration() {
+    return options(
+        mavenBundle().groupId("org.example").artifactId("mybundle").version(asInProject()),
+        junitBundles());
+}</code></pre>
+<p>
+While at first glance this looks straightforward and natural, there are a couple of issues with this approach. The problem is that <code>pax-url-aether</code> creates its own Maven session to resolve artifacts, thereby bypassing the underlying Maven build. This means that the resolution performed by Pax Exam doesn't necessarily use the same configuration as the Maven build. There are several known circumstances where this causes problems:
+</p>
+<ol>
+<li>Repositories configured in the POM. Some have <a href="https://groups.google.com/forum/#!msg/ops4j/kRxAXidbt7A/w0i6tM1Mn9MJ">argued</a> that declaring repositories in POMs is discouraged. That argument is correct for repositories containing release artifacts, but not for snapshot repositories: all release dependencies should indeed be available from the central repository, but dependencies on snapshot versions from upstream projects necessarily require configuration of additional repositories. The right place to configure these repositories is in the POM, not in <code>settings.xml</code>.</li>
+<li>The location of the local Maven repository (normally specified in <code>settings.xml</code>) can be overridden using the <code>maven.repo.local</code> system property. However, Pax Exam only looks at <code>settings.xml</code>. While overriding the local Maven repository on the command line is rarely done when running Maven manually, it is quite common for builds executed by a CI tool. E.g. Jenkins has a "Use private Maven repository" option that does exactly that (with a local repository in the Jenkins workspace). This problem is described in <a href="https://ops4j1.jira.com/browse/PAXEXAM-543">PAXEXAM-543</a>.</li>
+<li>Offline mode. This mode is enabled using the <code>-o</code> switch on the <code>mvn</code> command, but Pax Exam has no way to detect this and will continue trying to access remote Maven repositories.</code>
+</ol>
+<p>
+Probably this list is not exhaustive and there are other POM settings that will cause similar problems.
+</p>
+<p>
+Actually the whole approach of having Pax Exam resolve Maven dependencies on its own is questionable. This is certainly a very useful feature when used outside of a Maven build (e.g. to provision bundles directly from a Maven repository to a stand-alone OSGi container), but in a Maven build, it should be Maven's responsibility to download artifacts, and Pax Exam's role should be limited to provisioning them to the embedded OSGi container.
+</p>
+<p>
+The question is then how to achieve this. There seems to be no out-of-the-box way to do this with Pax Exam, and therefore I decided to develop my own tools to implement this approach in one of the projects (<a href="http://ws.apache.org/axiom/">Apache Axiom</a>) where I encountered the issues described earlier. The approach is actually quite simple. I have a <a href="https://svn.apache.org/repos/asf/webservices/axiom/trunk/buildutils/paxexam-maven-plugin/">custom Maven plugin</a> that does the following:
+</p>
+<ul>
+<li>It scans the dependencies (including transitive dependencies) of the Maven project for artifacts of type <code>jar</code> that are OSGi bundles.</li>
+<li>For each OSGi bundle found, it generates a <a href="https://ops4j1.jira.com/wiki/display/paxurl/Link+Protocol">link file</a> with a <code>file</code> URL pointing to the downloaded artifact in the local Maven repository. The name of the link file is derived from the symbolic name of the bundle (with a suffix of <code>.link</code>).</li>
+<li>It adds the directory containing the link files to the test resource locations of the project, so that the link files will be available from the class path when the tests are executed.</li>
+</ul>
+<p>
+The plugin doesn't require any additional configuration. In the Maven project, it is simply set up as follows:
+</p>
+<pre><code>&lt;plugin>
+  &lt;groupId>org.apache.ws.commons.axiom&lt;/groupId>
+  &lt;artifactId>paxexam-maven-plugin&lt;/artifactId>
+  &lt;version>1.2.15-SNAPSHOT&lt;/version>
+  &lt;executions>
+    &lt;execution>
+      &lt;goals>
+        &lt;goal>generate-link-files&lt;/goal>
+      &lt;/goals>
+    &lt;/execution>
+  &lt;/executions>
+&lt;/plugin></code></pre>
+<p>
+In the Pax Exam configuration, these bundles can then easily be provisioned to the OSGi runtime using <code>link:classpath:</code> URLs as shown in the following example:
+</p>
+<pre><code>@Configuration
+public static Option[] configuration() {
+    return options(
+        url("link:classpath:org.example.mybundle.link"),
+        junitBundles());
+}</code></pre>
+<p>
+Note that the plugin is currently only available from the <a href="https://repository.apache.org/content/repositories/snapshots/">Apache snapshot repository</a>. Feel free to experiment with it and provide feedback.
+</p>
+<p>
+There is one remaining question that needs to be addressed. While the approach described here works very well when the tests are executed by the Maven build, what about IDE integration? Is it possible to execute the tests easily in Eclipse (sorry for NetBeans and IntelliJ users, but Eclipse is my favored IDE)? It turns out that this is indeed possible. As mentioned earlier, the plugin is designed to add the directory containing the links as a test resource location to the Maven project. That location will be picked up (and added to the Eclipse project) automatically by the maven-eclipse-plugin, provided that the <code>generate-test-resources</code> phase is executed. Therefore, the Maven project can be successfully imported into Eclipse using the following command line:
+</p>
+<pre><code>mvn clean install -DskipTests=true eclipse:eclipse</code></pre>
+<hr/>
+<p><b>Update, Febrary 23, 2014</b></p>
+<p>
+Even with the project setup described above, <code>pax-exam-link-mvn</code> is still a required dependency. If that dependency is removed, then the build will fail with the following obscure error message:
+</p>
+<pre><code>java.lang.IllegalStateException: Stream handler unavailable due to: null</code></pre>
+<p>
+The reason for the obscure and not very helpful error message is some sloppy error handling in <code>org.apache.felix.framework.URLHandlersStreamHandlerProxy#openConnection(URL)</code>. The code in that method uses reflection, but doesn't process <code>InvocationTargetException</code> correctly: instead of attempting to unwrap the exception and rethrow the original exception, it will actually always wrap the <code>InvocationTargetException</code> in an <code>IllegalStateException</code> without properly chaining the exceptions, resulting in the error message shown above.
+</p>
+<p>
+Debugging reveals that the actual exception is:
+</p>
+<pre><code>java.io.IOException: URL [META-INF/links/org.ops4j.pax.exam.link] could not be resolved from classpath</code></pre>
+<p>
+That resource is part of <code>pax-exam-link-mvn</code> and has the following content:
+</p>
+<pre><code>mvn:org.ops4j.pax.exam/pax-exam/3.3.0</code></pre>
+<p>
+What this means is that Pax Exam will still use its own Maven session to resolve certain artifacts, namely the core bundles that are deployed by default into the OSGi runtime.
+</p>
