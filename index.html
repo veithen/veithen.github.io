@@ -1,33 +1,93 @@
 ---
-layout: default
 category: tech
 ---
 
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<script src="/scripts/main.js"></script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
-<div id="tabs">
-  <ul>
-  {% for category in site.categories %}
-    <li><a href="#tabs-{{ category[0] }}">{{ category[0] }}</a></li>
-  {% endfor %}
-  </ul>
-{% for category in site.categories %}
-  <div id="tabs-{{ category[0] }}">
-    <ul class="tag-box">
-    </ul>
+    <title>{% if page.title == null %}Andreas Veithen's blog{% else %}{{ page.title }}{% endif %}</title>
 
-    <ul class="post-list">
-    {% for post in category[1] %} 
-      <li class="hidden">
-        <article itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/Article">
-          <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
-          <a href="{{ post.url }}">{{ post.title }} <span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time></span></a>
-        </article>
-      </li>
-    {% endfor %}
-    </ul>
-  </div>
-{% endfor %}
-</div>
+    <meta name="author" content="Andreas Veithen" />
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
+    <link rel="stylesheet" href="tagcloud.css">
+    <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          
+          <div class="site-info">
+            <h1 class="site-name"><a href="{{ site.baseurl }}/">Andreas Veithen's blog</a></h1>
+          </div>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+      <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+      <script src="/scripts/main.js"></script>
+      
+      <div id="tabs">
+        <ul>
+        {% for category in site.categories %}
+          <li><a href="#tabs-{{ category[0] }}">{{ category[0] }}</a></li>
+        {% endfor %}
+        </ul>
+      {% for category in site.categories %}
+        <div id="tabs-{{ category[0] }}">
+          <ul class="tag-box">
+          </ul>
+      
+          <ul class="post-list">
+          {% for post in category[1] %} 
+            <li class="hidden">
+              <article itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/Article">
+                <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
+                <a href="{{ post.url }}">{{ post.title }} <span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time></span></a>
+              </article>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+
+    {% if page.category == 'tech' %}
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          <a href="http://github.com/veithen">{% include svg-icons/github.html %}</a>
+          <a href="http://linkedin.com/in/aveithen">{% include svg-icons/linkedin.html %}</a>
+          <a href="{{ site.baseurl }}/feed.xml">{% include svg-icons/rss.html %}</a>
+          <a href="http://stackoverflow.com/users/958954/andreas-veithen">{% include svg-icons/stackoverflow.html %}</a>
+        </footer>
+      </div>
+    </div>
+    {% endif %}
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-56790914-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </body>
+</html>
