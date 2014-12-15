@@ -52,25 +52,31 @@ The interesting question is now how such an implementation behaves if the accept
 moved from the SYN queue to the accept queue, i.e. when the ACK packet of the 3-way handshake is received. This case is
 handled by the `tcp_check_req` function in `net/ipv4/tcp_minisocks.c`. The relevant code reads:
 
-            child = inet_csk(sk)->icsk_af_ops->syn_recv_sock(sk, skb, req, NULL);
-            if (child == NULL)
-                    goto listen_overflow;
+~~~ c
+        child = inet_csk(sk)->icsk_af_ops->syn_recv_sock(sk, skb, req, NULL);
+        if (child == NULL)
+                goto listen_overflow;
+~~~
 
 For IPv4, the first line of code will actually call `tcp_v4_syn_recv_sock` in `net/ipv4/tcp_ipv4.c`, which contains the
 following code:
 
-            if (sk_acceptq_is_full(sk))
-                    goto exit_overflow;
+~~~ c
+        if (sk_acceptq_is_full(sk))
+                goto exit_overflow;
+~~~
 
 We see here the check for the accept queue. The code after the `exit_overflow` label will perform some cleanup, update
 the `ListenOverflows` and `ListenDrops` statistics in `/proc/net/netstat` and then return `NULL`. This will trigger the
 execution of the `listen_overflow` code in `tcp_check_req`:
 
-    listen_overflow:
-            if (!sysctl_tcp_abort_on_overflow) {
-                    inet_rsk(req)->acked = 1;
-                    return NULL;
-            }
+~~~ c
+listen_overflow:
+        if (!sysctl_tcp_abort_on_overflow) {
+                inet_rsk(req)->acked = 1;
+                return NULL;
+        }
+~~~
 
 This means that unless `/proc/sys/net/ipv4/tcp_abort_on_overflow` is set to 1 (in which case the code right after the
 code shown above will send a RST packet), the implementation basically does... nothing!
@@ -131,15 +137,17 @@ would result in the addition of a connection to the SYN queue (unless that queue
 The reason is the following code in the `tcp_v4_conn_request` function (which does the processing of SYN packets) in
 `net/ipv4/tcp_ipv4.c`:
 
-            /* Accept backlog is full. If we have already queued enough
-             * of warm entries in syn queue, drop request. It is better than
-             * clogging syn queue with openreqs with exponentially increasing
-             * timeout.
-             */
-            if (sk_acceptq_is_full(sk) && inet_csk_reqsk_queue_young(sk) > 1) {
-                    NET_INC_STATS_BH(sock_net(sk), LINUX_MIB_LISTENOVERFLOWS);
-                    goto drop;
-            }
+~~~ c
+        /* Accept backlog is full. If we have already queued enough
+         * of warm entries in syn queue, drop request. It is better than
+         * clogging syn queue with openreqs with exponentially increasing
+         * timeout.
+         */
+        if (sk_acceptq_is_full(sk) && inet_csk_reqsk_queue_young(sk) > 1) {
+                NET_INC_STATS_BH(sock_net(sk), LINUX_MIB_LISTENOVERFLOWS);
+                goto drop;
+        }
+~~~
 
 What this means is that if the accept queue is full, then the kernel will impose a limit on the rate at which SYN packets
 are accepted. If too many SYN packets are received, some of them will be dropped. In this case, it is up to the client to retry

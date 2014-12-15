@@ -121,12 +121,14 @@ Assuming that all necessary customizations have been done and that a local
 interface is not required, the declaration of the stateless session bean would
 look as follows:
 
-    import employee.EmployeeService;
-    
-    @Stateless
-    @WebService(endpointInterface="employee.EmployeeService")
-    @Remote(EmployeeService.class)
-    public class EmployeeServiceBean implements EmployeeService {
+~~~ java
+import employee.EmployeeService;
+
+@Stateless
+@WebService(endpointInterface="employee.EmployeeService")
+@Remote(EmployeeService.class)
+public class EmployeeServiceBean implements EmployeeService {
+~~~
 
 Note that the methods of the bean don't need any special annotations since they
 are all present on the interface. Except for container specific procedures (e.g.
@@ -139,8 +141,10 @@ Let's look more closely at the latter aspect, i.e. the invocation from a Java
 client. If the client should invoke the service as an EJB, we can use the @EJB
 annotation to let the container inject a reference:
 
-    @EJB
-    private EmployeeService employeeService;
+~~~ java
+@EJB
+private EmployeeService employeeService;
+~~~
 
 On the other hand, if the client should use SOAP, then we can use the
 @WebServiceRef annotation. Note that this annotation can be used to inject
@@ -150,8 +154,10 @@ to the service element in the WSDL). Since the latter is not meaningful when
 invoking the service as an EJB, we use the first approach in order to achieve
 protocol independence:
 
-    @WebServiceRef(EmployeeServiceClient.class)
-    private EmployeeService employeeService;
+~~~ java
+@WebServiceRef(EmployeeServiceClient.class)
+private EmployeeService employeeService;
+~~~
 
 In this sample, EmployeeServiceClient is the @WebServiceClient annotated
 interface (A JAX-WS binding has been used to assign this class name). As you
