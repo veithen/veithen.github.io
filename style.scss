@@ -33,7 +33,7 @@ body {
   width: 100%;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .subtitle {
   color: $darkerGray;
   font-weight: bold;
   
@@ -50,6 +50,11 @@ h1 {
   a {
     color: inherit;
   }
+}
+
+.subtitle {
+  font-size: 24px;
+  color: $gray
 }
 
 h2 {  
@@ -111,7 +116,7 @@ img {
   max-width: 100%;
 }
 
-.post time.published {
+.post .published {
   font-style: italic;
   color: $gray;
   display: block

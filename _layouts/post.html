@@ -40,16 +40,21 @@
         <meta itemprop="description" content="{{ content | strip_html | truncatewords: 40 }}" />
       
         <h1 itemprop="name">{{ page.title }}</h1>
-      
+        {% if page.subtitle %}
+        <p class="subtitle">{{ page.subtitle }}</p>
+        {% endif %}
         <ul class="taglist">
         {% for tag in page.tags %}
           <li class="tag"><a href="/#{{ page.category }};{{ tag }}">{{ tag }}</a></li>
         {% endfor %}
         </ul>
-      
-        <time class="published" itemprop="datePublished" datetime="{{ page.date | date: '%Y-%m-%d' }}">
-          {{ page.date | date: "%B %e, %Y" }}
-        </time>
+        
+        <div class="published">
+          <time itemprop="datePublished" datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%B %e, %Y" }}</time>
+          {% if page.updated %}
+          (updated <time itemprop="dateModified" datetime="{{ page.lastUpdated | date: '%Y-%m-%d' }}">{{ page.updated | date: "%B %e, %Y" }}</time>)
+          {% endif %}
+        </div>
       
         <div class="entry" itemprop="articleBody">
           {{ content }}
