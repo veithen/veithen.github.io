@@ -11,7 +11,12 @@ updated: 2015-01-04
 This post describes a simple procedure to build and install a new Linux kernel on Ubuntu using the
 official source code from the kernel developers' Git repository. The aim is to produce a kernel that
 can be used as a drop-in replacement of the kernels shipped by Ubuntu and that neatly fits into the
-distribution. The procedure has been tested with Linux 3.12 on Ubuntu 13.10 and Linux 3.18 on Ubuntu 14.04.
+distribution.
+
+The procedure has been tested with Linux 3.12 on Ubuntu 13.10 and Linux 3.18 on Ubuntu 14.04.
+It also works with older kernels; e.g. it is possible to install a 2.6.39 kernel on Ubuntu 14.04, which
+is quite handy when developing kernel modules that need to be compatible with a wide range of kernel
+versions.
 
 1.  Ensure that you have enough free disk space. Building the kernel using the present procedure may
     require up to 13 GB (!) of storage.
