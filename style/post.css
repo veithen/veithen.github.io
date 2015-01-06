@@ -1,0 +1,21 @@
+ul.taglist {
+  list-style-type: none;
+  padding: 0
+}
+
+ul.taglist li.tag:before {
+  content: '#'
+}
+
+ul.taglist li.tag {
+  display: inline;
+  font-size: 75%;
+  color: #505050;
+  background-color: #FFFF99;
+  padding: 0.2em 0.6em;
+  border-radius: 0.8em
+}
+
+ul.taglist li.tag a {
+  color: inherit
+}
