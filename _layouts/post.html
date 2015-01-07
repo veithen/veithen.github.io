@@ -21,6 +21,20 @@ style: post
 
     <script src="/scripts/prism.js"></script>
     <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    <script>
+    /**
+    * Function that tracks a click on an outbound link in Google Analytics.
+    * This function takes a valid URL string as an argument, and uses that URL string
+    * as the event label.
+    */
+    var trackOutboundLink = function(url) {
+       ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+         function () {
+           document.location = url;
+         }
+       });
+    }
+    </script>
   </head>
 
   <body>
@@ -35,7 +49,7 @@ style: post
       </div>
     </div>
     <div id="banner" class="container">
-      <a href="http://www.charliehebdo.fr/"><img src="{{ site.baseurl }}/banner/jesuischarlie.png" style="display: block; margin-left: auto; margin-right: auto"/></a>
+      <a href="http://www.charliehebdo.fr/" onClick="trackOutboundLink('http://www.charliehebdo.fr/'); return false;"><img src="{{ site.baseurl }}/banner/jesuischarlie.png" style="display: block; margin-left: auto; margin-right: auto"/></a>
     </div>
     <div id="main" role="main" class="container">
       <article class="post" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
