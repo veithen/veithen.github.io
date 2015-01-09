@@ -69,7 +69,7 @@ style: post
         <div class="published">
           <time itemprop="datePublished" datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%B %e, %Y" }}</time>
           {% if page.updated %}
-          (updated <time itemprop="dateModified" datetime="{{ page.lastUpdated | date: '%Y-%m-%d' }}">{{ page.updated | date: "%B %e, %Y" }}</time>)
+          (updated <time itemprop="dateModified" datetime="{{ page.updated | date: '%Y-%m-%d' }}">{{ page.updated | date: "%B %e, %Y" }}</time>)
           {% endif %}
         </div>
       
