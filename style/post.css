@@ -1,6 +1,12 @@
 @import "../style.css";
 @import "prism.css";
 
+.post .published {
+  font-style: italic;
+  color: $gray;
+  display: block
+}
+
 ul.taglist {
   list-style-type: none;
   padding: 0
