@@ -1,5 +1,4 @@
 sass:
-  sass_dir: _scss
   style: :expanded # You might prefer to minify using :compressed
 
 permalink: /:year/:month/:day/:title.html
