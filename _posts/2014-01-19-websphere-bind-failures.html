@@ -11,11 +11,11 @@ blogger: /2014/01/websphere-bind-failures.html
 <p>
 If you are familiar with WebSphere Application Server, then you probably have already noticed that sometimes WebSphere seems to have problems reopening TCP ports after a restart. When this occurs, the following kind of error message is logged repeatedly:
 </p>
-<p><code>TCPC0003E: TCP Channel TCP_2 initialization failed. The socket bind failed for host * and port 9080. The port may already be in use.</code></p>
+<pre class="wrap"><code>TCPC0003E: TCP Channel TCP_2 initialization failed. The socket bind failed for host * and port 9080. The port may already be in use.</code></pre>
 <p>
 Eventually WebSphere will succeed in binding to the port, as indicated by the following message:
 </p>
-<p><code>TCPC0001I: TCP Channel TCP_2 is listening on host * (IPv6) port 9080.</code></p>
+<pre class="wrap"><code>TCPC0001I: TCP Channel TCP_2 is listening on host * (IPv6) port 9080.</code></pre>
 <p>
 IBM recently published a <a href="http://www-01.ibm.com/support/docview.wss?uid=swg21645658">technote</a> about this problem. It concludes by claiming that <i>there is no solution for this limitation and [WebSphere] is working as designed</i>. That statement however misses some key points and is actually not quite accurate.
 </p>

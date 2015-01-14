@@ -31,8 +31,7 @@ That's why I finally settled on another idea, namely to write a kernel module th
 <p>
 Fortunately the TCP/IP stack in Linux exports just enough of the relevant functions to enable reusing part of the code that generates the <code>/proc/net/tcp</code> and <code>/proc/net/tcp6</code> files, making it fairly easy to implement such a kernel module. The source code for the module is available as a project on Github called <a href="https://github.com/veithen/knetstat">knetstat</a>. After building and loading the <code>knetstat</code> module, two new files appear in <code>/proc/net</code>:
 </p>
-<pre><code>
-$ cat /proc/net/tcpstat
+<pre><code>$ cat /proc/net/tcpstat
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       Options
 tcp        0      0 127.0.0.1:6010          0.0.0.0:*               LISTEN      SO_REUSEADDR=1,SO_KEEPALIVE=0
 tcp        0      0 127.0.0.1:6011          0.0.0.0:*               LISTEN      SO_REUSEADDR=1,SO_KEEPALIVE=0
@@ -50,8 +49,7 @@ tcp6       0      0 :::22                   :::*                    LISTEN      
 <p>
 As implied by the name of the module, the format is indeed similar to the output of <code>netstat</code>, except of course for the last column with the socket options:
 </p>
-<pre><code>
-$ netstat -tan
+<pre><code>$ netstat -tan
 Active Internet connections (servers and established)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State      
 tcp        0      0 127.0.0.1:6010          0.0.0.0:*               LISTEN     
