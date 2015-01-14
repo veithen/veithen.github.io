@@ -46,7 +46,9 @@ easily achieved using the [to-maven](http://maven.apache.org/plugins/maven-eclip
 goal of the maven-eclipse-plugin. E.g. the following command will deploy the WebSphere bundles to the local
 Maven repository:
 
-    mvn eclipse:to-maven -DeclipseDir=/opt/IBM/WebSphere/AppServer
+~~~
+mvn eclipse:to-maven -DeclipseDir=/opt/IBM/WebSphere/AppServer
+~~~
 
 Unfortunately this is not enough. To resolve dependencies, Tycho uses the information from the project's
 manifest file. The manifest specifies dependencies using bundle symbolic names (Require-Bundle) or
@@ -89,15 +91,19 @@ target platform without the need to declare additional POM dependencies. The Ecl
 can be used to create the P2 repository (Note that the tool is not included in WebSphere; you need to
 run the one that comes with the Eclipse IDE). The command looks as follows:
 
-    java -jar plugins/org.eclipse.equinox.launcher_*.jar -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher -metadataRepository file:/was_repo -artifactRepository file:/was_repo -source /opt/IBM/WebSphere/AppServer -compress -publishArtifacts
+~~~
+java -jar plugins/org.eclipse.equinox.launcher_*.jar -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher -metadataRepository file:/was_repo -artifactRepository file:/was_repo -source /opt/IBM/WebSphere/AppServer -compress -publishArtifacts
+~~~
 
 Once this is done, you can set up the repository in Maven:
 
-    <repository>
-        <id>p2</id>
-        <layout>p2</layout>
-        <url>file:/was_repo</url>
-    </repository>
+~~~ markup
+<repository>
+    <id>p2</id>
+    <layout>p2</layout>
+    <url>file:/was_repo</url>
+</repository>
+~~~
 
 If each developer is expected to set up his own (local) P2 repository (this would e.g. be the case in
 an Open Source project), then the repository should be configured in `settings.xml` (because the

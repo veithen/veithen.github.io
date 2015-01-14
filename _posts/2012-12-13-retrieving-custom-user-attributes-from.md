@@ -57,14 +57,18 @@ The first step is to get access to the Virtual Member Manager API. That API is d
 [`Service`][2] interface. To get a reference to the VMM service in the local JVM, simply instantiate
 [`LocalServiceProvider`][3] with the default constructor:
 
-    Service service = new LocalServiceProvider();
+~~~ java
+Service service = new LocalServiceProvider();
+~~~
 
 The WebSphere infocenter document "[Getting the properties of an entity][4]" describes how to use the
 `Service` API to look up the attributes of a user. As you can see in that documentation, this
 operation requires as input the unique security name of the user, which looks as follows (Note that
 this is not necessarily identical to the DN of the user in LDAP):
 
-    uid=SalesManager,cn=users,dc=yourco,dc=com
+~~~
+uid=SalesManager,cn=users,dc=yourco,dc=com
+~~~
 
 This information can be retrieved from the [`WSCredential`][5] object which is put by one of the
 WebSphere login modules into the shared state (i.e. the `Map` that is passed to the `initialize`
@@ -80,13 +84,17 @@ entity. The WebSphere admin console doesn't allow to inspect or edit the propert
 Therefore this must be done with the help of wsadmin. To inspect the list of existing properties,
 use the following command:
 
-    $AdminTask getIdMgrPropertySchema { -entityTypeName PersonAccount }
+~~~
+$AdminTask getIdMgrPropertySchema { -entityTypeName PersonAccount }
+~~~
 
 You will see that the `PersonAccount` already defines properties for many of the attributes
 typically used in LDAP. If you use custom attributes not defined in `PersonAccount`, you need to
 [add them using the `addIdMgrPropertyToEntityTypes` admin task][7]. For example:
 
-    $AdminTask addIdMgrPropertyToEntityTypes { -name ssn -dataType string -entityTypeNames PersonAccount }
+~~~
+$AdminTask addIdMgrPropertyToEntityTypes { -name ssn -dataType string -entityTypeNames PersonAccount }
+~~~
 
 Note that the `addIdMgrPropertyToEntityTypes` operation has parameters (`nsURI` and `nsPrefix`) to
 specify a custom namespace for the property (to be used instead of the default
@@ -106,19 +114,23 @@ if the code is executed inside a login module, authentication is not yet complet
 fail with a CWWIM2008E error. To avoid this, it is necessary to execute the code with additional
 privileges. To do this, [execute the code with the identity of the server subject][8]:
 
-    ContextManagerFactory.getInstance().runAsSystem(new PrivilegedExceptionAction<Void>()) {
-        public Void run() {
-            ...
-            return null;
-        }
-    };
+~~~ java
+ContextManagerFactory.getInstance().runAsSystem(new PrivilegedExceptionAction<Void>()) {
+    public Void run() {
+        ...
+        return null;
+    }
+};
+~~~
 
 The infocenter document doesn't show how to programmatically extract the properties from the result
 of the `Service#get` method. This is actually fairly easy, as shown in the following example:
 
-    DataObject response = service.get(root);
-    DataObject entity = (DataObject)response.get("entities[1]");
-    String ssn = entity.getString("ssn");
+~~~ java
+DataObject response = service.get(root);
+DataObject entity = (DataObject)response.get("entities[1]");
+String ssn = entity.getString("ssn");
+~~~
 
 Note that the `getString` method throws an `IllegalArgumentException` if the attribute is not present.
 
