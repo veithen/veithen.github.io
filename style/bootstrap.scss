@@ -1,0 +1,11 @@
+---
+---
+
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic);
+
+$font-family-sans-serif: 'Source Sans Pro', sans-serif;
+$font-size-base: 17px;
+$headings-font-weight: 600;
+$blockquote-font-size: $font-size-base;
+
+@import "_bootstrap";

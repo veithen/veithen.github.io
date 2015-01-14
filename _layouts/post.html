@@ -38,61 +38,67 @@ style: post
   </head>
 
   <body>
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          
-          <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">Andreas Veithen's blog</a></h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 class="site-name"><a href="{{ site.baseurl }}/">Andreas Veithen's blog</a></h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 hidden-xs hidden-sm navigation">
+          <div class="header">Latest</div>
+          <ul>
+            {% for post in site.posts limit:5 %}
+              <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+            {% endfor %}
+          </ul>
+          {% if page.previous.url %} 
+            <div class="header">Previous by date</div>
+            <ul>
+              <li><a href="{{ page.previous.url }}">{{ page.previous.title }}</a></li>
+            </ul>
+          {% endif %} 
+          {% if page.next.url %} 
+            <div class="header">Next by date</div>
+            <ul>
+              <li><a href="{{ page.next.url }}">{{ page.next.title }}</a></li>
+            </ul>
+          {% endif %} 
+        </div>
+        <div class="col-md-10 col-xs-12">
+          <div class="banner hidden-xs hidden-sm">
+            <a href="http://www.charliehebdo.fr/" onClick="trackOutboundLink('http://www.charliehebdo.fr/'); return false;"><img src="{{ site.baseurl }}/banner/jesuischarlie.png" style="display: block; margin-left: auto; margin-right: auto"/></a>
           </div>
-        </header>
+          <article class="post" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+            <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
+            <meta itemprop="description" content="{{ content | strip_html | truncatewords: 40 }}" />
+          
+            <h1 itemprop="name" class="page-header">{{ page.title }}</h1>
+            {% if page.subtitle %}
+            <p class="subtitle">{{ page.subtitle }}</p>
+            {% endif %}
+            <ul class="taglist">
+            {% for tag in page.tags %}
+              <li class="tag"><a href="/#{{ page.category }};{{ tag }}">{{ tag }}</a></li>
+            {% endfor %}
+            </ul>
+            
+            <div class="published">
+              <time itemprop="datePublished" datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%B %e, %Y" }}</time>
+              {% if page.updated %}
+              (updated <time itemprop="dateModified" datetime="{{ page.updated | date: '%Y-%m-%d' }}">{{ page.updated | date: "%B %e, %Y" }}</time>)
+              {% endif %}
+            </div>
+          
+            <div itemprop="articleBody">
+              {{ content }}
+            </div>
+          
+            <script src="https://apis.google.com/js/plusone.js"></script>
+            <div class="g-comments" data-href="http://veithen.github.io{{page.url}}" data-width="720" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD"></div>
+          </article>
+        </div>
       </div>
     </div>
-    <div id="banner" class="container">
-      <a href="http://www.charliehebdo.fr/" onClick="trackOutboundLink('http://www.charliehebdo.fr/'); return false;"><img src="{{ site.baseurl }}/banner/jesuischarlie.png" style="display: block; margin-left: auto; margin-right: auto"/></a>
-    </div>
-    <div id="main" role="main" class="container">
-      <article class="post" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
-        <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
-        <meta itemprop="description" content="{{ content | strip_html | truncatewords: 40 }}" />
-      
-        <h1 itemprop="name">{{ page.title }}</h1>
-        {% if page.subtitle %}
-        <p class="subtitle">{{ page.subtitle }}</p>
-        {% endif %}
-        <ul class="taglist">
-        {% for tag in page.tags %}
-          <li class="tag"><a href="/#{{ page.category }};{{ tag }}">{{ tag }}</a></li>
-        {% endfor %}
-        </ul>
-        
-        <div class="published">
-          <time itemprop="datePublished" datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%B %e, %Y" }}</time>
-          {% if page.updated %}
-          (updated <time itemprop="dateModified" datetime="{{ page.updated | date: '%Y-%m-%d' }}">{{ page.updated | date: "%B %e, %Y" }}</time>)
-          {% endif %}
-        </div>
-      
-        <div class="entry" itemprop="articleBody">
-          {{ content }}
-        </div>
-      
-        <script src="https://apis.google.com/js/plusone.js"></script>
-        <div class="g-comments" data-href="http://veithen.github.io{{page.url}}" data-width="720" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD"></div>
-      </article>
-    </div>
-
-    {% if page.category == 'tech' %}
-    <div class="wrapper-footer">
-      <div class="container">
-        <footer class="footer">
-          <a href="http://github.com/veithen">{% include svg-icons/github.html %}</a>
-          <a href="http://linkedin.com/in/aveithen">{% include svg-icons/linkedin.html %}</a>
-          <a href="{{ site.baseurl }}/feed.xml">{% include svg-icons/rss.html %}</a>
-          <a href="http://stackoverflow.com/users/958954/andreas-veithen">{% include svg-icons/stackoverflow.html %}</a>
-        </footer>
-      </div>
-    </div>
-    {% endif %}
   </body>
 </html>
