@@ -32,18 +32,20 @@
 }
 
 .navigation ul {
-  padding-left: 20px
+  padding-left: 0
 }
 
 .navigation li {
-  margin-top: 5px;
-  margin-bottom: 5px
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: block
 }
 
 .navigation a {
-  display: inline-block;
+  display: block;
   vertical-align: top;
-  font-size: 90%
+  font-size: 90%;
+  line-height: 120%
 }
 
 .page-header {
