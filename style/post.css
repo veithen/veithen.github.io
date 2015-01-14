@@ -79,8 +79,15 @@ ul.taglist li.tag a {
   color: inherit
 }
 
+/* Enable horizontal scrolling for code blocks */
 pre code {
   overflow: auto;
   word-wrap: normal;
   white-space: pre
+}
+
+/* In Markdown use with: {: class="wrap"} */
+pre.wrap code {
+  white-space: pre-wrap;
+  word-break: normal
 }

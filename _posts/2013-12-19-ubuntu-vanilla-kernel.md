@@ -73,7 +73,7 @@ versions.
     /etc/kernel/postinst.d/apt-auto-removal: 84: /etc/kernel/postinst.d/apt-auto-removal: cannot create /etc/apt/apt.conf.d//01autoremove-kernels.dpkg-new: Permission denied
     run-parts: /etc/kernel/postinst.d/apt-auto-removal exited with return code 2
     ~~~
-    {: style="white-space: pre-wrap"}
+    {: class="wrap"}
 
     This issue is documented in Ubuntu bug [1308183][2]. To work around the problem, install version 13.003
     of `kernel-package` as described in that bug report.
