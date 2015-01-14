@@ -46,10 +46,14 @@ style: post
       </div>
       <div class="row">
         <div class="col-md-2 hidden-xs hidden-sm navigation">
-          <div class="header">Latest</div>
+          <div class="header">Latest by category</div>
           <ul>
-            {% for post in site.posts limit:5 %}
-              <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+            {% for category in site.categories %}
+              {% if category[0] == page.category %}
+                {% for post in category[1] limit:5 %}
+                  <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+                {% endfor %}
+              {% endif %}
             {% endfor %}
           </ul>
           {% if page.previous.url %} 
