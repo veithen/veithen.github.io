@@ -91,3 +91,7 @@ pre.wrap code {
   white-space: pre-wrap;
   word-break: normal
 }
+
+dd {
+  margin-left: 20px
+}
