@@ -97,3 +97,9 @@ pre.wrap code {
 dd {
   margin-left: 20px
 }
+
+article img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
