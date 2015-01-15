@@ -1,6 +1,16 @@
 (function(){
     $(document).ready(function() {
-        $("#tabs").tabs();
+        $("#tabs").tabs({
+            beforeActivate: function(event, ui) {
+                var category = ui.newPanel.attr('id').substring(5);
+                var selectedTag = ui.newPanel.data("selectedTag");
+                newLocation = "#" + category;
+                if (selectedTag) {
+                    newLocation += ";" + selectedTag;
+                }
+                window.location = newLocation;
+            }
+        });
         $("#tabs .ui-tabs-panel").each(function() {
             var category = $(this).attr("id").substring(5);
             var tagCloud = $(this).find("ul.tag-box");
@@ -18,7 +28,7 @@
             $(this).bind("tagSelected", function(event, tag) {
                 postList.find("meta[itemprop='keywords']").each(function() {
                     var li = $(this).parent().parent();
-                    var matches = $(this).attr("content").split(",").indexOf(tag) != -1;
+                    var matches = tag && $(this).attr("content").split(",").indexOf(tag) != -1;
                     if (matches != $(li).is(":visible")) {
                         if (matches) {
                             $(li).show("slow");
@@ -46,12 +56,13 @@
             var hash = window.location.hash;
             if (hash && hash.substring(0, 1) == "#") {
                 var parts = hash.substring(1).split(";");
-                if (parts.length == 2) {
+                if (parts.length == 1 || parts.length == 2) {
                     var selectedCategory = parts[0];
-                    var selectedTag = parts[1];
+                    var selectedTag = parts.length == 2 ? parts[1] : null;
                     var index = 0;
                     $("#tabs .ui-tabs-panel").each(function() {
                         if ($(this).attr("id") == "tabs-" + selectedCategory) {
+                            $(this).data("selectedTag", selectedTag);
                             $("#tabs").tabs("option", "active", index);
                             $(this).trigger("tagSelected", [selectedTag]);
                         }
