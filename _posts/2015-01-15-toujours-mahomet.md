@@ -5,6 +5,7 @@ category: opinion
 tags:
  - Islam
  - QOTD
+image: /assets/2015-01-15-toujours-mahomet/une.jpg
 ---
 
 Selon le [Figaro][1], Abdallah Zekri, président de l'"Observatoire contre l'islamophobie" crée par le
@@ -17,7 +18,7 @@ dernier:
 
 En effet! C'est ahurissant de voir combien de gens font une obsession d'un type mort il y a 1400 ans...
 
-![La une de Charlie Hebdo](/assets/2015-01-15-toujours-mahomet/une.jpg)
+![La une de Charlie Hebdo]({{ page.image }})
 
 [1]: http://www.lefigaro.fr/actualite-france/2015/01/13/01016-20150113ARTFIG00115-la-representation-de-mahomet-a-la-une-de-charlie-hebdo-divise-les-musulmans.php
 [2]: http://fr.wikipedia.org/wiki/Conseil_fran%C3%A7ais_du_culte_musulman

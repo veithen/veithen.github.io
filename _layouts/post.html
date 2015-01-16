@@ -4,7 +4,7 @@ style: post
 
 <!DOCTYPE html>
 <html>
-  <head>
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
@@ -12,6 +12,24 @@ style: post
     {% include meta.html %}
 
     <meta name="author" content="Andreas Veithen" />
+
+    <meta property="og:title" content="{{ page.title }}" />
+    <meta property="og:site_name" content="Andreas Veithen's blog" />
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
+    <meta property="og:description" content="{{ content | strip_html | truncatewords: 40 }}" />
+    {% if page.image %}
+    <meta property="og:image" content="{{ site.url }}{{ page.image }}" />
+    {% endif %}
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="{{ page.date | date: '%Y-%m-%d' }}" />
+    {% if page.updated %}
+    <meta property="article:modified_time" content="{{ page.updated | date: '%Y-%m-%d' }}" />
+    {% endif %}
+    <meta property="article:author" content="Andreas Veithen" />
+    <meta property="article:section" content="{{ page.category }}" />
+    {% for tag in page.tags %}
+    <meta property="article:tag" content="{{ tag }}" />
+    {% endfor %}
 
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -76,6 +94,9 @@ style: post
           <article class="post" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
             <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
             <meta itemprop="description" content="{{ content | strip_html | truncatewords: 40 }}" />
+            {% if page.image %}
+            <meta itemprop="image" content="{{ site.url }}{{ page.image }}" />
+            {% endif %}
           
             <h1 itemprop="name" class="page-header">{{ page.title }}</h1>
             {% if page.subtitle %}
