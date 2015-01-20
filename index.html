@@ -1,6 +1,8 @@
 ---
 title: "Andreas Veithen's blog"
 style: index
+scripts:
+ - /scripts/main.js
 ---
 
 <!DOCTYPE html>
@@ -36,10 +38,6 @@ style: index
     </div>
 
     <div id="main" role="main" class="container">
-      <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-      <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-      <script src="/scripts/main.js"></script>
-      
       <div id="tabs">
         <ul>
         {% for category in site.categories %}
