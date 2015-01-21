@@ -4,6 +4,7 @@ title: "Improving the quality of Google Analytics data for Jekyll sites"
 category: tech
 tags:
  - Jekyll
+ - Google Analytics
 ---
 
 As explained in the [Google Analytics documentation][1], the default GA JavaScript snippet will extract the
@@ -59,8 +60,9 @@ If that's not the case, then you need to implement the necessary changes to make
 by modifying the JavaScript code or by changing the way the page metadata is generated.
 
 Note that a side effect of the change described here is that the home page of the site will no
-longer be reported as `/`, but as `/index.html`. In a future post I will explain why this is actually
+longer be reported as `/`, but as `/index.html`. In [another post][2] I explain why this is actually
 desirable. In case you don't like this because it introduces a discontinuity in your analytics data,
 it should be easy to modify the code shown above to take that particular situation into account.
 
 [1]: https://developers.google.com/analytics/devguides/collection/analyticsjs/pages#implementation
+[2]: /2015/01/05/jekyll-improving-ga-data-quality.html
