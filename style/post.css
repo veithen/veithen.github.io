@@ -104,3 +104,9 @@ article img {
   margin-right: auto;
   max-width: 100%  /* scale images if they are too large (in particular when displayed on small devices) */
 }
+
+/* Don't allow prism to override the font-family */
+code[class*="language-"], pre[class*="language-"] {
+  /* TODO: use variable here */
+  font-family: 'Inconsolata', monospace
+}
