@@ -63,7 +63,7 @@ style: post
         </div>
       </div>
       <div class="row">
-        <div class="col-md-2 hidden-xs hidden-sm navigation">
+        <nav class="col-md-2 hidden-xs hidden-sm navigation">
           <div class="header">Latest by category</div>
           <ul>
             {% for category in site.categories %}
@@ -86,7 +86,7 @@ style: post
               <li><a href="{{ page.next.url }}">{{ page.next.title }}</a></li>
             </ul>
           {% endif %} 
-        </div>
+        </nav>
         <div class="col-md-10 col-xs-12">
           <div class="banner hidden-xs hidden-sm">
             <a href="http://www.charliehebdo.fr/" onClick="trackOutboundLink('http://www.charliehebdo.fr/'); return false;"><img src="{{ site.baseurl }}/banner/jesuischarlie.png" style="display: block; margin-left: auto; margin-right: auto"/></a>
