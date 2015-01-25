@@ -39,12 +39,8 @@ style: post
 
     <script src="/scripts/prism.js"></script>
     <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    {% if site.banner %}
     <script>
-    /**
-    * Function that tracks a click on an outbound link in Google Analytics.
-    * This function takes a valid URL string as an argument, and uses that URL string
-    * as the event label.
-    */
     var trackOutboundLink = function(url) {
       if (ga.q && ga.q.length) {
         document.location = url;
@@ -57,6 +53,7 @@ style: post
       }
     }
     </script>
+    {% endif %}
   </head>
 
   <body>
@@ -92,9 +89,11 @@ style: post
           {% endif %} 
         </nav>
         <div class="col-md-10 col-xs-12">
+          {% if site.banner %}
           <div class="banner hidden-xs hidden-sm">
-            <a href="http://www.charliehebdo.fr/" onClick="trackOutboundLink('http://www.charliehebdo.fr/'); return false;"><img src="{{ site.baseurl }}/banner/jesuischarlie.png" style="display: block; margin-left: auto; margin-right: auto"/></a>
+            <a href="{{ site.banner.url }}" onClick="trackOutboundLink('{{ site.banner.url }}'); return false;"><img src="{{ site.baseurl }}/banner/{{ site.banner.image }}" style="display: block; margin-left: auto; margin-right: auto"/></a>
           </div>
+          {% endif %}
           <article class="post" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
             <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
             <meta itemprop="description" content="{{ content | strip_html | truncatewords: 40 }}" />

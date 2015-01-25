@@ -4,3 +4,7 @@ sass:
 permalink: /:year/:month/:day/:title.html
 
 url: http://veithen.github.io
+
+banner:
+  image: jesuischarlie.png
+  url: http://www.charliehebdo.fr/
