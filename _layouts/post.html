@@ -42,7 +42,7 @@ style: post
     {% if site.banner %}
     <script>
     var trackOutboundLink = function(url) {
-      if (ga.q && ga.q.length) {
+      if (ga.q) {
         document.location = url;
       } else {
         ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
