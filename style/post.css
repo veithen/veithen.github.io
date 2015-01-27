@@ -1,7 +1,7 @@
 @import "bootstrap.css";
 @import "prism.css";
 
-@import url(http://fonts.googleapis.com/css?family=Nunito);
+@import url(//fonts.googleapis.com/css?family=Nunito);
 
 .site-name {
   font-family: 'Nunito', sans-serif;
