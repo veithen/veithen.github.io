@@ -7,6 +7,8 @@ tags:
 blogger: /2013/02/islamisme-et-obscurantisme-ramses-ii.html
 ---
 
+{:nofollow: rel="nofollow"}
+
 Il y a quelque temps un collègue musulman m'a envoyé la vidéo suivante:
 
 <div class="separator" style="clear: both; text-align: center;">
@@ -22,15 +24,15 @@ généralement des personnes qui propagent ce type d'"information".
 
 (2) La vidéo prétend que Bucaille a examiné la momie pendant l'exercice du président socialiste sus-mentionné, que par
 la suite il a commencé à s'intéresser à l'islam et qu'il a alors publié son livre "The Bible, The Quran and Science".
-Un premier problème est que la version française de ce livre [date de 1976](http://lccn.loc.gov/76488005), mais ce n'est
+Un premier problème est que la version française de ce livre [date de 1976](http://lccn.loc.gov/76488005){:nofollow}, mais ce n'est
 pas l'essentiel.
 
 La vidéo essaie en fait de faire croire que Bucaille était un scientifique français chrétien "pure souche" qui a été
 sollicité sur base de ces compétences par les autorités égyptiennes (ou françaises selon les versions) pour examiner des
 momies et que cela a été le point de départ de son intérêt pour l'islam. A part le fait qu'il était chrétien, rien n'est
-moins vrai que cela. Premièrement, dans une [interview](http://www.islamicbulletin.org/newsletters/issue_6/embraced.aspx)
+moins vrai que cela. Premièrement, dans une [interview](http://www.islamicbulletin.org/newsletters/issue_6/embraced.aspx){:nofollow}
 Bucaille explique qu'il a commencé à s'intéresser à l'islam en discutant avec des patients et collègues. Deuxièmement,
-selon [Wikipedia](http://fr.wikipedia.org/wiki/Maurice_Bucaille), il "a été nommé médecin de la famille du roi Fayçal
+selon [Wikipedia](http://fr.wikipedia.org/wiki/Maurice_Bucaille){:nofollow}, il "a été nommé médecin de la famille du roi Fayçal
 d'Arabie saoudite" et que "certains membres de la famille du président Anouar el-Sadate d'Égypte [faisaient] partie de
 ses patients". Il avait donc des contacts avec le pouvoir égyptien. Le fait qu'il a eu l'occasion de participer à
 l'examen des momies n'est probablement pas totalement étranger à cela. Troisièmement, dans son livre il dit ceci:
