@@ -64,28 +64,34 @@ style: post
         </div>
       </div>
       <div class="row">
-        <nav class="col-md-2 hidden-xs hidden-sm navigation">
-          <div class="header">Latest by category</div>
-          <ul>
-            {% for category in site.categories %}
-              {% if category[0] == page.category %}
-                {% for post in category[1] limit:5 %}
-                  <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-                {% endfor %}
-              {% endif %}
-            {% endfor %}
-          </ul>
-          {% if page.previous.url %} 
-            <div class="header">Previous by date</div>
+        <nav class="col-md-2 hidden-xs hidden-sm">
+          <aside>
+            <div class="header">Latest by category</div>
             <ul>
-              <li><a href="{{ page.previous.url }}">{{ page.previous.title }}</a></li>
+              {% for category in site.categories %}
+                {% if category[0] == page.category %}
+                  {% for post in category[1] limit:5 %}
+                    <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
             </ul>
+          </aside>
+          {% if page.previous.url %} 
+            <aside>
+              <div class="header">Previous by date</div>
+              <ul>
+                <li><a href="{{ page.previous.url }}">{{ page.previous.title }}</a></li>
+              </ul>
+            </aside>
           {% endif %} 
           {% if page.next.url %} 
-            <div class="header">Next by date</div>
-            <ul>
-              <li><a href="{{ page.next.url }}">{{ page.next.title }}</a></li>
-            </ul>
+            <aside>
+              <div class="header">Next by date</div>
+              <ul>
+                <li><a href="{{ page.next.url }}">{{ page.next.title }}</a></li>
+              </ul>
+            </aside>
           {% endif %} 
         </nav>
         <div class="col-md-10 col-xs-12">

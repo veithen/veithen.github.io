@@ -1,5 +1,10 @@
+---
+---
+
 @import "bootstrap.css";
 @import "prism.css";
+
+@import "_vars.scss";
 
 @import url(//fonts.googleapis.com/css?family=Nunito);
 
@@ -25,27 +30,40 @@
   margin: 20px
 }
 
-.navigation .header {
-  font-weight: bold;
-  font-size: 120%;
-  border-bottom: solid 2px
+nav aside:before {
+  display: block;
+  content: '';
+  border-bottom: 1px solid lightgray;
+  position: relative;
+  top: 15px;
+  left: 0;
+  width: 100%;
+  z-index: -1;
 }
 
-.navigation ul {
+nav .header {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  background-color: white;
+  padding-right: 8px
+}
+
+nav ul {
   padding-left: 0
 }
 
-.navigation li {
+nav li {
   margin-top: 10px;
   margin-bottom: 10px;
   display: block
 }
 
-.navigation a {
+nav a {
   display: block;
-  vertical-align: top;
-  font-size: 90%;
-  line-height: 120%
+  font-size: 14px;
+  line-height: 16px
 }
 
 .page-header {
@@ -107,6 +125,5 @@ article img {
 
 /* Don't allow prism to override the font-family */
 code[class*="language-"], pre[class*="language-"] {
-  /* TODO: use variable here */
-  font-family: 'Inconsolata', monospace
+  font-family: $font-family-monospace
 }
