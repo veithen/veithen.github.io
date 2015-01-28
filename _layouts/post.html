@@ -64,8 +64,14 @@ style: post
         </div>
       </div>
       <div class="row">
-        <nav class="col-md-2 hidden-xs hidden-sm">
-          <aside>
+        <div class="col-md-2 hidden-xs hidden-sm">
+          <aside class="share">
+            <div class="header">Share</div>
+            <a href="http://www.facebook.com/sharer/sharer.php?u={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank"><img src="/images/icon-facebook.svg"/></a>
+            <a href="http://twitter.com/share?text={{ page.title | cgi_escape }}&url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank"><img src="/images/icon-twitter.svg"/></a>
+            <a href="https://plus.google.com/share?url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank"><img src="/images/icon-gplus.svg"/></a>
+          </aside>
+          <nav>
             <div class="header">Latest by category</div>
             <ul>
               {% for category in site.categories %}
@@ -76,24 +82,24 @@ style: post
                 {% endif %}
               {% endfor %}
             </ul>
-          </aside>
+          </nav>
           {% if page.previous.url %} 
-            <aside>
+            <nav>
               <div class="header">Previous by date</div>
               <ul>
                 <li><a href="{{ page.previous.url }}">{{ page.previous.title }}</a></li>
               </ul>
-            </aside>
+            </nav>
           {% endif %} 
           {% if page.next.url %} 
-            <aside>
+            <nav>
               <div class="header">Next by date</div>
               <ul>
                 <li><a href="{{ page.next.url }}">{{ page.next.title }}</a></li>
               </ul>
-            </aside>
+            </nav>
           {% endif %} 
-        </nav>
+        </div>
         <div class="col-md-10 col-xs-12">
           {% if site.banner %}
           <div class="banner hidden-xs hidden-sm">

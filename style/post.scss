@@ -30,24 +30,35 @@
   margin: 20px
 }
 
-nav aside:before {
+aside:before, nav:before {
   display: block;
   content: '';
   border-bottom: 1px solid lightgray;
   position: relative;
-  top: 15px;
+  top: 19px;
   left: 0;
   width: 100%;
   z-index: -1;
 }
 
-nav .header {
-  display: inline-block;
+aside .header, nav .header {
+  display: table;
+  margin-top: 10px;
+  margin-bottom: 10px;
   font-weight: bold;
   font-size: 12px;
   text-transform: uppercase;
   background-color: white;
   padding-right: 8px
+}
+
+aside.share a {
+  display: inline-block;
+  img {
+    width: 30px;
+    height: 30px;
+    margin: 2px
+  }
 }
 
 nav ul {
