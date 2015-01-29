@@ -6,7 +6,7 @@ scripts:
 ---
 
 <!DOCTYPE html>
-<html itemscope="itemscope" itemtype="http://schema.org/Blog">
+<html itemscope="" itemtype="http://schema.org/Blog">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -52,7 +52,7 @@ scripts:
           <ul class="post-list">
           {% for post in category[1] %} 
             <li class="hidden">
-              <article itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+              <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
                 <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
                 <a href="{{ post.url }}" itemprop="url"><span itemprop="name">{{ post.title }}</span> <span class="entry-date"><time itemprop="datePublished" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%B %d, %Y" }}</time></span></a>
               </article>

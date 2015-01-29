@@ -5,7 +5,7 @@ subtitle: "How to ensure that Google+ extracts snippets from your blog posts"
 category: tech
 tags:
  - Jekyll
-updated: 2015-01-07
+updated: 2015-01-29
 ---
 
 ## How Google+ generates snippets
@@ -43,7 +43,7 @@ A blog post layout may then look like this:
 
 {% raw %}
 ~~~ markup
-<article class="post" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
   <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
   <meta itemprop="description"
         content="{{ content | strip_html | truncatewords: 40 }}" />
@@ -123,10 +123,10 @@ and link that to your blog posts:
 
 {% raw %}
 ~~~ markup
-<div class="posts" itemscope="itemscope" itemtype="http://schema.org/Blog">
+<div class="posts" itemscope="" itemtype="http://schema.org/Blog">
   <h1 itemprop="name">My blog</h1>
   {% for post in site.posts %}
-    <article class="post" itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+    <article class="post" itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
       <h2><a href="{{ post.url }}" itemprop="url"><span itemprop="name">{{ post.title }}</span></a></h2>
       <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
       <div class="entry" itemprop="description">

@@ -106,7 +106,7 @@ style: post
             <a href="{{ site.banner.url }}" onClick="trackOutboundLink('{{ site.banner.url }}'); return false;"><img src="{{ site.baseurl }}/banner/{{ site.banner.image }}" style="display: block; margin-left: auto; margin-right: auto"/></a>
           </div>
           {% endif %}
-          <article class="post" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+          <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
             <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
             <meta itemprop="description" content="{{ content | strip_html | truncatewords: 40 }}" />
             {% if page.image %}
