@@ -1,20 +1,24 @@
 ---
 layout: null
 ---
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Andreas Veithen's blog</title>
-    <link>http://veithen.github.io/</link>
-    <atom:link href="http://veithen.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    {% for post in site.categories.tech limit:10 %}
-      <item>
-        <title>{{ post.title | xml_escape }}</title>
-        <description>{{ post.content | xml_escape }}</description>
-        <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
-        <link>http://veithen.github.io{{ post.url }}</link>
-        <guid isPermaLink="true">http://veithen.github.io{{ post.url }}</guid>
-      </item>
-    {% endfor %}
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="text" xml:lang="en">Andreas Veithen's blog</title>
+  <link type="application/atom+xml" href="{{ site.url }}/feed.xml" rel="self"/>
+  <link type="text/html" href="{{ site.url }}" rel="alternate"/>
+  <updated>{% if site.posts[0].updated %}{{ site.posts[0].updated | date: '%Y-%m-%d' }}{% else %}{{ site.posts[0].date | date: '%Y-%m-%d' }}{% endif %}</updated>
+  <id>{{ site.url }}</id>
+  <author>
+    <name>Andreas Veithen</name>
+  </author>
+  {% for post in site.posts limit:20 %}
+  <entry>
+    <title>{{ post.title }}</title>
+    <link href="{{ site.url }}{{ post.url }}"/>
+    <published>{{ post.date | date: '%Y-%m-%d' }}</published>
+    <updated>{% if post.updated %}{{ post.updated | date: '%Y-%m-%d' }}{% else %}{{ post.date | date: '%Y-%m-%d' }}{% endif %}</updated>
+    <id>{{ site.url }}{{ post.url }}</id>
+    <content type="text">{{ post.content | strip_html | truncatewords: 80 }}</content>
+  </entry>
+  {% endfor %}
+</feed>

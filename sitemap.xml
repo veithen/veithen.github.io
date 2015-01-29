@@ -10,11 +10,7 @@ layout: null
   {% for post in site.posts %}
     <url>
       <loc>{{ site.url }}{{ post.url }}</loc>
-      {% if post.updated == null %}
-        <lastmod>{{ post.date | date: '%Y-%m-%d' }}</lastmod>
-      {% else %}
-        <lastmod>{{ post.updated | date: '%Y-%m-%d' }}</lastmod>
-      {% endif %}
+      <lastmod>{% if post.updated %}{{ post.updated | date: '%Y-%m-%d' }}{% else %}{{ post.date | date: '%Y-%m-%d' }}{% endif %}</lastmod>
     </url>
   {% endfor %}
 </urlset>
