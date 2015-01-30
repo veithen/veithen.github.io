@@ -21,6 +21,9 @@
       'page': '{{ page.url }}',
       'title': '{{ page.title | replace: "'", "\\'" }}'
     });
+    {% if page.category %}
+    ga('set', 'dimension1', '{{ page.category }}');
+    {% endif %}
     </script>
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/{{ page.style }}.css" />
     <meta property="fb:admins" content="1722464172" />
