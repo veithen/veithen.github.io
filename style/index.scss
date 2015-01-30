@@ -1,9 +1,9 @@
 ---
 ---
 
-@import "../style.css";
+@import "site.css";
 
-@import "_variables";
+@import "_vars";
 
 // Tag index
 .tag-box {
@@ -22,13 +22,13 @@
   padding: 4px 6px;
   margin: 2px;
   color: #928983;
-  background-color: lighten($black, 90);
+  background-color: lighten(black, 90);
   border-radius: 4px;
   text-decoration: none
 }
 
 .tag-box span { 
-  font-size: .8rem;
+  font-size: 0.7*$font-size-base;
   vertical-align: super
 }
 
@@ -42,7 +42,7 @@
 
 .post-list li {
   margin-top: 0;
-  font-size: 1.25rem;
+  font-size: 1.17*$font-size-base;
   font-weight: bold;
   line-height: 2
 }

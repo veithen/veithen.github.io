@@ -7,41 +7,52 @@ scripts:
 ---
 
   <body itemscope="" itemtype="http://schema.org/Blog">
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          
-          <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/"><span itemprop="name">Andreas Veithen's blog</span></a></h1>
-          </div>
-        </header>
-      </div>
-    </div>
-
-    <div id="main" role="main" class="container">
-      <div id="tabs">
-        <ul>
-        {% for category in site.categories %}
-          <li><a href="#tabs-{{ category[0] }}">{{ category[0] }}</a></li>
-        {% endfor %}
-        </ul>
-      {% for category in site.categories %}
-        <div id="tabs-{{ category[0] }}">
-          <ul class="tag-box">
-          </ul>
-      
-          <ul class="post-list">
-          {% for post in category[1] %} 
-            <li class="hidden">
-              <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
-                <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
-                <a href="{{ post.url }}" itemprop="url"><span itemprop="name">{{ post.title }}</span> <span class="entry-date"><time itemprop="datePublished" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%B %d, %Y" }}</time></span></a>
-              </article>
-            </li>
-          {% endfor %}
-          </ul>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2 hidden-xs hidden-sm">
+          {% include logo.html %}
+          <aside class="social">
+            <div class="header">On the Web</div>
+            <a href="http://github.com/veithen"><img src="/images/icon-github.svg"/></a>
+            <a href="http://linkedin.com/in/aveithen"><img src="/images/icon-linkedin.svg"/></a>
+            <a href="http://stackoverflow.com/users/958954/andreas-veithen"><img src="/images/icon-stackoverflow.svg"/></a>
+            <a href="https://plus.google.com/+AndreasVeithenX"><img src="/images/icon-gplus.svg"/></a>
+          </aside>
+          <nav>
+            <div class="header">Latest</div>
+            <ul>
+              {% for post in site.posts limit:5 %}
+                <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </nav>
         </div>
-      {% endfor %}
+        <div class="col-md-10 col-xs-12">
+          <div id="tabs">
+            <ul>
+            {% for category in site.categories %}
+              <li><a href="#tabs-{{ category[0] }}">{{ category[0] }}</a></li>
+            {% endfor %}
+            </ul>
+          {% for category in site.categories %}
+            <div id="tabs-{{ category[0] }}">
+              <ul class="tag-box">
+              </ul>
+          
+              <ul class="post-list">
+              {% for post in category[1] %} 
+                <li class="hidden">
+                  <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
+                    <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
+                    <a href="{{ post.url }}" itemprop="url"><span itemprop="name">{{ post.title }}</span> <span class="entry-date"><time itemprop="datePublished" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%B %d, %Y" }}</time></span></a>
+                  </article>
+                </li>
+              {% endfor %}
+              </ul>
+            </div>
+          {% endfor %}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -49,10 +60,6 @@ scripts:
     <div class="wrapper-footer">
       <div class="container">
         <footer class="footer">
-          <a href="http://github.com/veithen">{% include svg-icons/github.html %}</a>
-          <a href="http://linkedin.com/in/aveithen">{% include svg-icons/linkedin.html %}</a>
-          <a href="{{ site.baseurl }}/feed.xml">{% include svg-icons/rss.html %}</a>
-          <a href="http://stackoverflow.com/users/958954/andreas-veithen">{% include svg-icons/stackoverflow.html %}</a>
         </footer>
       </div>
     </div>

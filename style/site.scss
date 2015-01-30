@@ -1,0 +1,62 @@
+---
+---
+
+@import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic);
+@import url(//fonts.googleapis.com/css?family=Inconsolata:400,700);
+
+/* Used by logo.html */
+@import url(//fonts.googleapis.com/css?family=Nunito);
+
+@import "_vars";
+@import "_bootstrap";
+
+body {
+  margin-top: 20px
+}
+
+aside:before, nav:before {
+  display: block;
+  content: '';
+  border-bottom: 1px solid lightgray;
+  position: relative;
+  top: 19px;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+aside .header, nav .header {
+  display: table;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  background-color: white;
+  padding-right: 8px
+}
+
+aside.social a {
+  display: inline-block;
+  img {
+    width: 30px;
+    height: 30px;
+    margin: 2px
+  }
+}
+
+nav ul {
+  padding-left: 0
+}
+
+nav li {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: block
+}
+
+nav a {
+  display: block;
+  font-size: 14px;
+  line-height: 16px
+}

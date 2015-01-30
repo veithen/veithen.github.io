@@ -1,80 +1,12 @@
 ---
 ---
 
-@import "bootstrap.css";
-@import "prism.css";
+@import "site.css";
 
 @import "_vars.scss";
 
-@import url(//fonts.googleapis.com/css?family=Nunito);
-
-.site-name {
-  font-family: 'Nunito', sans-serif;
-  font-size: 36px;
-  border-bottom: solid 1px;
-  margin-top: 8px;
-  margin-bottom: 16px;
-  padding-bottom: 4px
-}
-
-.site-name a {
-  color: black
-}
-
-.site-name a:hover {
-  color: black;
-  text-decoration: none
-}
-
 .banner {
   margin: 20px
-}
-
-aside:before, nav:before {
-  display: block;
-  content: '';
-  border-bottom: 1px solid lightgray;
-  position: relative;
-  top: 19px;
-  left: 0;
-  width: 100%;
-  z-index: -1;
-}
-
-aside .header, nav .header {
-  display: table;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-weight: bold;
-  font-size: 12px;
-  text-transform: uppercase;
-  background-color: white;
-  padding-right: 8px
-}
-
-aside.share a {
-  display: inline-block;
-  img {
-    width: 30px;
-    height: 30px;
-    margin: 2px
-  }
-}
-
-nav ul {
-  padding-left: 0
-}
-
-nav li {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  display: block
-}
-
-nav a {
-  display: block;
-  font-size: 14px;
-  line-height: 16px
 }
 
 .page-header {
