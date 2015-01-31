@@ -6,6 +6,7 @@ tags:
  - Google Analytics
 scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
+image: /assets/2015-01-21-referrer-spam/referrer-spam.png
 ---
 
 ## Introduction
@@ -13,7 +14,7 @@ scripts:
 If you are using Google Analytics you may have noticed page views with referrals from `ilovevitaly.com`, `darodar.com`,
 `priceg.com`, `blackhatworth.com` and other suspicious domains appearing in your statistics:
 
-![Referrer span in Google Analytics](/assets/2015-01-21-referrer-spam/referrer-spam.png)
+![Referrer span in Google Analytics]({{ page.image }})
 
 This is so called *referrer spam* and there have been a lot of [discussions][discussion] about this issue recently.
 Instead of repeating what has already been written elsewhere, in the present article I would like to focus on two

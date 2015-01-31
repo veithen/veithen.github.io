@@ -5,6 +5,7 @@ subtitle: "How to ensure that Google+ extracts snippets from your blog posts"
 category: tech
 tags:
  - Jekyll
+image: /assets/2014-11-17-jekyll-schema-org-metadata/with-metadata.png
 updated: 2015-01-29
 ---
 
@@ -73,7 +74,7 @@ Also notice the usage of `<meta>` tags for properties the values of which don't 
 
 With this layout, Google+ will now generate the kind of snippets we would expect:
 
-![Screenshot with metadata](/assets/2014-11-17-jekyll-schema-org-metadata/with-metadata.png)
+![Screenshot with metadata]({{ page.image }})
 
 ## Checking the metadata
 

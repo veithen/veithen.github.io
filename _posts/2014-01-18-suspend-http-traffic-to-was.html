@@ -4,6 +4,7 @@ title: "How to suspend HTTP traffic to a WebSphere Application Server"
 category: tech
 tags:
  - WebSphere
+image: /assets/2014-01-18-suspend-http-traffic-to-was/screenshot.png
 blogger: /2014/01/suspend-http-traffic-to-was.html
 ---
 
@@ -16,7 +17,7 @@ Obviously this method is cumbersome, especially compared to how this kind of ope
 <p>
 It turns out that this is indeed possible. Each application server has an MBean of type <code>WebContainer</code> with operations <code>stopTransports</code> and <code>startTransports</code>. The first operation stops all HTTP transports and closes the corresponding ports, i.e. <code>WC_defaulthost</code> and <code>WC_defaulthost_secure</code> (as well as <code>WC_adminhost</code> and <code>WC_adminhost_secure</code> on stand-alone servers and deployment managers). The second operation restores normal operation.
 </p>
-<img src="/assets/2014-01-18-suspend-http-traffic-to-was/screenshot.png" />
+<img src="{{ page.image }}" />
 <p>
 As noted in <a href="http://www-01.ibm.com/support/docview.wss?uid=swg1PK96239">PK96239</a>, the <code>WebContainer</code> MBean was deprecated in WAS 6.1 and has been replaced by the <code>TransportChannelService</code> MBean. However, the latter is much more difficult to use and as of WAS 8.5.5, the <code>WebContainer</code> MBean is still supported. Therefore using the <code>WebContainer</code> MBean remains the preferred method to do this.
 </p>
