@@ -6,7 +6,7 @@ category: tech
 tags:
  - Jekyll
 image: /assets/2014-11-17-jekyll-schema-org-metadata/with-metadata.png
-updated: 2015-01-29
+updated: 2015-01-31
 ---
 
 ## How Google+ generates snippets
@@ -147,3 +147,11 @@ individual posts it contains:
 * `url`: links each [http://schema.org/BlogPosting](http://schema.org/BlogPosting) item in the `blogPost`
   collection to the actual page containing the full item (i.e. the [http://schema.org/BlogPosting](http://schema.org/BlogPosting)
   item with the complete set of metadata properties).
+
+## What about Facebook and Twitter?
+
+Unfortunately Facebook and Twitter don't use schema.org metadata to produce rich snippets. Facebook relies on
+[Open Graph meta tags](https://developers.facebook.com/docs/sharing/best-practices#tags), which need to be added
+to the header of the HTML page. Twitter defines its own [set of meta tags](https://dev.twitter.com/cards/overview),
+but supports Open Graph as fallback. This means that if you already have added the Open Graph metadata, then only the
+`twitter:card` tag is required to support Twitter.
