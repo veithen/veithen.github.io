@@ -39,11 +39,11 @@
 
     <meta name="author" content="Andreas Veithen" />
 
-    {% if page.opengraph %}
+    {% if page.metadata %}
     <meta property="og:title" content="{{ page.title }}" />
     <meta property="og:site_name" content="Andreas Veithen's blog" />
     <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
-    <meta property="og:description" content="{{ content | strip_html | truncatewords: 40 }}" />
+    <meta property="og:description" content="{{ page.excerpt | strip_html }} ..." />
     {% if page.image %}
     <meta property="og:image" content="{{ site.url }}{{ page.image }}" />
     {% endif %}
@@ -57,6 +57,15 @@
     {% for tag in page.tags %}
     <meta property="article:tag" content="{{ tag }}" />
     {% endfor %}
+    
+    <meta name=”twitter:card” content=”summary”/>
+    <meta name="twitter:site" content="@AndreasVeithen"/>
+    <meta name="twitter:title" content="{{ page.title }}"/>
+    <meta name="twitter:description" content="{{ page.excerpt | strip_html }} ..."/>
+    {% if page.image %}
+    <meta name="twitter:image" content="{{ site.url }}{{ page.image }}"/>
+    {% endif %}
+    <meta name="twitter:url" content="{{ site.url }}{{ page.url }}"/>
     {% endif %}
 
     <!--[if lt IE 9]>
