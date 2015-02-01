@@ -17,13 +17,13 @@
     
     ga('create', 'UA-56790914-1', 'auto');
     ga('set', 'forceSSL', true);
+    {% if page.category %}
+    ga('set', 'dimension1', '{{ page.category }}');
+    {% endif %}
     ga('send', 'pageview', {
       'page': '{{ page.url }}',
       'title': '{{ page.title | replace: "'", "\\'" }}'
     });
-    {% if page.category %}
-    ga('set', 'dimension1', '{{ page.category }}');
-    {% endif %}
     </script>
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/{{ page.style }}.css" />
     <meta property="fb:admins" content="1722464172" />
