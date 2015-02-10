@@ -1,0 +1,74 @@
+---
+style: none
+title: "Incompatible browser detected"
+---
+
+<html>
+<head>
+<title>{{ page.title }}</title>
+{% include tracker.html %}
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+<link href='//fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'/>
+<style type="text/css">
+html {
+  background: #0000aa;
+  color: #ffffff;
+  font-size: 18px
+}
+body {
+  max-width: 600px;
+  margin: 50px auto
+}
+.emoticon {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 72pt
+}
+.message {
+  font-family: 'Inconsolata', courier
+}
+.message ul {
+  margin-left: 0;
+  padding-left: 0;
+  list-style-type: none
+}
+.message li {
+  position: relative;
+  margin-left: 1em
+}
+.message li:before {
+  position: absolute;
+  left: -1em;
+  content: "*"
+}
+a {
+  color: inherit
+}
+</style>
+</head>
+<body>
+<div class="emoticon">:(</div>
+<div class="message">
+<p>
+You are using an old version of Internet Explorer which isn't able to display this site correctly.
+Please switch to an HTML5 compatible browser and open the page again.
+</p>
+<p>
+If you don't have one, please do one of the following:
+</p>
+<ul>
+<li>
+<p>
+Download and install another browser. <a href="http://www.apple.com/safari/">Safari</a>, 
+<a href="https://www.google.com/chrome">Chrome</a> and <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>
+all work very well.
+</p>
+</li>
+<li>
+<p>
+<a href="http://windows.microsoft.com/en-us/internet-explorer/products/ie/home">Update your Internet Explorer to version 9 or better</a>.
+</p>
+</li>
+</ul>
+</div>
+</body>
+</html>
