@@ -15,8 +15,8 @@
     <link rel="author" href="https://plus.google.com/113984689781548338264"/>
     <link rel="canonical" href="{{ site.url }}{{ page.url }}"/>
     {% if page.scripts %}
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="{{ site.baseurl }}/scripts/jquery.min.js"></script>
+    <script src="{{ site.baseurl }}/scripts/jquery-ui.min.js"></script>
     {% for script in page.scripts %}
     <script src="{{ script }}"></script>
     {% endfor %}
