@@ -1,5 +1,5 @@
 require(["jquery", "jquery-ui"], function($) {
-    $(document).ready(function() {
+    $(function() {
         $("#tabs").tabs({
             beforeActivate: function(event, ui) {
                 var category = ui.newPanel.attr('id').substring(5);

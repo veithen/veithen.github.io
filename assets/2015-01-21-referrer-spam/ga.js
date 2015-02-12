@@ -1,5 +1,5 @@
 require(["jquery"], function($) {
-    $(document).ready(function() {
+    $(function() {
         $("form").submit(function(event) {
             $.ajax({
                 type: "GET",
