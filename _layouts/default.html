@@ -11,13 +11,14 @@
     <title>{{ page.title }}</title>
     <script src="{{ site.baseurl }}/scripts/modules.js"></script>
     {% include tracker.html %}
+    {% for script in page.scripts %}
+    <script src="{{ script }}"></script>
+    {% endfor %}
+
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/{{ page.style }}.css" />
     <meta property="fb:admins" content="1722464172" />
     <link rel="author" href="https://plus.google.com/113984689781548338264"/>
     <link rel="canonical" href="{{ site.url }}{{ page.url }}"/>
-    {% for script in page.scripts %}
-    <script src="{{ script }}"></script>
-    {% endfor %}
 
     <meta name="author" content="Andreas Veithen" />
 
