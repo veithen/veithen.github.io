@@ -9,18 +9,15 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
     <title>{{ page.title }}</title>
+    <script data-main="{{ site.baseurl }}/scripts/main" src="{{ site.baseurl }}/scripts/require.js"></script>
     {% include tracker.html %}
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/{{ page.style }}.css" />
     <meta property="fb:admins" content="1722464172" />
     <link rel="author" href="https://plus.google.com/113984689781548338264"/>
     <link rel="canonical" href="{{ site.url }}{{ page.url }}"/>
-    {% if page.scripts %}
-    <script src="{{ site.baseurl }}/scripts/jquery.min.js"></script>
-    <script src="{{ site.baseurl }}/scripts/jquery-ui.min.js"></script>
     {% for script in page.scripts %}
     <script src="{{ script }}"></script>
     {% endfor %}
-    {% endif %}
 
     <meta name="author" content="Andreas Veithen" />
 

@@ -5,7 +5,6 @@ category: opinion
 tags:
  - Islam
 scripts:
- - /scripts/Chart.min.js
  - /assets/2015-02-01-religion-monitor-islam/charts.js
 ---
 

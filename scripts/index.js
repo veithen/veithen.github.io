@@ -1,4 +1,4 @@
-(function(){
+require(["jquery", "jquery-ui"], function($) {
     $(document).ready(function() {
         $("#tabs").tabs({
             beforeActivate: function(event, ui) {
@@ -76,4 +76,4 @@
             processHash();
         });
     });
-})();
+});
