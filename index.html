@@ -28,7 +28,7 @@ scripts:
           </nav>
         </div>
         <div class="col-md-10 col-xs-12">
-          <div id="tabs">
+          <div id="tabs" class="hidden">
             <ul>
             {% for category in site.categories %}
               <li><a href="#tabs-{{ category[0] }}">{{ category[0] }}</a></li>
@@ -41,7 +41,7 @@ scripts:
           
               <ul class="post-list">
               {% for post in category[1] %} 
-                <li class="hidden">
+                <li>
                   <article itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
                     <meta itemprop="keywords" content="{{ post.tags | join: ',' }}" />
                     <a href="{{ post.url }}" itemprop="url"><span itemprop="name">{{ post.title }}</span> <span class="entry-date"><time itemprop="datePublished" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%B %d, %Y" }}</time></span></a>

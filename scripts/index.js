@@ -50,8 +50,8 @@ require(["jquery", "jquery-ui"], function($) {
                 });
             });
             postList.find("li").hide();
-            postList.find("li").removeClass("hidden");
         });
+        $("#tabs").removeClass("hidden");
         processHash = function() {
             var hash = window.location.hash;
             if (hash && hash.substring(0, 1) == "#") {
