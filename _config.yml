@@ -4,3 +4,5 @@ sass:
 permalink: /:year/:month/:day/:title.html
 
 url: http://veithen.github.io
+
+debug: false
