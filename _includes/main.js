@@ -4,6 +4,10 @@ require.config({
         "jquery": "jquery.min",
         "jquery-ui": "jquery-ui.min",
         "chart": "Chart.min",
+        "analytics": [
+            "//www.google-analytics.com/analytics",
+            "analytics-stub"
+        ],
     }
 });
 
@@ -21,7 +25,7 @@ if (localStorage.dontTrack) {
         l: Date.now()
     };
     
-    define("ga", ["//www.google-analytics.com/analytics.js"], function() {
+    define("ga", ["analytics"], function() {
         return window.__ga__;
     });
 }

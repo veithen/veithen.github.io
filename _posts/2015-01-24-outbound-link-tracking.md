@@ -4,7 +4,7 @@ title: "Tracking outbound links with Google Analytics"
 category: tech
 tags:
  - Google Analytics
-updated: 2015-01-26
+updated: 2015-02-14
 ---
 
 The Google Analytics help has an [entry][1] that explains how to track clicks on outbound links. It uses the following
@@ -68,6 +68,9 @@ site's pages and that code can't be changed unilaterally by Google.
 Another option is to check `ga.loaded` as described [here][6]. Note that this doesn't appear to be documented anywhere
 in the Google Analytics documentation, although it is indeed used in a [recently added example][7].
 
+Finally, if you are using [require.js][8], you may want to try an entirely different approach that I described in
+[another article][9].
+
 The other drawback of the approach described in the Google Analytics help is that the way links need to be modified
 isn't particularly elegant. Instead of having to add an `onclick` attribute to every tracked link one would probably
 prefer a solution that only requires adding a style class:
@@ -101,3 +104,5 @@ $(function() {
 [5]: http://jquery.com/
 [6]: https://www.domsammut.com/code/workaround-for-when-the-hitcallback-function-does-not-receive-a-response-analytics-js
 [7]: https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#product-click
+[8]: http://requirejs.org/
+[9]: /2015/02/14/requirejs-google-analytics.html
