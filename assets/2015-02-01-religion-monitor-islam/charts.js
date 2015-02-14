@@ -1,3 +1,5 @@
+"use strict";
+
 require(["chart", "jquery"], function(Chart, $) {
     $(function() {
         new Chart($("#chart1").get(0).getContext("2d")).Bar({

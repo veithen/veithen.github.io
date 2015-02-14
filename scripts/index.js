@@ -1,10 +1,12 @@
+"use strict";
+
 require(["jquery", "jquery-ui"], function($) {
     $(function() {
         $("#tabs").tabs({
             beforeActivate: function(event, ui) {
                 var category = ui.newPanel.attr('id').substring(5);
                 var selectedTag = ui.newPanel.data("selectedTag");
-                newLocation = "#" + category;
+                var newLocation = "#" + category;
                 if (selectedTag) {
                     newLocation += ";" + selectedTag;
                 }
@@ -52,7 +54,7 @@ require(["jquery", "jquery-ui"], function($) {
             postList.find("li").hide();
         });
         $("#tabs").removeClass("hidden");
-        processHash = function() {
+        var processHash = function() {
             var hash = window.location.hash;
             if (hash && hash.substring(0, 1) == "#") {
                 var parts = hash.substring(1).split(";");

@@ -1,3 +1,5 @@
+"use strict";
+
 require(["jquery"], function($) {
     $(function() {
         $("form").submit(function(event) {
