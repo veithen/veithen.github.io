@@ -4,6 +4,7 @@ title: "Integrating Google Analytics with require.js"
 category: tech
 tags:
  - Google Analytics
+updated: 2015-02-18
 ---
 
 The Google Analytics [tracking code][1] loads `analytics.js` asynchronously. [require.js][2] also loads modules
@@ -11,20 +12,21 @@ asynchronously. If you are using that framework, it makes sense to let require.j
 the traditional tracking code. This can be easily achieved with the following configuration:
 
 ~~~ javascript
-require.config({
-    paths: {
-        "analytics": "//www.google-analytics.com/analytics",
-    }
-});
-
 window.GoogleAnalyticsObject = "__ga__";
 window.__ga__ = {
     q: [["create", "UA-XXXXXXXX-Y", "auto"]],
     l: Date.now()
 };
 
-define("ga", ["analytics"], function() {
-    return window.__ga__;
+require.config({
+    paths: {
+        "ga": "//www.google-analytics.com/analytics",
+    },
+    shim: {
+        "ga": {
+            exports: "__ga__"
+        },
+    }
 });
 ~~~
 
@@ -35,6 +37,9 @@ require(['ga'], function(ga) {
     ga('send', 'pageview');
 });
 ~~~
+
+`require` will load `analytics.js` asynchronously and execute the callback function once the script has been loaded.
+That piece of code therefore has the same asynchronicity properties as the original tracking code.
 
 As noted in a [previous post][3], the user may have blocked Google Analytics in which case loading `analytics.js` fails.
 The consequence is that the require callback is never executed. For page tracking, this is not an issue, but consider
@@ -58,23 +63,24 @@ loading `analytics.js` fails. To do this, the configuration shown at the beginni
 modified as follows:
 
 ~~~ javascript
-require.config({
-    paths: {
-        "analytics": [
-            "//www.google-analytics.com/analytics",
-            "analytics-stub"
-        ],
-    }
-});
-
 window.GoogleAnalyticsObject = "__ga__";
 window.__ga__ = {
     q: [["create", "UA-XXXXXXXX-Y", "auto"]],
     l: Date.now()
 };
 
-define("ga", ["analytics"], function() {
-    return window.__ga__;
+require.config({
+    paths: {
+        "ga": [
+            "//www.google-analytics.com/analytics",
+            "analytics-stub"
+        ],
+    },
+    shim: {
+        "ga": {
+            exports: "__ga__"
+        },
+    }
 });
 ~~~
 
