@@ -22,3 +22,23 @@ require.config({
         },
     }
 });
+
+require(["jquery"], function($) {
+    $(function() {
+        $("article a").each(function() {
+            var url = $(this).attr("href");
+            if (url.indexOf("http://") == 0 || url.indexOf("https://") == 0) {
+                $(this).click(function(e) {
+                    require(["ga"], function(ga) {
+                        ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+                            function () {
+                                document.location = url;
+                            }
+                        });
+                    });
+                    e.preventDefault();
+                });
+            }
+        });
+    });
+});
