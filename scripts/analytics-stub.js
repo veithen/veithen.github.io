@@ -7,4 +7,4 @@ window[window.GoogleAnalyticsObject] = function() {
             arg.hitCallback();
         }
     }
-}
+};
