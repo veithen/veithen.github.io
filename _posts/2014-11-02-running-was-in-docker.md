@@ -6,13 +6,17 @@ tags:
  - Docker
  - WebSphere
 blogger: /2014/11/running-was-in-docker.html
-updated: 2015-01-18
+updated: 2015-02-24
 ---
+
+## Introduction
 
 This article describes how to run WebSphere Application Server in a Docker container. We are going
 to use the [developer version][1] of WAS 8.5.5 to create a full profile, but the instructions can easily be
 adapted to a regular WebSphere version (provided you have an appropriate license) or a different WebSphere 8.x version.
 Note however that the solution will not work with WAS 7.0 because the installation procedure is completely different.
+
+## Creating the Docker image
 
 To create the
 Docker image, [download IBM Installation Manager][2] for Linux x86_64 and use the following
@@ -34,14 +38,15 @@ Dockerfile, after replacing the `-userName` and `-userPassword` arguments with y
      rm -rf /tmp/agent.installer.linux.gtk.x86_64_*.zip /tmp/im
     
     RUN \
+     REPO=http://www.ibm.com/software/repositorymanager/V85WASDeveloperILAN && \
      /usr/lib/im/eclipse/tools/imutilsc saveCredential \
-       -url http://www.ibm.com/software/repositorymanager/V85WASDeveloperILAN \
+       -url $REPO \
        -userName my.ibm.id@mydomain.com \
        -userPassword mypassword \
        -secureStorageFile /root/credentials && \
      /usr/lib/im/eclipse/tools/imcl install \
        com.ibm.websphere.DEVELOPERSILAN.v85_8.5.5003.20140730_1249 \
-       -repositories http://www.ibm.com/software/repositorymanager/V85WASDeveloperILAN \
+       -repositories $REPO \
        -acceptLicense \
        -showProgress \
        -secureStorageFile /root/credentials \
@@ -97,6 +102,56 @@ Dockerfile, after replacing the `-userName` and `-userPassword` arguments with y
 
 **Note that by executing this Dockerfile you accept the license agreement for IBM Installation
 Manager and WebSphere Application Server for Developers.**
+
+## Known issues
+
+The execution of the `imutilsc` may fail with the following error, even though you have specified a valid user name and
+password:
+
+    Cannot connect to the URL.
+      - Verify that the URL is correct.
+      - Verify that the user name and password are correct.
+      - Verify that you can access the network.
+
+The root cause for that is IBM inability to correctly configure its CDN:
+
+    $ curl -i http://www.ibm.com/software/repositorymanager/V85WASDeveloperILAN/
+    HTTP/1.1 302 Moved Temporarily
+    Cache-Control: max-age=301
+    Expires: Tue, 24 Feb 2015 23:14:44 GMT
+    Content-Type: text/html
+    Location: https://www-912.ibm.com/software/repositorymanager/V85WASDeveloperILAN/
+    Content-Length: 255
+    epKe-Alive: timeout=10, max=7
+    Date: Tue, 24 Feb 2015 23:09:43 GMT
+    Connection: keep-alive
+    
+    <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+    <html><head>
+    <title>302 Found</title>
+    </head><body>
+    <h1>Found</h1>
+    <p>The document has moved <a href="https://www-912.ibm.com/software/repositorymanager/V85WASDeveloperILAN/">here</a>.</p>
+    </body></html>
+    $ curl -I http://www.ibm.com/software/repositorymanager/V85WASDeveloperILAN/
+    HTTP/1.1 503 Service Unavailable
+    Server: AkamaiGHost
+    Mime-Version: 1.0
+    Content-Type: text/html
+    Content-Length: 177
+    Expires: Tue, 24 Feb 2015 23:09:52 GMT
+    Date: Tue, 24 Feb 2015 23:09:52 GMT
+    Connection: keep-alive
+    
+    $
+
+The output of these two commands show that a GET request to the repository URL gets redirected with HTTP status 302,
+while a HEAD request for the same URL results in a 503 error. The problem is that `imutilsc` uses a HEAD request and
+therefore fails. The work around this issue, replace the value of the `REPO` variable with the location obtained from
+the 302 response. In the example shown above, this would be
+`https://www-912.ibm.com/software/repositorymanager/V85WASDeveloperILAN/`.
+
+## How it works
 
 Here are some more details about the Dockerfile:
 
