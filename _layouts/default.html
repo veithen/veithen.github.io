@@ -68,6 +68,15 @@
     }
     </script>
     {% endif %}
+    {% if page.disqus %}
+    <script>
+    var disqus_identifer = '{{ page.id }}';
+    var disqus_url = '{{ site.url }}{{ page.url }}';
+    var disqus_title = '{{ page.title | replace: "'", "\\'" }}';
+    var disqus_category_id = '{{ site.disqus_categories[page.category] }}';
+    require(['//veithen.disqus.com/embed.js']);
+    </script>
+    {% endif %}
   </head>
 
 {{ content }}

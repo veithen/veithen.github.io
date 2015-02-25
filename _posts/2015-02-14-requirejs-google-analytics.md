@@ -5,6 +5,7 @@ category: tech
 tags:
  - Google Analytics
 updated: 2015-02-18
+disqus: true
 ---
 
 The Google Analytics [tracking code][1] loads `analytics.js` asynchronously. [require.js][2] also loads modules

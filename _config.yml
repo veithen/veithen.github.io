@@ -6,3 +6,7 @@ permalink: /:year/:month/:day/:title.html
 url: http://veithen.github.io
 
 debug: false
+
+disqus_categories:
+  tech: 3550508
+  opinion: 3550509
