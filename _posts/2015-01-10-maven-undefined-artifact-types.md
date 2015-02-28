@@ -4,6 +4,7 @@ title: "How Maven handles unknown artifact types"
 category: tech
 tags:
  - Maven
+disqus: true
 ---
 
 Artifact types are specified using the `type` element on dependencies:

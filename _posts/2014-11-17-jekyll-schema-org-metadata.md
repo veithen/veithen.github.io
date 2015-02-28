@@ -7,6 +7,7 @@ tags:
  - Jekyll
 image: /assets/2014-11-17-jekyll-schema-org-metadata/with-metadata.png
 updated: 2015-01-31
+disqus: true
 ---
 
 ## How Google+ generates snippets

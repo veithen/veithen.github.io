@@ -5,6 +5,7 @@ category: tech
 tags:
  - WebSphere
 blogger: /2012/07/how-to-deal-with-heuristicmixedexceptio.html
+disqus: true
 ---
 
 During an incident such as a database issue, applications deployed on WebSphere may sometimes get

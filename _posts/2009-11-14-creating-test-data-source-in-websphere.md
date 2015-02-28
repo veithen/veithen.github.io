@@ -5,6 +5,7 @@ category: tech
 tags:
  - WebSphere
 blogger: /2009/11/creating-test-data-source-in-websphere.html
+disqus: true
 ---
 
 If you need to quickly set up a test database and a corresponding JDBC data source in WebSphere 7,

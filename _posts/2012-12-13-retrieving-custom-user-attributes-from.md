@@ -6,6 +6,7 @@ tags:
  - WebSphere
  - LDAP
 blogger: /2012/12/retrieving-custom-user-attributes-from.html
+disqus: true
 ---
 
 WebSphere can be configured to use LDAP as authentication mechanism. The implementation is fairly

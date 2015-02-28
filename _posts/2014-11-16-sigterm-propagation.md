@@ -6,6 +6,7 @@ tags:
  - Bash
  - Docker
  - Supervisord
+disqus: true
 ---
 
 [Supervisord](http://supervisord.org/) requires that the programs it is configured to run

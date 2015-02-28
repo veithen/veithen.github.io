@@ -6,6 +6,7 @@ tags:
  - WebSphere
  - PMI
 blogger: /2012/04/real-meaning-of-activetime-pmi.html
+disqus: true
 ---
 
 For thread pools, WebSphere has a PMI statistic called `ActiveTime`. According to the [documentation][1]

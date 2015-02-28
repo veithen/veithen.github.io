@@ -6,6 +6,7 @@ tags:
  - Islam
 scripts:
  - /assets/2015-02-01-religion-monitor-islam/charts.js
+disqus: true
 ---
 
 The [Bertelsmann Foundation](https://www.bertelsmann-stiftung.de/en/home/) recently published a new study about Islam in

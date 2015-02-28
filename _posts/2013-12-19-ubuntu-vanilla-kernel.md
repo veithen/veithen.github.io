@@ -6,6 +6,7 @@ tags:
  - Linux
 blogger: /2013/12/ubuntu-vanilla-kernel.html
 updated: 2015-01-04
+disqus: true
 ---
 
 This post describes a simple procedure to build and install a new Linux kernel on Ubuntu using the

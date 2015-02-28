@@ -5,6 +5,7 @@ category: opinion
 tags:
  - Islam
 blogger: /2012/11/islamisme-et-obscurantisme-quand-un.html
+disqus: true
 ---
 
 L'autre jour au bureau quelqu'un expliquait qu'il est possible d'utiliser des organes de porc pour réaliser des greffes chez l'homme,

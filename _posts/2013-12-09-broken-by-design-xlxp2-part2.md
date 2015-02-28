@@ -6,6 +6,7 @@ tags:
  - WebSphere
  - StAX
 blogger: /2013/12/broken-by-design-xlxp2-part2.html
+disqus: true
 ---
 
 A few weeks ago I posted an [article](/2013/10/11/broken-by-design-xlxp2.html) describing a vulnerability in WebSphere's default

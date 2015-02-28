@@ -6,6 +6,7 @@ tags:
  - Islam
  - QOTD
 image: /assets/2015-01-15-toujours-mahomet/une.jpg
+disqus: true
 ---
 
 Selon le [Figaro][1], Abdallah Zekri, président de l'"Observatoire contre l'islamophobie" crée par le

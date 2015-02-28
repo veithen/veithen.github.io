@@ -6,6 +6,7 @@ tags:
  - Linux
  - TCP/IP
 blogger: /2014/01/how-tcp-backlog-works-in-linux.html
+disqus: true
 ---
 
 When an application puts a socket into LISTEN state using the [`listen`](http://linux.die.net/man/2/listen) syscall, it

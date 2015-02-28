@@ -6,6 +6,7 @@ tags:
  - WebSphere
  - LDAP
 blogger: /2013/11/websphere-apacheds-quick-setup-guide.html
+disqus: true
 ---
 
 This article explains how to quickly configure WebSphere with [Apache Directory Server](http://directory.apache.org/apacheds/)

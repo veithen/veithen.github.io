@@ -6,6 +6,7 @@ tags:
  - EJB
  - JAX-WS
 blogger: /2009/11/ejb-and-web-services-getting-best-of.html
+disqus: true
 ---
 
 If you have ever worked in a project where both EJBs and Web Services are used,

@@ -5,6 +5,7 @@ category: tech
 tags:
  - Maven
 blogger: /2010/03/improve-your-maven-builds-with-groovy.html
+disqus: true
 ---
 
 Since Maven is essentially metadata driven, it sometimes lacks the flexibility provided by script oriented build tools such as Ant.

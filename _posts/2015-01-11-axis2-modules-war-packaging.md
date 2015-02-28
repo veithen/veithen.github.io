@@ -5,6 +5,7 @@ category: tech
 tags:
  - Axis2
  - Maven
+disqus: true
 ---
 
 This article explains how to properly package Axis2 modules (MAR files) into Web applications

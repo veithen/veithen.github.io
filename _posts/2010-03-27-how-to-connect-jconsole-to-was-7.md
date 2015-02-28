@@ -5,6 +5,7 @@ category: tech
 tags:
  - WebSphere
 blogger: /2010/03/how-to-connect-jconsole-to-was-7.html
+disqus: true
 ---
 
 It's a bit tricky, but it's perfectly possible to connect (Sun's) JConsole to a remote WAS7 instance

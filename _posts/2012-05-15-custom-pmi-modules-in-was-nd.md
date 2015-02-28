@@ -6,6 +6,7 @@ tags:
  - WebSphere
  - PMI
 blogger: /2012/05/using-custom-pmi-modules-in-network.html
+disqus: true
 ---
 
 The WebSphere documentation has a section that explains [how to implement a custom PMI module][1].

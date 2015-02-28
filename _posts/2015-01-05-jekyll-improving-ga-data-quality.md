@@ -6,6 +6,7 @@ tags:
  - Jekyll
  - Google Analytics
 image: /assets/2015-01-05-jekyll-improving-ga-data-quality/ga-screenshot.png
+disqus: true
 ---
 
 As explained in the [Google Analytics documentation][1], the default GA JavaScript snippet will extract the

@@ -7,6 +7,7 @@ tags:
  - WebSphere
 image: /assets/2014-02-15-byteman-deadlock-detection/deadlock.jpg
 blogger: /2014/02/byteman-deadlock-detection.html
+disqus: true
 ---
 
 The other day I came across a very interesting deadlock situation in an application deployed on a production WebSphere server.

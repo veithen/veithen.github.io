@@ -7,6 +7,7 @@ tags:
  - StAX
  - Exploit
 blogger: /2013/10/broken-by-design-xlxp2.html
+disqus: true
 ---
 
 Recently I came across an issue in WebSphere's default StAX implementation (XLXP 2) where the parser unexpectedly consumed a

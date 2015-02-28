@@ -6,6 +6,7 @@ tags:
  - Maven
  - SLF4J
 blogger: /2009/10/taming-beast-managing-slf4j.html
+disqus: true
 ---
 
 More and more projects now use [SLF4J][1] instead of the good old Commons Logging as a logging facade. This introduces

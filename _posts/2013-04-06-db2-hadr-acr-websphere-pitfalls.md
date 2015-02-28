@@ -6,6 +6,7 @@ tags:
  - DB2
  - WebSphere
 blogger: /2013/04/common-pitfalls-when-using-db2-hadr-acr.html
+disqus: true
 ---
 
 This article describes 5 common pitfalls to avoid when using DB2, HADR (High Availability and

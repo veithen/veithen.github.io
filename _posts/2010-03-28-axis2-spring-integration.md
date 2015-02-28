@@ -5,6 +5,7 @@ category: tech
 tags:
  - Axis2
 blogger: /2010/03/some-thoughts-about-axis2-spring.html
+disqus: true
 ---
 
 A longstanding issue with Axis2 is its lack of decent Spring integration. Currently the only available Spring support in

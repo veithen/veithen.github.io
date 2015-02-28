@@ -5,6 +5,7 @@ category: tech
 tags:
  - WebSphere
 blogger: /2013/08/was-virtual-host-mapping.html
+disqus: true
 ---
 
 Together with the context root, the virtual host assigned to a Web module determines under which URLs that Web module

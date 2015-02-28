@@ -5,6 +5,7 @@ category: tech
 tags:
  - VisualVM
 blogger: /2012/11/installing-visualvm-plug-ins-into.html
+disqus: true
 ---
 
 This article describes how to install VisualVM plug-ins into the shared installation directory instead of the user's

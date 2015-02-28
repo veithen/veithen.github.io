@@ -7,6 +7,7 @@ tags:
  - OSGi
  - Maven
 blogger: /2012/11/how-to-build-custom-websphere-plug-ins.html
+disqus: true
 ---
 
 ## Introduction

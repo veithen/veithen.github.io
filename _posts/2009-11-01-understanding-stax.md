@@ -5,6 +5,7 @@ category: tech
 tags:
  - StAX
 blogger: /2009/10/understanding-stax-how-to-correctly-use.html
+disqus: true
 ---
 
 Note: This is a slightly edited version of a text that I wrote for the Axiom documentation. Some of the content is based

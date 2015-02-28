@@ -6,6 +6,7 @@ tags:
  - DB2
  - WebSphere
 blogger: /2014/02/reducing-impact-of-db2-client-reroutes.html
+disqus: true
 ---
 
 <p>
@@ -17,7 +18,7 @@ There are a couple of things one needs to be aware of in order to analyze these 
 <ul>
 <li>
 <p>
-The failover of a database always causes all <a href="https://www.ibm.com/developerworks/community/wikis/home?lang=en#!/wiki/DB2HADR/page/HADR%20takeover?section=What_happens_during_a_takeover">active transactions on that database to be rolled back</a>. The fundamental reason is that HADR doesn’t replicate locks to the standby database, as mentioned <a href="http://www.ibm.com/developerworks/data/library/techarticle/dm-1205hadrstandby/">here</a>. Note that, on the other hand, HADR does ship log records for uncommitted operations (which means that transactions that are rolled back on the primary also cause a roll back on the standby). The standby therefore has enough information to reconstruct the data in an active transaction, but the fact that locks are not replicated implies that it cannot fully reconstruct the state of the active transactions during a failover. It therefore cannot allow these transactions to continue and is forced to perform a rollback.
+The failover of a database always causes all <a href="https://www.ibm.com/developerworks/community/wikis/home?lang=en#!/wiki/DB2HADR/page/HADR%20takeover?section=What_happens_during_a_takeover">active transactions on that database to be rolled back</a>. The fundamental reason is that HADR doesn't replicate locks to the standby database, as mentioned <a href="http://www.ibm.com/developerworks/data/library/techarticle/dm-1205hadrstandby/">here</a>. Note that, on the other hand, HADR does ship log records for uncommitted operations (which means that transactions that are rolled back on the primary also cause a roll back on the standby). The standby therefore has enough information to reconstruct the data in an active transaction, but the fact that locks are not replicated implies that it cannot fully reconstruct the state of the active transactions during a failover. It therefore cannot allow these transactions to continue and is forced to perform a rollback.
 </p>
 </li>
 <li>

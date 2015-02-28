@@ -5,6 +5,7 @@ category: tech
 tags:
  - Docker
  - RHQ
+disqus: true
 ---
 
 The following Dockerfile can be used to run [RHQ](http://rhq.jboss.org) 4.12 in a Docker container.

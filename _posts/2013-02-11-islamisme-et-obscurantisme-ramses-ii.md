@@ -5,6 +5,7 @@ category: opinion
 tags:
  - Islam
 blogger: /2013/02/islamisme-et-obscurantisme-ramses-ii.html
+disqus: true
 ---
 
 {:nofollow: rel="nofollow"}

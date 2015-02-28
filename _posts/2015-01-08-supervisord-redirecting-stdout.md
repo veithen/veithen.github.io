@@ -5,6 +5,7 @@ category: tech
 tags:
  - Docker
  - Supervisord
+disqus: true
 ---
 
 [Supervisor][1]'s `supervisord` process captures stdout of the child processes it

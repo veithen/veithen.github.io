@@ -4,6 +4,7 @@ title: "Extracting SOAP headers from a Web service response in Spring-WS"
 category: tech
 tags:
  - Spring-WS
+disqus: true
 ---
 
 A frequently asked question in connection with [`WebServiceTemplate`][1] in Spring-WS is how to extract SOAP headers

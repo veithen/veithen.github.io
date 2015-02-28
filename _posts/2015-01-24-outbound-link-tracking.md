@@ -5,6 +5,7 @@ category: tech
 tags:
  - Google Analytics
 updated: 2015-02-14
+disqus: true
 ---
 
 The Google Analytics help has an [entry][1] that explains how to track clicks on outbound links. It uses the following
