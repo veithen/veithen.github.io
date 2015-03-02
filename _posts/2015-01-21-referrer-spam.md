@@ -7,12 +7,13 @@ tags:
 scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
 image: /assets/2015-01-21-referrer-spam/referrer-spam.png
+updated: 2015-03-02
 ---
 
 ## Introduction
 
 If you are using Google Analytics you may have noticed page views with referrals from `ilovevitaly.com`, `darodar.com`,
-`priceg.com`, `blackhatworth.com` and other suspicious domains appearing in your statistics:
+`priceg.com`, `blackhatworth.com`, `o-o-6-o-o.com` and other suspicious domains appearing in your statistics:
 
 ![Referrer span in Google Analytics]({{ page.image }})
 
