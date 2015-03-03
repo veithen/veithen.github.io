@@ -6,6 +6,7 @@ tags:
  - Linux
 blogger: /2013/11/iowait-linux.html
 disqus: true
+updated: 2015-03-03
 ---
 
 Some time ago I had a discussion with some systems guys about the exact meaning of the I/O wait time
@@ -42,7 +43,7 @@ simply read data from the hard disk as fast as it can:
 Note that you need to execute this as `root` and if necessary change the input file to the
 appropriate block device for your hard disk.
 
-Looking at the CPU stats in `top` (press `1` to get per-CPU statistics), you will see something like
+Looking at the CPU stats in `top` (press `1` to get per-CPU statistics), you should see something like
 this:
 
     %Cpu0  :  3,1 us, 10,7 sy,  0,0 ni,  3,5 id, 82,4 wa,  0,0 hi,  0,3 si,  0,0 st
@@ -50,12 +51,24 @@ this:
     %Cpu2  :  1,0 us,  0,3 sy,  0,0 ni, 96,3 id,  2,3 wa,  0,0 hi,  0,0 si,  0,0 st
     %Cpu3  :  3,0 us,  0,3 sy,  0,0 ni, 96,3 id,  0,3 wa,  0,0 hi,  0,0 si,  0,0 st
 
-This clearly indicates that a single I/O bound task only increases the I/O wait time on a single
+This output indicates that a single I/O bound task only increases the I/O wait time on a single
 CPU. Note that you may see that occasionally the task "switches" from one CPU to another. That is
 because the Linux kernel tries to schedule a task on the CPU it ran last (in order to improve CPU
-cache hit rates). The `taskset` command can be used to "pin" a process to a given CPU so that the
-experiment becomes more reproducible (Note that the first command line argument is not the CPU
-number, but a mask):
+cache hit rates), but this is not always possible and the task is moved on another CPU. On some
+systems, this may occur so frequently that the I/O wait time appears to be distributed over multiple CPUs,
+as in the following example:
+
+    %Cpu0  :  5.7 us,  5.7 sy,  0.0 ni, 50.5 id, 34.8 wa,  3.3 hi,  0.0 si,  0.0 st
+    %Cpu1  :  3.0 us,  3.3 sy,  0.0 ni, 72.5 id, 20.9 wa,  0.3 hi,  0.0 si,  0.0 st
+    %Cpu2  :  7.0 us,  4.3 sy,  0.0 ni, 62.0 id, 26.7 wa,  0.0 hi,  0.0 si,  0.0 st
+    %Cpu3  :  4.3 us,  2.3 sy,  0.0 ni, 89.6 id,  3.7 wa,  0.0 hi,  0.0 si,  0.0 st
+
+Nevertheless, assuming that `dd` is the only task doing I/O on the system, there can be at most one
+CPU in state I/O wait at any given point in time. Indeed, 34.8+20.9+26.7+3.7=86.1 which is close to but
+lower than 100.
+
+To make the experiment more reproducible, we can use the `taskset` command to "pin" a process
+to a given CPU (Note that the first command line argument is not the CPU number, but a mask):
 
     taskset 1 dd if=/dev/sda of=/dev/null bs=1MB
 
