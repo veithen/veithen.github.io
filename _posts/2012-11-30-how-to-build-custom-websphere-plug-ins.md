@@ -8,6 +8,10 @@ tags:
  - Maven
 blogger: /2012/11/how-to-build-custom-websphere-plug-ins.html
 disqus: true
+description: >
+ Beginning with WebSphere 6.1, the application server runtime is actually packaged as a set of OSGi
+ bundles running on Eclipse Equinox. This makes it possible to write your own custom plug-ins to
+ extend the server runtime.
 ---
 
 ## Introduction

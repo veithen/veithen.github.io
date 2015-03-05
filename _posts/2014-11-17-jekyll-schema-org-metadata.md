@@ -8,6 +8,9 @@ tags:
 image: /assets/2014-11-17-jekyll-schema-org-metadata/with-metadata.png
 updated: 2015-01-31
 disqus: true
+description: >
+ Learn how to use schema.org metadata to set up your Jekyll site such that Google+ can extract rich snippets from your
+ blog posts.
 ---
 
 ## How Google+ generates snippets

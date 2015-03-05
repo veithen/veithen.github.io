@@ -7,6 +7,9 @@ tags:
  - Google Analytics
 image: /assets/2015-01-05-jekyll-improving-ga-data-quality/ga-screenshot.png
 disqus: true
+description: >
+ Learn how to make the data sent to Google Analytics more consistent for pages loaded from Google's cache or displayed
+ by Google Translate.
 ---
 
 As explained in the [Google Analytics documentation][1], the default GA JavaScript snippet will extract the

@@ -7,6 +7,10 @@ tags:
 blogger: /2013/11/iowait-linux.html
 disqus: true
 updated: 2015-03-03
+description: >
+ For a given CPU, the I/O wait time is the time during which that CPU was idle (i.e. didn't execute
+ any tasks) and there was at least one outstanding disk I/O operation requested by a task scheduled
+ on that CPU (at the time it generated that I/O request).
 ---
 
 Some time ago I had a discussion with some systems guys about the exact meaning of the I/O wait time

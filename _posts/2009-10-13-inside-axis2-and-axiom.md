@@ -7,6 +7,7 @@ tags:
  - Axiom
 blogger: /2009/10/inside-axis2-and-axiom-can-somebody.html
 disqus: true
+description: This article describes some design flaws in Axis2 with regards to resource management.
 ---
 
 Recently my attention got caught by a set of issues in Axis2 and Axiom that at first glance may seem unrelated, but when

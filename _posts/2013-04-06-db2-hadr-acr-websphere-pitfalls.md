@@ -7,6 +7,10 @@ tags:
  - WebSphere
 blogger: /2013/04/common-pitfalls-when-using-db2-hadr-acr.html
 disqus: true
+description: >
+ This article describes 5 common pitfalls to avoid when using DB2, HADR (High Availability and
+ Disaster Recovery), ACR (Automatic Client Reroute) and WebSphere Application Server together.
+ It is based on 3 years of (sometimes painful) experience with these technologies.
 ---
 
 This article describes 5 common pitfalls to avoid when using DB2, HADR (High Availability and

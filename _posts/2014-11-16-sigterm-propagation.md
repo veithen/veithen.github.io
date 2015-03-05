@@ -7,6 +7,8 @@ tags:
  - Docker
  - Supervisord
 disqus: true
+description: >
+ Learn how to write your wrapper scripts for supervisord or Docker such that they react correctly to SIGTERM.
 ---
 
 [Supervisord](http://supervisord.org/) requires that the programs it is configured to run

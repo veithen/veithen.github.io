@@ -7,6 +7,11 @@ tags:
  - PMI
 blogger: /2012/05/using-custom-pmi-modules-in-network.html
 disqus: true
+description: >
+ The WebSphere documentation has a section that explains how to implement a custom PMI module.
+ This works well on a stand-alone application server, but not in a Network Deployment cell: the
+ custom PMI module shows up in the admin console, but not the individual statistics defined by the
+ module. This article describes how to solve this issue.
 ---
 
 The WebSphere documentation has a section that explains [how to implement a custom PMI module][1].

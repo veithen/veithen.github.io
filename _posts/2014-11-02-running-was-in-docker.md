@@ -7,6 +7,7 @@ tags:
  - WebSphere
 blogger: /2014/11/running-was-in-docker.html
 updated: 2015-02-24
+description: This article describes how to run a full profile of WebSphere Application Server 8.x in a Docker container.
 ---
 
 ## Introduction

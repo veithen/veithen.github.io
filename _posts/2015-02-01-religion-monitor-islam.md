@@ -7,6 +7,8 @@ tags:
 scripts:
  - /assets/2015-02-01-religion-monitor-islam/charts.js
 disqus: true
+description: >
+ This article presents some results from a recent study about Islam in Germany published by the Bertelsmann Foundation.
 ---
 
 The [Bertelsmann Foundation](https://www.bertelsmann-stiftung.de/en/home/) recently published a new study about Islam in

@@ -7,6 +7,11 @@ tags:
 blogger: /2013/12/ubuntu-vanilla-kernel.html
 updated: 2015-01-04
 disqus: true
+description: >
+ This post describes a simple procedure to build and install a new Linux kernel on Ubuntu using the
+ official source code from the kernel developers' Git repository. The aim is to produce a kernel that
+ can be used as a drop-in replacement of the kernels shipped by Ubuntu and that neatly fits into the
+ distribution.
 ---
 
 This post describes a simple procedure to build and install a new Linux kernel on Ubuntu using the

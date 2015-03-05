@@ -8,6 +8,7 @@ scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
 image: /assets/2015-01-21-referrer-spam/referrer-spam.png
 updated: 2015-03-02
+description: Understand referrer spam in Google Analytics and learn how to eliminate it efficiently.
 ---
 
 ## Introduction

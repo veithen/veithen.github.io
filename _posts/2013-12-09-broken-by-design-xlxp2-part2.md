@@ -7,6 +7,7 @@ tags:
  - StAX
 blogger: /2013/12/broken-by-design-xlxp2-part2.html
 disqus: true
+description: This article exposes another design flaw in WebSphere's default StAX implementation (XLXP 2).
 ---
 
 A few weeks ago I posted an [article](/2013/10/11/broken-by-design-xlxp2.html) describing a vulnerability in WebSphere's default

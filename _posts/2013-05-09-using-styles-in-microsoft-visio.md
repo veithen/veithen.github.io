@@ -6,6 +6,8 @@ tags:
  - Office
 blogger: /2013/05/using-styles-in-microsoft-visio.html
 disqus: true
+description:
+ Learn how to use styles in Visio to create complex diagrams with a consistent look.
 ---
 
 If you want to use Visio to create complex diagrams with a consistent look, you'll definitely want to use styles. Visio

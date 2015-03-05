@@ -7,6 +7,8 @@ tags:
  - PMI
 blogger: /2012/04/real-meaning-of-activetime-pmi.html
 disqus: true
+description: >
+ This article explains what ActiveTime is and why it is not related to ActiveCount.
 ---
 
 For thread pools, WebSphere has a PMI statistic called `ActiveTime`. According to the [documentation][1]

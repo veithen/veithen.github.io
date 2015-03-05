@@ -7,6 +7,8 @@ tags:
  - Google Cloud
 image: /assets/2015-03-04-docker-in-the-cloud/my_other_computer.png
 disqus: true
+description: >
+ Learn how to run a Docker daemon remotely in Google Compute Engine and control it from your Mac OS X workstation.
 ---
 
 ## Introduction

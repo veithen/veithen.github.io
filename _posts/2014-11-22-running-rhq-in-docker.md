@@ -6,6 +6,8 @@ tags:
  - Docker
  - RHQ
 disqus: true
+description: >
+ This article presents a complete Dockerfile that can be used to run a test instance of RHQ in a Docker container.
 ---
 
 The following Dockerfile can be used to run [RHQ](http://rhq.jboss.org) 4.12 in a Docker container.

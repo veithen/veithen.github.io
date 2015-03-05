@@ -6,6 +6,9 @@ tags:
  - Axiom
 blogger: /2009/10/euphemism-of-day-tactical-solution.html
 disqus: true
+description: >
+ Next time you report to your boss, don't speak about workarounds and proper fixes, but about tactical and
+ strategical solutions...
 ---
 
 Recently I got into a [discussion][1] with somebody from IBM about an issue in [Axiom][2]. I argued that the proposed

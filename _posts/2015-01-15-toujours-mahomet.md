@@ -7,6 +7,8 @@ tags:
  - QOTD
 image: /assets/2015-01-15-toujours-mahomet/une.jpg
 disqus: true
+description: >
+ Abdallah Zekri: "Mahomet, Mahomet, toujours Mahomet... Il est mort il y a 15 siècles!"
 ---
 
 Selon le [Figaro][1], Abdallah Zekri, président de l'"Observatoire contre l'islamophobie" crée par le

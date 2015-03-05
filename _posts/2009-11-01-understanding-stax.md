@@ -6,6 +6,9 @@ tags:
  - StAX
 blogger: /2009/10/understanding-stax-how-to-correctly-use.html
 disqus: true
+description: >
+ This describes the semantics of the setPrefix and setDefaultNamespace methods and presents the three usage patterns
+ supported by XMLStreamWriter.
 ---
 
 Note: This is a slightly edited version of a text that I wrote for the Axiom documentation. Some of the content is based
@@ -96,13 +99,13 @@ correspond to the three bullets in section 5.2.2 of the StAX specification:
     usage pattern, `setPrefix` is not used at all and it is the responsibility of the calling code to keep track of
     prefix bindings.
 
-3.  Note that this approach is difficult to implement when different parts of the output document will be produced by
+    Note that this approach is difficult to implement when different parts of the output document will be produced by
     different components (or even different libraries). Indeed, when passing the `XMLStreamWriter` from one method or
     component to the other, it will also be necessary to pass additional information about the prefix mappings in scope
     at that moment, unless the it is acceptable to let the called method write (potentially redundant) namespace
     declarations for all namespaces it uses.
 
-4.  Use `setPrefix` to keep track of prefix bindings and make sure that the bindings are in sync with the namespace
+3.  Use `setPrefix` to keep track of prefix bindings and make sure that the bindings are in sync with the namespace
     declarations that have been written, i.e. always use `setPrefix` immediately before or immediately after each call
     to `writeNamespace`. Note that the code is still free to use all variants of `writeStartElement`,
     `writeEmptyElement` and `writeAttribute`; it only needs to make sure that the usage it makes of these methods is

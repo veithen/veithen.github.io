@@ -5,6 +5,8 @@ category: tech
 tags:
  - WebSphere
 disqus: true
+description: >
+ Learn how to create an additional HTTP or HTTPS port in WebSphere application server using the administrative console.
 ---
 
 When creating a new application server, WebSphere automatically sets up an HTTP and an HTTPS port

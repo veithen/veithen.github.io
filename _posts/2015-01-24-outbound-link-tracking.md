@@ -6,6 +6,7 @@ tags:
  - Google Analytics
 updated: 2015-02-14
 disqus: true
+description: Learn how to avoid the pitfalls when using Google Analytics to track clicks on outbound links.
 ---
 
 The Google Analytics help has an [entry][1] that explains how to track clicks on outbound links. It uses the following

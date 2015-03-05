@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Using byteman to locate deadlock-prone data source access patterns on WebSphere"
+title: "Using Byteman to locate deadlock-prone data source access patterns on WebSphere"
 category: tech
 tags:
  - Java
@@ -8,6 +8,7 @@ tags:
 image: /assets/2014-02-15-byteman-deadlock-detection/deadlock.jpg
 blogger: /2014/02/byteman-deadlock-detection.html
 disqus: true
+description: Learn how to use Byteman on WebSphere to detect certain data source access patterns that may result in deadlock.
 ---
 
 The other day I came across a very interesting deadlock situation in an application deployed on a production WebSphere server.

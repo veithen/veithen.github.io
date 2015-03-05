@@ -6,6 +6,11 @@ tags:
  - Imperialism
 blogger: /2009/11/die-nazis-und-das-ol.html
 disqus: true
+description: >
+ Schon 1940 existierte ein "Öl-Plan" der Briten, der vorsah, 17 deutsche Hydrierwerke anzugreifen und die Produktion
+ mit einem "fatal blow" stillzulegen. Doch Churchill setzte andere strategische Schwerpunkte, drängte auf
+ Flächenbombardements. Bis zum Mai 1944 wurde gerade einmal ein Prozent der gesamten alliierten Bombentonnage auf
+ Öl-Ziele abgeworfen.
 ---
 
 Wer sich immer schon gewundert hat, wie Nazi-Deutschland einen Weltkrieg hat führen können ohne nennenswerte eigene

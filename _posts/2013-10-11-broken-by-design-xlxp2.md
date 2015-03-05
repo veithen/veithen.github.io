@@ -8,6 +8,9 @@ tags:
  - Exploit
 blogger: /2013/10/broken-by-design-xlxp2.html
 disqus: true
+description: >
+ This article exposes a design flaw in WebSphere's default StAX implementation (XLXP 2) that can be exploited to perform
+ a denial-of-service attack.
 ---
 
 Recently I came across an issue in WebSphere's default StAX implementation (XLXP 2) where the parser unexpectedly consumed a

@@ -6,6 +6,8 @@ tags:
  - Axis2
  - Maven
 disqus: true
+description: >
+ Learn how to use axis2-repo-maven-plugin to properly package Axis2 modules into Web applications built using Maven.
 ---
 
 This article explains how to properly package Axis2 modules (MAR files) into Web applications

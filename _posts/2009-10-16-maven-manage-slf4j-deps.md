@@ -1,12 +1,15 @@
 ---
 layout: post
-title: "Taming the beast: managing SLF4J dependencies in complex Maven builds"
+title: "Managing the SLF4J dependencies in complex Maven builds"
 category: tech
 tags:
  - Maven
  - SLF4J
 blogger: /2009/10/taming-beast-managing-slf4j.html
 disqus: true
+description: >
+ This article explains why the design of SLF4J causes challenges for dependency management in Maven and how to overcome
+ these issues.
 ---
 
 More and more projects now use [SLF4J][1] instead of the good old Commons Logging as a logging facade. This introduces

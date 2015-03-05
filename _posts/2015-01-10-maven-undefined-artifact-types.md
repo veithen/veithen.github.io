@@ -5,6 +5,7 @@ category: tech
 tags:
  - Maven
 disqus: true
+description: This article describes how Maven handles unknown artifact types and what default properties it uses.
 ---
 
 Artifact types are specified using the `type` element on dependencies:

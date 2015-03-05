@@ -8,6 +8,11 @@ tags:
  - OSGi
 blogger: /2013/10/broken-by-design-websphere-stax.html
 disqus: true
+description: >
+ To change the StAX implementation used in a Java EE application it should normally be enough to simply add the JAR with
+ the third party StAX implementation (such as Woodstox) to the application. This works as expected on most application
+ servers, except on WebSphere. In this blog post I will explain why this is so and what this tells us about the
+ internals of WebSphere.
 ---
 
 <p>

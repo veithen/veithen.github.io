@@ -6,6 +6,9 @@ tags:
  - XML
 blogger: /2009/10/xml-schema-oddity-covariant-literals.html
 disqus: true
+description: >
+ This article describes how QName differs from other XML schema types and discusses the implications of this
+ particularity.
 ---
 
 If you look at the 19 primitive types defined by the [second part][1] of the XML Schema specification, you may notice

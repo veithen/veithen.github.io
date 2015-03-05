@@ -7,6 +7,10 @@ tags:
  - WebSphere
 blogger: /2012/10/rhq-websphere-plug-in-released.html
 disqus: true
+description: >
+ I've been working for quite some time now on a WebSphere plug-in for RHQ. It has already been running successfully for
+ more than a year in a production environment with several dozens WebSphere Application Server instances, and the first
+ official release of the plug-in is now available.
 ---
 
 I've been working for quite some time now on a WebSphere plug-in for [RHQ](http://www.jboss.org/rhq). RHQ is an Open

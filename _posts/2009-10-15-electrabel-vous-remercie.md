@@ -6,6 +6,9 @@ tags:
  - Belgium
 blogger: /2009/10/electrabel-vous-remercie.html
 disqus: true
+description: >
+ Le gouvernement a négocié avec le secteur énergétique une "contribution structurelle" au budget fédéral. Selon
+ Le Soir, le montant se situera dans une fourchette entre 215 et 245 millions d'euros par an.
 ---
 
 Le gouvernement a négocié avec le secteur énergétique une "contribution structurelle" au budget fédéral. Selon

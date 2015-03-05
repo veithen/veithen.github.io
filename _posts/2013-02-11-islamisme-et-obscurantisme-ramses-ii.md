@@ -6,6 +6,9 @@ tags:
  - Islam
 blogger: /2013/02/islamisme-et-obscurantisme-ramses-ii.html
 disqus: true
+description: >
+ Cet article examine une série d'affirmations attribuées à Maurice Bucaille et relatées dans une vidéo qui circule
+ sur Internet.
 ---
 
 {:nofollow: rel="nofollow"}

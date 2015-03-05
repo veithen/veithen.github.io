@@ -10,14 +10,14 @@
   <author>
     <name>Andreas Veithen</name>
   </author>
-  {% for post in site.posts limit:20 %}
+  {% for post in site.posts limit:60 %}
   <entry>
-    <title>{{ post.title }}</title>
+    <title>{{ post.title | xml_escape }}</title>
     <link href="{{ site.url }}{{ post.url }}"/>
     <published>{{ post.date | date: '%Y-%m-%d' }}</published>
     <updated>{% if post.updated %}{{ post.updated | date: '%Y-%m-%d' }}{% else %}{{ post.date | date: '%Y-%m-%d' }}{% endif %}</updated>
     <id>{{ site.url }}{{ post.url }}</id>
-    <content type="text">{{ post.content | strip_html | truncatewords: 80 }}</content>
+    <content type="text">{{ post.description }}</content>
   </entry>
   {% endfor %}
 </feed>

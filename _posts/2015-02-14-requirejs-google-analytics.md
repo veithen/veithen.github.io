@@ -6,6 +6,7 @@ tags:
  - Google Analytics
 updated: 2015-02-18
 disqus: true
+description: Learn how to integrate Google Analytics with require.js.
 ---
 
 The Google Analytics [tracking code][1] loads `analytics.js` asynchronously. [require.js][2] also loads modules

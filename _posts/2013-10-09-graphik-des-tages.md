@@ -6,6 +6,8 @@ tags:
  - QOTD
 blogger: /2013/10/graphik-des-tages.html
 disqus: true
+description: >
+ Einige interessante Graphiken zur Korrelation zwischen Parteibindung und Einkommen/Vermögen (Deutschland).
 ---
 
 ![Figure 1](/assets/2013-10-09-graphik-des-tages/fig1.png)

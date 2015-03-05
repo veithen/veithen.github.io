@@ -6,6 +6,8 @@ tags:
  - Docker
  - Supervisord
 disqus: true
+description: >
+ Learn how to configure supervisord such that it redirects stdout of its child processes to its own stdout.
 ---
 
 [Supervisor][1]'s `supervisord` process captures stdout of the child processes it

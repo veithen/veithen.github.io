@@ -6,6 +6,9 @@ tags:
  - WebSphere
 blogger: /2009/11/creating-test-data-source-in-websphere.html
 disqus: true
+description: >
+ If you need to quickly set up a test database and a corresponding JDBC data source in WebSphere 7,
+ you can use the preconfigured Derby JDBC provider for that purpose. Here is the procedure.
 ---
 
 If you need to quickly set up a test database and a corresponding JDBC data source in WebSphere 7,

@@ -6,6 +6,9 @@ tags:
  - Islam
 blogger: /2012/11/islamisme-et-obscurantisme-quand-un.html
 disqus: true
+description: >
+ Comment certains musulmans prennent un poisson d'avril pour la réalité et affirment que génétiquement le cochon est
+ plus proche de l'homme que le singe.
 ---
 
 L'autre jour au bureau quelqu'un expliquait qu'il est possible d'utiliser des organes de porc pour réaliser des greffes chez l'homme,

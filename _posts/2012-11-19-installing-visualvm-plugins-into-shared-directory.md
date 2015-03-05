@@ -6,6 +6,10 @@ tags:
  - VisualVM
 blogger: /2012/11/installing-visualvm-plug-ins-into.html
 disqus: true
+description: >
+ This article describes how to install VisualVM plug-ins into the shared installation directory instead of the user's
+ home directory. This is useful if the VisualVM installation is used by multiple users on the same system or if you want
+ to create a custom VisualVM distribution with a set of preinstalled plug-ins.
 ---
 
 This article describes how to install VisualVM plug-ins into the shared installation directory instead of the user's

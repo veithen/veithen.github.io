@@ -6,6 +6,8 @@ tags:
  - WebSphere
 blogger: /2009/11/exciting-new-feature-in-websphere.html
 disqus: true
+description: >
+ IBM announced that WPS 7 will support migration of running processes to new process model versions.
 ---
 
 A couple of years ago, I've worked in a project where we used MQ Workflow, which is one of the ancestors of WebSphere

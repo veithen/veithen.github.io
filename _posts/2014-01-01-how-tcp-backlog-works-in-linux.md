@@ -7,6 +7,9 @@ tags:
  - TCP/IP
 blogger: /2014/01/how-tcp-backlog-works-in-linux.html
 disqus: true
+description: >
+ This article gives an in-depth description how TCP backlog works in Linux and in particular what happens when the
+ accept queue is full. Includes references to the relevant kernel sources.
 ---
 
 When an application puts a socket into LISTEN state using the [`listen`](http://linux.die.net/man/2/listen) syscall, it

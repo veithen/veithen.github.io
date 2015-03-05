@@ -7,6 +7,14 @@ tags:
  - JAX-WS
 blogger: /2009/11/ejb-and-web-services-getting-best-of.html
 disqus: true
+description: >
+ If you have ever worked in a project where both EJBs and Web Services are used,
+ it is very likely that you have gotten into discussions about whether a given
+ component should be implemented as an EJB or a Web Service. You might also
+ wonder what is the best way to bridge between these two technologies.
+ In this post I will demonstrate how you can
+ avoid these questions by making your service implementations independent of the
+ protocol used to invoke them.
 ---
 
 If you have ever worked in a project where both EJBs and Web Services are used,

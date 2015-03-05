@@ -6,6 +6,8 @@ tags:
  - Axiom
 blogger: /2009/11/euphemism-of-day-restoring-backward.html
 disqus: true
+description: >
+ If you don't want to say "I fixed a bug that I introduced", just say "I restored backward compatibility".
 ---
 
 Today somebody from IBM did the following [commit][1] on the Axiom project:
