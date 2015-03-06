@@ -5,6 +5,8 @@ metadata: true
 style: post
 ---
 
+{% capture url %}{{ site.url }}{{ page.url}}{% endcapture %}
+
   <body>
     <div class="container">
       <div class="row">
@@ -14,10 +16,10 @@ style: post
           </a>
           <aside class="social">
             <div class="header">Share</div>
-            <a href="http://www.facebook.com/sharer/sharer.php?u={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank"><img src="/images/icon-facebook.svg"/></a>
-            <a href="http://twitter.com/share?text={{ page.title | cgi_escape }}&url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank"><img src="/images/icon-twitter.svg"/></a>
-            <a href="https://plus.google.com/share?url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank"><img src="/images/icon-gplus.svg"/></a>
-            <a href="http://www.linkedin.com/shareArticle?title={{ page.title | cgi_escape }}&url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank"><img src="/images/icon-linkedin.svg"/></a>
+            <a href="http://www.facebook.com/sharer/sharer.php?u={{ url | cgi_escape }}" target="_blank"><img src="/images/icon-facebook.svg"/></a>
+            <a href="https://twitter.com/intent/tweet?text={% if page.twitter_text %}{{ page.twitter_text | cgi_escape }}{% else %}{{ page.title | cgi_escape }}{% endif %}&url={{ url | cgi_escape }}{% if page.twitter_tags %}&hashtags={{ page.twitter_tags | cgi_escape }}{% endif %}" target="_blank"><img src="/images/icon-twitter.svg"/></a>
+            <a href="https://plus.google.com/share?url={{ url | cgi_escape }}" target="_blank"><img src="/images/icon-gplus.svg"/></a>
+            <a href="http://www.linkedin.com/shareArticle?title={{ page.title | cgi_escape }}&url={{ url | cgi_escape }}" target="_blank"><img src="/images/icon-linkedin.svg"/></a>
           </aside>
           <nav>
             <div class="header">Latest by category</div>

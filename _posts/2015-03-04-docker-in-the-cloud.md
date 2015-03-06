@@ -5,6 +5,8 @@ category: tech
 tags:
  - Docker
  - Google Cloud
+twitter_text: "#Docker in the cloud"
+twitter_tags: GoogleComputeEngine
 image: /assets/2015-03-04-docker-in-the-cloud/my_other_computer.png
 disqus: true
 description: >
