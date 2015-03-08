@@ -147,7 +147,7 @@ message is now:
 
 Let's first decode what this actually means. The thin client bundle exports the `javax.transaction.xa` package, but it
 doesn't import it. That implies that it can't be wired to the `javax.transaction.xa` package exported by the Aries
-transaction manager bundle. At the same time the thin client imports the `javax.jms` package. The OSGi runtime choses
+transaction manager bundle. At the same time the thin client imports the `javax.jms` package. The OSGi runtime chooses
 to wire that import to the Geronimo JMS API bundle. The `javax.jms` package contains classes that refer to classes in
 the `javax.transaction.xa` package as part of their public API (see e.g. [`XASession`][4]). That is expressed by the
 `uses` constraint (and a corresponding `Import-Package` directive) declared by the Geronimo bundle. However, the OSGi
