@@ -183,6 +183,30 @@ request URI `/`, because that URI will no longer be reported in legitimate page 
 [one of my previous articles][previous-post] that discusses another modification to the Google Analytics snippet that
 actually has the `/` &rarr; `/index.html` change as a side effect.
 
+## Limitations of the request URI filtering approach
+
+As mentioned in my earlier article linked in the note above, replacing `/` with `/index.html` in the reported pageviews
+will introduce a discontinuity in your analytics data. If that is not acceptable, then you should use a different
+method to eliminate referrer spam.
+
+It has also been argued that since the request URI in the page views reported to Google Analytics can also be forged,
+the method suggested here can easily be circumvented by targetting pages other than `/`. However, since spammers don't
+know anything about the structure of the targeted Web site, they would necessarily have to send page view reports for
+fake pages. This would make these fake page views easier to recognize even for inexperienced Google Analytics users and
+therefore decrease the likelihood that fake referrer URLs are clicked, i.e. reduce the effectiveness of the referrer
+spam. It is therefore unlikely that spammers would actually do this (unless of course a huge number of webmasters start
+using the request URI filtering approach and spammers are forced to adapt their strategy...).
+
+In the unlikely event that spammers indeed start targetting pages other than `/`, there is actually another slightly
+more complicated approach that would eliminate that type of spam as well. The idea is to create a custom dimension and
+change the tracking code to always send a specific value for that custom dimension in all page views. Referrer spam can
+then be filtered out using a criteria based on that custom dimension.
+
+Note that even that approach is not entirely watertight. For a sophisticated spammer it would not be too difficult to
+render pages in a headless browser and intercept the requests sent to Google Analytics. That would make the referrer
+spam completely indistinguishable from legitimate page views. However, this would not work for randomly chosen property
+IDs and the spammer would have to crawl the Web to find public pages that use Google Analytics.
+
 [tracking-code]: https://developers.google.com/analytics/devguides/collection/analyticsjs/#quickstart
 [protocol-reference]: https://developers.google.com/analytics/devguides/collection/protocol/v1/reference
 [page-tracking-request]: https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide#page
