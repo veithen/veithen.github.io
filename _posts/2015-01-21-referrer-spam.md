@@ -7,19 +7,41 @@ tags:
 scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
 image: /assets/2015-01-21-referrer-spam/referrer-spam.png
-updated: 2015-03-02
+updated: 2015-03-11
 description: Understand referrer spam in Google Analytics and learn how to eliminate it efficiently.
 ---
+
+{:nofollow: rel="nofollow"}
 
 ## Introduction
 
 If you are using Google Analytics you may have noticed page views with referrals from `ilovevitaly.com`, `darodar.com`,
 `priceg.com`, `blackhatworth.com`, `o-o-6-o-o.com` and other suspicious domains appearing in your statistics:
 
-![Referrer span in Google Analytics]({{ page.image }})
+![Referrer spam in Google Analytics]({{ page.image }})
 
-This is so called *referrer spam* and there have been a lot of [discussions][discussion] about this issue recently.
-Instead of repeating what has already been written elsewhere, in the present article I would like to focus on two
+This is so called *referrer spam*. What is characteristic for these spam requests is that they are reported with fake
+page titles...
+
+![Fake page titles](/assets/2015-01-21-referrer-spam/fake-pagetitles.png)
+
+...as well as fake host names:
+
+![Fake host names](/assets/2015-01-21-referrer-spam/fake-hostnames.png)
+
+We will see later why this is so. The purpose of this spam is to trick webmasters into visiting the sites reported as
+referrers. Wiyre has published an interesting [infographic][wiyre] that explains how this generates revenue for the
+spammer. Note however that the technical explanation given in that infographic is not entirely accurate, as we will show
+later.
+
+It is important to distinguish referrer spam from another form of nuisance, namely bots that automatically crawl your
+site and that leave similar traces in your analytics data. The typical example for this is the
+[Semalt crawler][semalt]{:nofollow}. Producing entries in your site's referrer list is (probably) not their primary
+purpose, but they do so as a side effect. They can be distinguished by the fact that page titles and hostnames are
+reported correctly.
+
+In the present article I will not discuss bots any further and focus only on genuine referrer spam.
+In particular I would like to address two
 things. First, I will describe in depth how referrer spam works and try to debunk some common misconceptions about it.
 Then I will discuss possible solutions for that problem. This includes solutions that have been proposed elsewhere as
 well as an alternative solution that I find more robust.
@@ -109,11 +131,14 @@ There are two important lessons to be learned from this exercise that should hel
 referrer spam:
 
 * Generating referrer spam doesn't require any kind of intrusion into your Web site or your Google Analytics account.
-  The only information that the spammer needs is the property ID, but that information is public because it can be
-  extracted from any Web page on your site. The spammer may also simply try random property IDs. Given the structure
+  The only information that the spammer needs is the property ID. That information is public because it can be
+  extracted from any Web page on your site. However, the spammer actually doesn't even need to do that: he can simply
+  try random property IDs. Given the structure
   of the ID, there is indeed a significant probability of hitting an existing property by choosing an ID randomly.
+  This obviously means that the spammer neither knows the domain name corresponding to the property nor the page titles.
+  That's the reason why referrer spam is reported with fake hastnames and page titles, as observed in the introduction.
 
-* Once the spammer has obtained (or guessed) the property ID, he can generate page views in Google Analytics without
+* Once the spammer has guessed the property ID, he can generate page views in Google Analytics without
   sending requests to the actual Web site. This implies that there is no way to prevent this type of spam by
   implementing changes to the site (e.g. to the JavaScript in the Web pages or the `.htaccess` file).
 
@@ -124,11 +149,10 @@ fake page views by creating a filter that uses a criteria based on the referral.
 because the referrals used by the spammers will change over time and you would have to update your filters on a regular
 basis.
 
-A better approach is to use filters based on hostnames. This strategy is described [here][hostname-filter].
-It relies on the assumption that the spammer simply tries random property IDs and therefore doesn't know the
-hostname of the Web site corresponding to the Web property. This means that it is possible to filter out the fake page
+Another approach that has been [suggested][hostname-filter] is to use filters based on hostnames. As we have seen
+earlier, since the spammers simply try random property IDs, they don't know the hostname of the Web site corresponding
+to a Web property they sent spam to. This means that it is possible to filter out the fake page
 views by configuring a whitelist of legitimate hostnames.
-
 The drawback of this approach is that it is easy to accidentally filter out valid page views. E.g. if somebody views
 a page of your site through Google Translate, this will be reported as a page view with hostname
 `translate.googleusercontent.com`. If you want to preserve these page views, then all relevant hostnames need to be
@@ -159,7 +183,6 @@ request URI `/`, because that URI will no longer be reported in legitimate page 
 [one of my previous articles][previous-post] that discusses another modification to the Google Analytics snippet that
 actually has the `/` &rarr; `/index.html` change as a side effect.
 
-[discussion]: https://productforums.google.com/d/topic/analytics/q62Z9dNe524/discussion
 [tracking-code]: https://developers.google.com/analytics/devguides/collection/analyticsjs/#quickstart
 [protocol-reference]: https://developers.google.com/analytics/devguides/collection/protocol/v1/reference
 [page-tracking-request]: https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide#page
@@ -167,3 +190,5 @@ actually has the `/` &rarr; `/index.html` change as a side effect.
 [overriding]: https://developers.google.com/analytics/devguides/collection/analyticsjs/pages#overriding
 [previous-post]: /2015/01/05/jekyll-improving-ga-data-quality.html
 [referral-filter]: http://www.jeffalytics.com/8-steps-eliminating-bad-data-google-analytics/
+[wiyre]: https://plus.google.com/+Wiyrewebsite/posts/Bhd259DXjj4
+[semalt]: http://semalt.com/project_crawler.php
