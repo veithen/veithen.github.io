@@ -14,6 +14,7 @@ description: >
  called referrer spam. This article describes in depth how referrer spam works and debunks some common misconceptions
  about it. It also discusses possible solutions, include solutions that have been proposed elsewhere as well as an
  alternative solution that is more robust.
+disqus: true
 ---
 
 {:nofollow: rel="nofollow"}
