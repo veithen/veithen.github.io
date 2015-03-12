@@ -7,8 +7,13 @@ tags:
 scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
 image: /assets/2015-01-21-referrer-spam/referrer-spam.png
-updated: 2015-03-11
-description: Understand referrer spam in Google Analytics and learn how to eliminate it efficiently.
+updated: 2015-03-12
+description: >
+ If you are using Google Analytics you may have noticed page views with referrals from ilovevitaly.com, darodar.com,
+ priceg.com, blackhatworth.com, o-o-6-o-o.com and other suspicious domains appearing in your statistics. This is so
+ called referrer spam. This article describes in depth how referrer spam works and debunks some common misconceptions
+ about it. It also discusses possible solutions, include solutions that have been proposed elsewhere as well as an
+ alternative solution that is more robust.
 ---
 
 {:nofollow: rel="nofollow"}
@@ -142,6 +147,12 @@ referrer spam:
   sending requests to the actual Web site. This implies that there is no way to prevent this type of spam by
   implementing changes to the site (e.g. to the JavaScript in the Web pages or the `.htaccess` file).
 
+## The impact of referrer spam
+
+Obviously the primary impact of referrer spam is that it decreases the accuracy of your analytics data. Some webmasters
+are also worried that this would have a negative impact on their site's search ranking. However, this is not the case:
+[Google Analytics data is not used in any way for search ranking][ga-ranking].
+
 ## How to prevent referrer spam
 
 A [common recommendation][referral-filter] to prevent this type of referrer spam in Google Analytics is to eliminate the
@@ -192,12 +203,14 @@ method to eliminate referrer spam.
 It has also been argued that since the request URI in the page views reported to Google Analytics can also be forged,
 the method suggested here can easily be circumvented by targetting pages other than `/`. However, since spammers don't
 know anything about the structure of the targeted Web site, they would necessarily have to send page view reports for
-fake pages. This would make these fake page views easier to recognize even for inexperienced Google Analytics users and
-therefore decrease the likelihood that fake referrer URLs are clicked, i.e. reduce the effectiveness of the referrer
+non existing pages. These fake pages would show up in the "All Pages" and "Landing Pages" reports and would immediately
+give a hint that something suspicious is going on. This would probably decrease the likelihood that the fake referrer
+URLs linked to these suspicous page views are clicked (even by inexperienced Google Analytics users),
+i.e. reduce the effectiveness of the referrer
 spam. It is therefore unlikely that spammers would actually do this (unless of course a huge number of webmasters start
 using the request URI filtering approach and spammers are forced to adapt their strategy...).
 
-In the unlikely event that spammers indeed start targetting pages other than `/`, there is actually another slightly
+In the event that spammers indeed start targetting pages other than `/`, there is actually another slightly
 more complicated approach that would eliminate that type of spam as well. The idea is to create a custom dimension and
 change the tracking code to always send a specific value for that custom dimension in all page views. Referrer spam can
 then be filtered out using a criteria based on that custom dimension.
@@ -216,3 +229,4 @@ IDs and the spammer would have to crawl the Web to find public pages that use Go
 [referral-filter]: http://www.jeffalytics.com/8-steps-eliminating-bad-data-google-analytics/
 [wiyre]: https://plus.google.com/+Wiyrewebsite/posts/Bhd259DXjj4
 [semalt]: http://semalt.com/project_crawler.php
+[ga-ranking]: https://www.youtube.com/watch?v=CgBw9tbAQhU
