@@ -7,7 +7,7 @@ tags:
 scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
 image: /assets/2015-01-21-referrer-spam/referrer-spam.png
-updated: 2015-03-12
+updated: 2015-03-13
 description: >
  If you are using Google Analytics you may have noticed page views with referrals from ilovevitaly.com, darodar.com,
  priceg.com, blackhatworth.com, o-o-6-o-o.com and other suspicious domains appearing in your statistics. This is so
@@ -142,7 +142,15 @@ referrer spam:
   try random property IDs. Given the structure
   of the ID, there is indeed a significant probability of hitting an existing property by choosing an ID randomly.
   This obviously means that the spammer neither knows the domain name corresponding to the property nor the page titles.
-  That's the reason why referrer spam is reported with fake hastnames and page titles, as observed in the introduction.
+  This explains why referrer spam is reported with fake hastnames and page titles, as observed in the introduction.
+
+  There is additional evidence that supports the assumption that property IDs are targeted randomly:
+
+  * Some users have [reported][so-29006845] that they received referrer spam even before their Web site went live or
+    was widely known.
+
+  * Some people also noticed that referrer spam is received only for the first Web property, i.e. the one that has an
+    ID ending with `-1`.
 
 * Once the spammer has guessed the property ID, he can generate page views in Google Analytics without
   sending requests to the actual Web site. This implies that there is no way to prevent this type of spam by
@@ -231,3 +239,4 @@ IDs and the spammer would have to crawl the Web to find public pages that use Go
 [wiyre]: https://plus.google.com/+Wiyrewebsite/posts/Bhd259DXjj4
 [semalt]: http://semalt.com/project_crawler.php
 [ga-ranking]: https://www.youtube.com/watch?v=CgBw9tbAQhU
+[so-29006845]: http://stackoverflow.com/questions/29006845/how-this-strange-traffic-from-samara-russia-works
