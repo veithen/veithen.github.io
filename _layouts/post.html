@@ -58,7 +58,7 @@ style: post
           {% endif %}
           <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
             <meta itemprop="keywords" content="{{ page.tags | join: ',' }}" />
-            <meta itemprop="description" content="{{ page.description | replace: '"', '&amp;' }}" />
+            <meta itemprop="description" content="{{ page.description | replace: '"', '&quot;' }}" />
             {% if page.image %}
             <meta itemprop="image" content="{{ site.url }}{{ page.image }}" />
             {% endif %}

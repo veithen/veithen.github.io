@@ -29,7 +29,7 @@
     <meta property="og:title" content="{{ page.title }}" />
     <meta property="og:site_name" content="Andreas Veithen's blog" />
     <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
-    <meta property="og:description" content="{{ page.description | replace: '"', '&amp;' }}" />
+    <meta property="og:description" content="{{ page.description | replace: '"', '&quot;' }}" />
     {% if page.image %}
     <meta property="og:image" content="{{ site.url }}{{ page.image }}" />
     {% endif %}
