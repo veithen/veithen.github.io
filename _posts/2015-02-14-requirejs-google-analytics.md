@@ -4,7 +4,7 @@ title: "Integrating Google Analytics with require.js"
 category: tech
 tags:
  - Google Analytics
-updated: 2015-02-18
+updated: 2015-03-18
 disqus: true
 description: Learn how to integrate Google Analytics with require.js.
 ---
@@ -102,6 +102,14 @@ window[window.GoogleAnalyticsObject] = function() {
 That implementation takes care of executing the hit callback if one is supplied. This ensures that the
 `trackOutboundLink` function works as expected. Depending on the Google Analytics features your code uses and the
 assumptions that it makes about the `ga` function, you may need to complete the above code.
+
+Also note that after replacing the standard tracking code with the one suggested in this article, you will no longer
+be able to use Google Analytics as an ownership verification method for Google Webmaster Tools. If your site is
+currently verified using that method, reverification will eventually fail:
+
+![Reverification failure](/assets/2015-02-14-requirejs-google-analytics/reverification-failure.png)
+
+The solution is to switch to an alternate method, such as HTML file upload or adding a meta tag to the site's home page.
 
 [1]: https://developers.google.com/analytics/devguides/collection/analyticsjs/#quickstart
 [2]: http://requirejs.org/
