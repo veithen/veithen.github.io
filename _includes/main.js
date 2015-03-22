@@ -8,8 +8,14 @@ window.__ga__ = {
 require.config({
     baseUrl: '/scripts',
     paths: {
-        "jquery": "jquery.min",
-        "jquery-ui": "jquery-ui.min",
+        "jquery": [
+            "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min",
+            "jquery.min"
+        ],
+        "jquery-ui": [
+            "//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min",
+            "jquery-ui.min"
+        ],
         "chart": "Chart.min",
         "ga": localStorage.dontTrack ? "analytics-stub" : [
             "//www.google-analytics.com/analytics",
