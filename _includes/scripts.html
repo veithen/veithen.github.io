@@ -1,0 +1,10 @@
+<script>
+var pageProperties = {
+    {% if page.category %}
+    category: '{{ page.category }}',
+    {% endif %}
+    url: '{{ page.url }}',
+    title: '{{ page.title | replace: "'", "\\'" }}',
+};
+</script>
+<script src="{{ site.baseurl }}/scripts/modules.js"></script>

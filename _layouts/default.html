@@ -9,8 +9,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
     <title>{{ page.title }}</title>
-    <script src="{{ site.baseurl }}/scripts/modules.js"></script>
-    {% include tracker.html %}
+    {% include scripts.html %}
     {% for script in page.scripts %}
     <script src="{{ script }}"></script>
     {% endfor %}

@@ -51,3 +51,13 @@ require(["jquery"], function($) {
         });
     });
 });
+
+require(['ga'], function(ga) {
+    if (pageProperties.category) {
+        ga('set', 'dimension1', pageProperties.category);
+    }
+    ga('send', 'pageview', {
+      'page': pageProperties.url,
+      'title': pageProperties.title
+    });
+});
