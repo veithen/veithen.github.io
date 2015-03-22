@@ -10,9 +10,6 @@
 
     <title>{{ page.title }}</title>
     {% include scripts.html %}
-    {% for script in page.scripts %}
-    <script src="{{ script }}"></script>
-    {% endfor %}
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/{{ page.style }}.css" />
     <meta property="fb:admins" content="1722464172" />
@@ -54,18 +51,6 @@
 
     <link rel="alternate" type="application/atom+xml" title="Andreas Veithen's blog - Atom feed" href="{{ site.baseurl }}/feed.xml" />
 
-    <script>
-    require(['jquery'], function($) {
-        $(function() {
-            if ($('code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code').length) {
-                require(['prism'], function(prism) {
-                    prism.highlightAll();
-                });
-                loadCSS('{{ site.baseurl }}/style/prism.css');
-            }
-        });
-    });
-    </script>
     {% if site.banner %}
     <script>
     var trackOutboundLink = function(url) {
@@ -77,15 +62,6 @@
         });
       });
     }
-    </script>
-    {% endif %}
-    {% if page.disqus %}
-    <script>
-    var disqus_identifer = '{{ page.id }}';
-    var disqus_url = '{{ site.url }}{{ page.url }}';
-    var disqus_title = '{{ page.title | replace: "'", "\\'" }}';
-    var disqus_category_id = '{{ site.disqus_categories[page.category] }}';
-    require(['//veithen.disqus.com/embed.js']);
     </script>
     {% endif %}
   </head>

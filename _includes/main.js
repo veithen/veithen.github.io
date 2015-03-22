@@ -33,7 +33,16 @@ require.config({
 });
 
 require(["jquery"], function($) {
+    $.each(pageProperties.scripts, function(index, script) {
+        require([script]);
+    });
     $(function() {
+        if ($('code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code').length) {
+            require(['prism'], function(prism) {
+                prism.highlightAll();
+            });
+            loadCSS(siteProperties.baseurl + '/style/prism.css');
+        }
         $("article a").each(function() {
             var url = $(this).attr("href");
             if (url.indexOf("http://") == 0 || url.indexOf("https://") == 0) {
@@ -61,3 +70,7 @@ require(['ga'], function(ga) {
       'title': pageProperties.title
     });
 });
+
+if (typeof disqus_identifer !== 'undefined') {
+    require(['//veithen.disqus.com/embed.js']);
+}
