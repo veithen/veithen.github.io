@@ -54,7 +54,6 @@
 
     <link rel="alternate" type="application/atom+xml" title="Andreas Veithen's blog - Atom feed" href="{{ site.baseurl }}/feed.xml" />
 
-    {% if page.prism %}
     <script>
     require(['jquery'], function($) {
         $(function() {
@@ -67,7 +66,6 @@
         });
     });
     </script>
-    {% endif %}
     {% if site.banner %}
     <script>
     var trackOutboundLink = function(url) {
