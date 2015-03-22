@@ -90,8 +90,3 @@ a code {
 p code {
   word-spacing: -0.2em
 }
-
-/* Don't allow prism to override the font-family */
-code[class*="language-"], pre[class*="language-"] {
-  font-family: $font-family-monospace
-}
