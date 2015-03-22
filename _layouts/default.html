@@ -56,8 +56,18 @@
     <link rel="alternate" type="application/atom+xml" title="Andreas Veithen's blog - Atom feed" href="{{ site.baseurl }}/feed.xml" />
 
     {% if page.prism %}
-    <script src="/scripts/prism.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/prism.css" />
+    <script>
+    require(['jquery'], function($) {
+        $(function() {
+            if ($('code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code').length) {
+                require(['prism'], function(prism) {
+                    prism.highlightAll();
+                });
+                loadCSS('{{ site.baseurl }}/style/prism.css');
+            }
+        });
+    });
+    </script>
     {% endif %}
     {% if site.banner %}
     <script>

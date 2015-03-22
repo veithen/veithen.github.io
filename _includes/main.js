@@ -20,6 +20,9 @@ require.config({
         "ga": {
             exports: "__ga__"
         },
+        "prism": {
+            exports: "Prism"
+        }
     }
 });
 

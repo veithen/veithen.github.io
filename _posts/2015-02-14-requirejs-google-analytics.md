@@ -4,6 +4,7 @@ title: "Integrating Google Analytics with require.js"
 category: tech
 tags:
  - Google Analytics
+ - RequireJS
 updated: 2015-03-18
 disqus: true
 description: Learn how to integrate Google Analytics with require.js.
