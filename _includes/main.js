@@ -1,3 +1,6 @@
+/* Used by logo.html */
+loadCSS("//fonts.googleapis.com/css?family=Nunito");
+
 window.GoogleAnalyticsObject = "__ga__";
 window.__ga__ = {
     q: [["create", "UA-56790914-1", "auto"],
