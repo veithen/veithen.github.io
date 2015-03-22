@@ -1,5 +1,5 @@
 sass:
-  style: :expanded # You might prefer to minify using :compressed
+  style: :compressed  # Change to :expanded for debugging
 
 permalink: /:year/:month/:day/:title.html
 
