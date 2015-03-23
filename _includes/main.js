@@ -48,7 +48,7 @@ require(["jquery"], function($) {
         }
         $("article a").each(function() {
             var url = $(this).attr("href");
-            if (url.indexOf("http://") == 0 || url.indexOf("https://") == 0) {
+            if ((url.indexOf("http://") == 0 || url.indexOf("https://") == 0) && url.indexOf(siteProperties.url + '/') != 0) {
                 $(this).click(function(e) {
                     require(["ga"], function(ga) {
                         ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
