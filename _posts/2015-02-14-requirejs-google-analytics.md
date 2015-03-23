@@ -36,8 +36,8 @@ require.config({
 The tracking code then needs to be replaced by the following code:
 
 ~~~ javascript
-require(['ga'], function(ga) {
-    ga('send', 'pageview');
+require(["ga"], function(ga) {
+    ga("send", "pageview");
 });
 ~~~
 
@@ -50,8 +50,8 @@ the following function which is used to [track clicks on outbound links][3]:
 
 ~~~ javascript
 var trackOutboundLink = function(url) {
-    require(['ga'], function(ga) {
-        ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+    require(["ga"], function(ga) {
+        ga("send", "event", "outbound", "click", url, {"hitCallback":
             function () {
                 document.location = url;
             }

@@ -9,7 +9,7 @@ window.__ga__ = {
 };
 
 require.config({
-    baseUrl: '/scripts',
+    baseUrl: "/scripts",
     paths: {
         "jquery": [
             "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min",
@@ -40,18 +40,18 @@ require(["jquery"], function($) {
         require([script]);
     });
     $(function() {
-        if ($('code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code').length) {
-            require(['prism'], function(prism) {
+        if ($("code[class*='language-'], [class*='language-'] code, code[class*='lang-'], [class*='lang-'] code").length) {
+            require(["prism"], function(prism) {
                 prism.highlightAll();
             });
-            loadCSS(siteProperties.baseurl + '/style/prism.css');
+            loadCSS(siteProperties.baseurl + "/style/prism.css");
         }
         $("article a").each(function() {
             var url = $(this).attr("href");
-            if ((url.indexOf("http://") == 0 || url.indexOf("https://") == 0) && url.indexOf(siteProperties.url + '/') != 0) {
+            if ((url.indexOf("http://") == 0 || url.indexOf("https://") == 0) && url.indexOf(siteProperties.url + "/") != 0) {
                 $(this).click(function(e) {
                     require(["ga"], function(ga) {
-                        ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+                        ga("send", "event", "outbound", "click", url, {"hitCallback":
                             function () {
                                 document.location = url;
                             }
@@ -64,16 +64,16 @@ require(["jquery"], function($) {
     });
 });
 
-require(['ga'], function(ga) {
+require(["ga"], function(ga) {
     if (pageProperties.category) {
-        ga('set', 'dimension1', pageProperties.category);
+        ga("set", "dimension1", pageProperties.category);
     }
-    ga('send', 'pageview', {
-      'page': pageProperties.url,
-      'title': pageProperties.title
+    ga("send", "pageview", {
+      "page": pageProperties.url,
+      "title": pageProperties.title
     });
 });
 
-if (typeof disqus_identifer !== 'undefined') {
-    require(['//veithen.disqus.com/embed.js']);
+if (typeof disqus_identifer !== "undefined") {
+    require(["//veithen.disqus.com/embed.js"]);
 }
