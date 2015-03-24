@@ -66,7 +66,8 @@ if (script) {
 The problem with this code is that it listens to the `DOMContentLoaded` event to automatically run the syntax
 highlighting logic when the DOM is ready. However, if the script is loaded asynchronously, then there is no guarantee
 that it will be executed before the `DOMContentLoaded` event is triggered. If it happens to start executing after that
-event, then registering the event listener will have no effect and the `highlightAll` method will never be called.
+event, then registering the event listener will have no effect and [the `highlightAll` method will never be
+called][prism-75].
 
 One might think that the solution to this problem is skip the event listener registration by adding the `data-manual`
 attribute and to call the `hightlightAll` method explicitly, e.g. using jQuery's [`ready`][jquery-ready] method.
@@ -165,3 +166,4 @@ require(['jquery'], function($) {
 [render-blocking-js]: https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript
 [render-blocking-css]: https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css
 [loadCSS]: https://github.com/filamentgroup/loadCSS
+[prism-75]: https://github.com/PrismJS/prism/issues/75
