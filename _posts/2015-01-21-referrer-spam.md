@@ -7,7 +7,7 @@ tags:
 scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
 image: /assets/2015-01-21-referrer-spam/referrer-spam.png
-updated: 2015-03-13
+updated: 2015-03-24
 description: >
  If you are using Google Analytics you may have noticed page views with referrals from ilovevitaly.com, darodar.com,
  priceg.com, blackhatworth.com, o-o-6-o-o.com and other suspicious domains appearing in your statistics. This is so
@@ -46,7 +46,8 @@ site and that leave similar traces in your analytics data. The typical example f
 purpose, but they do so as a side effect. They can be distinguished by the fact that page titles and hostnames are
 reported correctly.
 
-In the present article I will not discuss bots any further and focus only on genuine referrer spam.
+In the present article I will not discuss bots any further and focus only on genuine referrer spam, also known as
+*ghost referrals*.
 In particular I would like to address two
 things. First, I will describe in depth how referrer spam works and try to debunk some common misconceptions about it.
 Then I will discuss possible solutions for that problem. This includes solutions that have been proposed elsewhere as
@@ -137,24 +138,35 @@ There are two important lessons to be learned from this exercise that should hel
 referrer spam:
 
 * Generating referrer spam doesn't require any kind of intrusion into your Web site or your Google Analytics account.
-  The only information that the spammer needs is the property ID. That information is public because it can be
-  extracted from any Web page on your site. However, the spammer actually doesn't even need to do that: he can simply
-  try random property IDs. Given the structure
-  of the ID, there is indeed a significant probability of hitting an existing property by choosing an ID randomly.
-  This obviously means that the spammer neither knows the domain name corresponding to the property nor the page titles.
-  This explains why referrer spam is reported with fake hastnames and page titles, as observed in the introduction.
+  The only information that the spammer needs is the property ID.
 
-  There is additional evidence that supports the assumption that property IDs are targeted randomly:
-
-  * Some users have [reported][so-29006845] that they received referrer spam even before their Web site went live or
-    was widely known.
-
-  * Some people also noticed that referrer spam is received only for the first Web property, i.e. the one that has an
-    ID ending with `-1`.
-
-* Once the spammer has guessed the property ID, he can generate page views in Google Analytics without
+* Once the spammer has the property ID, he can generate page views in Google Analytics without
   sending requests to the actual Web site. This implies that there is no way to prevent this type of spam by
   implementing changes to the site (e.g. to the JavaScript in the Web pages or the `.htaccess` file).
+
+This leaves the question how the spammer gets the property ID of your Web site. There are two possibilities:
+
+* The property ID is actually public information because it must be included somehow in every (tracked) Web page on
+  your site. One way to get property IDs is therefore to crawl the Web using a bot and scrape the IDs from the visited
+  pages.
+
+* The spammer can simply target random property IDs. Given the structure of the ID, there is indeed a significant
+  probability of hitting an existing property by choosing an ID randomly. In addition to that, property IDs are
+  likely assigned in some sequential way, which would allow the spammer to easily narrow down the target to recently
+  created properties or accounts.
+
+There is ample evidence that the second approach is prevalent (and we will use that as an assumption in the following
+sections):
+
+* If the spammer targets random property IDs, he neither knows the domain name corresponding to the property nor the
+  page titles. This explains why referrer spam is reported with fake hastnames and page titles, as observed in the
+  introduction.
+
+* Some users have [reported][so-29006845] that they received referrer spam even before their Web site went live or
+  was widely known.
+
+* Some people also noticed that referrer spam is received only for the first Web property in an account, i.e. the one
+  that has an ID ending with `-1`.
 
 ## The impact of referrer spam
 
@@ -165,7 +177,9 @@ are also worried that this would have a negative impact on their site's search r
 ## How to prevent referrer spam
 
 A [common recommendation][referral-filter] to prevent this type of referrer spam in Google Analytics is to eliminate the
-fake page views by creating a filter that uses a criteria based on the referral. However, this approach is ineffective
+fake page views by creating a filter that uses a criteria based on the referral (Not to be confused with adding the
+domains to the [referral exclusion list][referral-exclusion], which serves an entirely different purpose!).
+However, this approach is ineffective
 because the referrals used by the spammers will change over time and you would have to update your filters on a regular
 basis.
 
@@ -240,3 +254,4 @@ IDs and the spammer would have to crawl the Web to find public pages that use Go
 [semalt]: http://semalt.com/project_crawler.php
 [ga-ranking]: https://www.youtube.com/watch?v=CgBw9tbAQhU
 [so-29006845]: http://stackoverflow.com/questions/29006845/how-this-strange-traffic-from-samara-russia-works
+[referral-exclusion]: https://support.google.com/analytics/answer/2795830
