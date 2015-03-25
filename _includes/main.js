@@ -3,7 +3,7 @@ loadCSS("//fonts.googleapis.com/css?family=Nunito");
 
 window.GoogleAnalyticsObject = "__ga__";
 window.__ga__ = {
-    q: [["create", "UA-56790914-1", "auto"],
+    q: [["create", "UA-56790914-1", {"cookieDomain": "auto", "siteSpeedSampleRate": 10}],
         ["set", "forceSSL", true]],
     l: Date.now()
 };
