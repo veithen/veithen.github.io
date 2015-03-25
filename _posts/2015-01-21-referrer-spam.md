@@ -7,7 +7,7 @@ tags:
 scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
 image: /assets/2015-01-21-referrer-spam/referrer-spam.png
-updated: 2015-03-24
+updated: 2015-03-25
 description: >
  If you are using Google Analytics you may have noticed page views with referrals from ilovevitaly.com, darodar.com,
  priceg.com, blackhatworth.com, o-o-6-o-o.com and other suspicious domains appearing in your statistics. This is so
@@ -187,7 +187,8 @@ Another approach that has been [suggested][hostname-filter] is to use filters ba
 earlier, since the spammers simply try random property IDs, they don't know the hostname of the Web site corresponding
 to a Web property they sent spam to. This means that it is possible to filter out the fake page
 views by configuring a whitelist of legitimate hostnames.
-The drawback of this approach is that it is easy to accidentally filter out valid page views. E.g. if somebody views
+The drawback of this approach is that it is easy to [accidentally filter out valid page views][webmasters-78446].
+E.g. if somebody views
 a page of your site through Google Translate, this will be reported as a page view with hostname
 `translate.googleusercontent.com`. If you want to preserve these page views, then all relevant hostnames need to be
 included in the whitelist, which may be tricky.
@@ -255,3 +256,4 @@ IDs and the spammer would have to crawl the Web to find public pages that use Go
 [ga-ranking]: https://www.youtube.com/watch?v=CgBw9tbAQhU
 [so-29006845]: http://stackoverflow.com/questions/29006845/how-this-strange-traffic-from-samara-russia-works
 [referral-exclusion]: https://support.google.com/analytics/answer/2795830
+[webmasters-78446]: http://webmasters.stackexchange.com/questions/78446/why-does-it-seem-my-ga-include-only-hostname-filter-is-filtering-out-hits-from-t
