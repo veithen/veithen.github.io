@@ -1,0 +1,56 @@
+body {
+  margin-top: 20px
+}
+
+aside:before, nav:before {
+  display: block;
+  content: '';
+  border-bottom: 1px solid lightgray;
+  position: relative;
+  top: 19px;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+aside .header, nav .header {
+  display: table;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 10px;
+  text-transform: uppercase;
+  background-color: white;
+  padding-right: 8px
+}
+
+aside.social a {
+  display: inline-block;
+  img {
+    width: 25px;
+    height: 25px;
+    margin: 2px
+  }
+  @media (min-width: $screen-lg-min) {
+    img {
+      width: 30px;
+      height: 30px
+    }
+  }
+}
+
+nav ul {
+  padding-left: 0
+}
+
+nav li {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: block
+}
+
+nav a {
+  display: block;
+  font-size: 14px;
+  line-height: 16px
+}
