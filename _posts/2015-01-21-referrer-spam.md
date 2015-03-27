@@ -7,7 +7,7 @@ tags:
 scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
 image: /assets/2015-01-21-referrer-spam/referrer-spam.png
-updated: 2015-03-25
+updated: 2015-03-27
 description: >
  If you are using Google Analytics you may have noticed page views with referrals from ilovevitaly.com, darodar.com,
  priceg.com, blackhatworth.com, o-o-6-o-o.com and other suspicious domains appearing in your statistics. This is so
@@ -177,11 +177,14 @@ are also worried that this would have a negative impact on their site's search r
 ## How to prevent referrer spam
 
 A [common recommendation][referral-filter] to prevent this type of referrer spam in Google Analytics is to eliminate the
-fake page views by creating a filter that uses a criteria based on the referral (Not to be confused with adding the
+fake page views by creating a filter that uses a criteria based on the referral[^1] (Not to be confused with adding the
 domains to the [referral exclusion list][referral-exclusion], which serves an entirely different purpose!).
 However, this approach is ineffective
 because the referrals used by the spammers will change over time and you would have to update your filters on a regular
 basis.
+
+[^1]: Some people recommend to use a filter based on campaign source; this is basically equivalent because in the
+      absence of an explicit campaign source, GA uses the referrer as default (except for search engine traffic).
 
 Another approach that has been [suggested][hostname-filter] is to use filters based on hostnames. As we have seen
 earlier, since the spammers simply try random property IDs, they don't know the hostname of the Web site corresponding
