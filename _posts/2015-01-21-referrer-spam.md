@@ -7,17 +7,38 @@ tags:
 scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
 image: /assets/2015-01-21-referrer-spam/referrer-spam.png
-updated: 2015-03-27
+updated: 2015-03-28
 description: >
  If you are using Google Analytics you may have noticed page views with referrals from ilovevitaly.com, darodar.com,
- priceg.com, blackhatworth.com, o-o-6-o-o.com and other suspicious domains appearing in your statistics. This is so
- called referrer spam. This article describes in depth how referrer spam works and debunks some common misconceptions
- about it. It also discusses possible solutions, include solutions that have been proposed elsewhere as well as an
- alternative solution that is more robust.
+ priceg.com, blackhatworth.com, o-o-6-o-o.com and other suspicious domains appearing in your statistics. These are so
+ called ghost referrals. This article describes in depth how this type of referrer spam works and debunks some common
+ misconceptions about it. It also discusses possible solutions, include solutions that have been proposed elsewhere as
+ well as an alternative solution that is more robust.
 disqus: true
 ---
 
 {:nofollow: rel="nofollow"}
+
+## TL;DR
+
+*   Make sure that you understand the difference between ghost referrals and bots. They require different
+    counter-measures. In particular, changes to `.htaccess` are only effective against bots, not ghost referral spam.
+
+*   Don't try using referral exclusion lists to eliminate referrer spam. This will not have the effect you expect.
+
+*   If you ready to update your filters weekly with the newest list of fake referrals (or are paid to do that...), use a
+    custom filter based on the *Referral* field.
+
+*   If you don't want to update your filters on a regular basis and can't change the Google Analytics tracking code on
+    your site, use a filter based on the *Hostname* field. Make sure that you understand the implications and know the
+    pitfalls.
+
+*   If you have control over the JavaScript code on your site and don't mind introducing a discontinuity in the
+    analytics data for your home page, change the tracking code to report `/index.html` instead of `/` and create a
+    filter based on the *Request URI* field to exclude all page views for `/`.
+
+*   If none of the above fits your needs, use custom dimensions to distinguish between ghost referral spam and
+    legitimate traffic.
 
 ## Introduction
 
@@ -40,22 +61,23 @@ referrers. Wiyre has published an interesting [infographic][wiyre] that explains
 spammer. Note however that the technical explanation given in that infographic is not entirely accurate, as we will show
 later.
 
-It is important to distinguish referrer spam from another form of nuisance, namely bots that automatically crawl your
+Fake referrals with the characteristics described above are now commonly called *ghost referrals*.
+It is important to distinguish this particular type of spam from another form of nuisance,
+namely bots that automatically crawl your
 site and that leave similar traces in your analytics data. The typical example for this is the
 [Semalt crawler][semalt]{:nofollow}. Producing entries in your site's referrer list is (probably) not their primary
 purpose, but they do so as a side effect. They can be distinguished by the fact that page titles and hostnames are
 reported correctly.
 
-In the present article I will not discuss bots any further and focus only on genuine referrer spam, also known as
-*ghost referrals*.
-In particular I would like to address two
-things. First, I will describe in depth how referrer spam works and try to debunk some common misconceptions about it.
+In the present article I will not discuss bots any further and focus only on ghost referral spam.
+In particular I would like to address two things. First, I will describe in depth how this type of
+spam works and try to debunk some common misconceptions about it.
 Then I will discuss possible solutions for that problem. This includes solutions that have been proposed elsewhere as
 well as an alternative solution that I find more robust.
 
-## How referrer spam works
+## How ghost referral spam works
 
-To show how referrer spam works, we first need to examine how page views are reported to Google Analytics. When a page
+To show how ghost referral spam works, we first need to examine how page views are reported to Google Analytics. When a page
 is loaded, the [tracking code][tracking-code] will send a GET request to `http://www.google-analytics.com/collect` to
 record the page view. The exact protocol is described in the [Measurement Protocol Reference][protocol-reference], but
 here we are only interested in the minimal set of query parameters that need to be provided for the page tracking
@@ -146,9 +168,9 @@ referrer spam:
 
 This leaves the question how the spammer gets the property ID of your Web site. There are two possibilities:
 
-* The property ID is actually public information because it must be included somehow in every (tracked) Web page on
-  your site. One way to get property IDs is therefore to crawl the Web using a bot and scrape the IDs from the visited
-  pages.
+* As mentioned earlier, the property ID is actually public information because it must be included somehow in every
+  (tracked) Web page on your site. One way for the spammer to get property IDs is therefore to crawl the Web using a
+  bot and scrape the IDs from the visited pages.
 
 * The spammer can simply target random property IDs. Given the structure of the ID, there is indeed a significant
   probability of hitting an existing property by choosing an ID randomly. In addition to that, property IDs are
@@ -159,34 +181,55 @@ There is ample evidence that the second approach is prevalent (and we will use t
 sections):
 
 * If the spammer targets random property IDs, he neither knows the domain name corresponding to the property nor the
-  page titles. This explains why referrer spam is reported with fake hastnames and page titles, as observed in the
+  page titles. This explains why ghost referral spam is reported with fake hastnames and page titles, as observed in the
   introduction.
 
 * Some users have [reported][so-29006845] that they received referrer spam even before their Web site went live or
   was widely known.
 
-* Some people also noticed that referrer spam is received only for the first Web property in an account, i.e. the one
-  that has an ID ending with `-1`.
+* Some people also noticed that ghost referral spam is received only for the first Web property in an account, i.e. the
+  one that has an ID ending with `-1`. Note that if you are setting up a new Web site (or adding GA to an existing
+  Web site) you can leverage that fact to protect it against ghost referral spam.
+
+Here is a list of domains used in ghost referrals that are known to be produced using this technique:
+
+* `blackhatworth.com`
+
+* `darodar.com`
+
+* `hulfingtonpost.com`
+
+* `humanorightswatch.org`
+
+* `ilovevitaly.com`
+
+* `o-o-6-o-o.com`
+
+* `priceg.com`
+
+* `s.click.aliexpress.com`
+
+* `simple-share-buttons.com`
 
 ## The impact of referrer spam
 
-Obviously the primary impact of referrer spam is that it decreases the accuracy of your analytics data. Some webmasters
-are also worried that this would have a negative impact on their site's search ranking. However, this is not the case:
-[Google Analytics data is not used in any way for search ranking][ga-ranking].
+Obviously the primary impact of (any type of) referrer spam is that it decreases the accuracy of your analytics data.
+Some webmasters also worry that this might have a negative impact on their site's search ranking. However, this is not
+the case: [Google Analytics data is not used in any way for search ranking][ga-ranking].
 
-## How to prevent referrer spam
+## How to eliminate ghost referral spam
 
-A [common recommendation][referral-filter] to prevent this type of referrer spam in Google Analytics is to eliminate the
-fake page views by creating a filter that uses a criteria based on the referral[^1] (Not to be confused with adding the
+A [common recommendation][referral-filter] to prevent ghost referrer spam in Google Analytics is to eliminate the
+fake page views by creating a filter that uses a criteria based on the *Referral* field (Not to be confused with adding the
 domains to the [referral exclusion list][referral-exclusion], which serves an entirely different purpose!).
 However, this approach is ineffective
 because the referrals used by the spammers will change over time and you would have to update your filters on a regular
 basis.
 
-[^1]: Some people recommend to use a filter based on campaign source; this is basically equivalent because in the
-      absence of an explicit campaign source, GA uses the referrer as default (except for search engine traffic).
+Some people recommend to use a filter based on the *Campaign Source* field; this is basically equivalent because in the
+absence of an explicit campaign source, GA uses the referrer as default (except for search engine traffic).
 
-Another approach that has been [suggested][hostname-filter] is to use filters based on hostnames. As we have seen
+Another approach that has been [suggested][hostname-filter] is to use filters based on the *Hostname* field. As we have seen
 earlier, since the spammers simply try random property IDs, they don't know the hostname of the Web site corresponding
 to a Web property they sent spam to. This means that it is possible to filter out the fake page
 views by configuring a whitelist of legitimate hostnames.
@@ -196,7 +239,7 @@ a page of your site through Google Translate, this will be reported as a page vi
 `translate.googleusercontent.com`. If you want to preserve these page views, then all relevant hostnames need to be
 included in the whitelist, which may be tricky.
 
-In this article, I propose another approach that relies on the simple observation that all referrer spam is reported
+In this article, I propose another approach that relies on the simple observation that all ghost referral spam is reported
 for the home page of the site (i.e. with request URI `/`). On the other hand, as explained in the
 [Google Analytics documentation][overriding], it is possible to override the reported page URI in the JavaScript
 snippet:
@@ -212,8 +255,8 @@ The idea is to modify the home page such that instead of reporting `/` as reques
 ga('send', 'pageview', '/index.html');
 ~~~
 
-With that change, you can safely eliminate referrer spam by creating a filter that excludes all page views with
-request URI `/`, because that URI will no longer be reported in legitimate page views:
+With that change, you can safely eliminate ghost referrals by creating a filter that excludes all page views with
+the *Request URI* field set to `/`, because that URI will no longer be reported in legitimate page views:
 
 ![Referrer spam filter](/assets/2015-01-21-referrer-spam/filter.png)
 
@@ -239,7 +282,7 @@ using the request URI filtering approach and spammers are forced to adapt their 
 
 In the event that spammers indeed start targetting pages other than `/`, there is actually another slightly
 more complicated approach that would eliminate that type of spam as well. The idea is to create a custom dimension and
-change the tracking code to always send a specific value for that custom dimension in all page views. Referrer spam can
+change the tracking code to always send a specific value for that custom dimension in all page views. Ghost referral spam can
 then be filtered out using a criteria based on that custom dimension.
 
 Note that even that approach is not entirely watertight. For a sophisticated spammer it would not be too difficult to
