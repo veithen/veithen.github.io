@@ -11,7 +11,16 @@
     <title>{{ page.title }}</title>
     {% include scripts.html %}
 
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/{{ page.style }}.css" />
+    {% if page.style.embedded %}
+    <style type="text/css">
+    {% comment %} See http://www.kevinsweet.com/inline-scss-jekyll-github-pages/ for explanation {% endcomment %}
+    {% capture include_to_scssify %}{% include {{ page.style.name}}.scss %}{% endcapture %}
+    {{ include_to_scssify | scssify }}
+    </style>
+    {% else %}
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/{{ page.style.name }}.css" />
+    {% endif %}
+
     <meta property="fb:admins" content="1722464172" />
     <link rel="author" href="https://plus.google.com/113984689781548338264"/>
     <link rel="canonical" href="{{ site.url }}{{ page.url }}"/>
