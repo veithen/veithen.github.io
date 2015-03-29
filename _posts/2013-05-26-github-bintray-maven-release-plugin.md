@@ -7,6 +7,7 @@ tags:
 blogger: /2013/05/github-bintray-maven-release-plugin.html
 disqus: true
 description: Learn how to use Maven to publish releases of Github projects to Bintray.
+twitter_text: "Publishing releases using #Github, #Bintray and #Maven release plugin"
 ---
 
 ## Project setup
