@@ -4,7 +4,7 @@ title: "Tracking outbound links with Google Analytics"
 category: tech
 tags:
  - Google Analytics
-updated: 2015-02-14
+updated: 2015-03-29
 disqus: true
 description: Learn how to avoid the pitfalls when using Google Analytics to track clicks on outbound links.
 ---
@@ -63,12 +63,17 @@ var trackOutboundLink = function(url) {
 }
 ~~~
 
-Note that it is safe to assume that this code will continue to work as expected even if Google decides to make changes
+It is safe to assume that this code will continue to work as expected even if Google decides to make changes
 to `analytics.js`. The reason is that `ga.q` is set by the `ga` function defined by the tracking code embedded in your
 site's pages and that code can't be changed unilaterally by Google.
 
-Another option is to check `ga.loaded` as described [here][6]. Note that this doesn't appear to be documented anywhere
-in the Google Analytics documentation, although it is indeed used in a [recently added example][7].
+Note that there are at least two other ways to determine whether Google Analytics has been loaded:
+
+*   One option is to check `ga.loaded` as described [here][6]. Note that this doesn't appear to be documented anywhere
+    in the Google Analytics documentation, although it is indeed used in a [recently added example][7].
+
+*   The other option is to set a global variable in a [get parameter callback][10]. This approach leverages the fact
+    that the callback is called once the Google Analytics library has finished loading.
 
 Finally, if you are using [require.js][8], you may want to try an entirely different approach that I described in
 [another article][9].
@@ -108,3 +113,4 @@ $(function() {
 [7]: https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#product-click
 [8]: http://requirejs.org/
 [9]: /2015/02/14/requirejs-google-analytics.html
+[10]: https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#get
