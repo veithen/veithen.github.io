@@ -2,11 +2,17 @@
 loadCSS("//fonts.googleapis.com/css?family=Nunito");
 
 window.GoogleAnalyticsObject = "__ga__";
-window.__ga__ = {
-    q: [["create", "UA-56790914-1", {"cookieDomain": "auto", "siteSpeedSampleRate": 10}],
-        ["set", "forceSSL", true]],
-    l: Date.now()
+window.__ga__ = function() {
+    for (var i=0; i<arguments.length; i++) {
+        var arg = arguments[i];
+        if (arg.constructor == Object && arg.hitCallback) {
+            arg.hitCallback();
+        }
+    }
 };
+window.__ga__.q = [["create", "UA-56790914-1", {"cookieDomain": "auto", "siteSpeedSampleRate": 10}],
+                   ["set", "forceSSL", true]];
+window.__ga__.l = Date.now();
 
 require.config({
     baseUrl: "/scripts",
@@ -20,9 +26,9 @@ require.config({
             "jquery-ui.min"
         ],
         "chart": "Chart.min",
-        "ga": localStorage.dontTrack ? "analytics-stub" : [
+        "ga": localStorage.dontTrack ? "data:application/javascript," : [
             "//www.google-analytics.com/analytics",
-            "analytics-stub"
+            "data:application/javascript,"
         ],
     },
     shim: {
