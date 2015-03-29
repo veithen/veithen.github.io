@@ -10,7 +10,7 @@ disqus: true
 description: >
  There are multiple ways to integrate Bootstrap with Jekyll. This article documents how I did it for my site which runs
  on Github pages (which means that I can't use Jekyll plugins) and only uses Bootstrap CSS.
-updated: 2015-03-27
+updated: 2015-03-29
 ---
 
 There are multiple ways to integrate [Bootstrap](http://getbootstrap.com/) with [Jekyll](http://jekyllrb.com/).
@@ -44,6 +44,10 @@ Here are the basic steps to integrate the Sass port into your Jekyll site:
     The two `---` lines at the beginning instruct Jekyll to process the file using Sass (resulting in a
     `styles/site.css` file) instead of copying it verbatim to the generated site. The `@import` directive will include
     `_sass/_bootstrap.scss`, which in turn includes all the Bootstrap CSS components (under `_sass/bootstrap`).
+
+4.  Ensure that all layouts for which you will use your new stylesheet have the recommended
+    [doctype](http://getbootstrap.com/css/#overview-doctype) and
+    [viewport meta tag](http://getbootstrap.com/css/#overview-mobile) as described in the Bootstrap documentation.
 
 You can now start to customize Bootstrap. Here are a few things that you might want to consider:
 
