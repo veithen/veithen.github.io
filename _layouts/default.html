@@ -50,20 +50,6 @@
     <![endif]-->
 
     <link rel="alternate" type="application/atom+xml" title="Andreas Veithen's blog - Atom feed" href="{{ site.baseurl }}/feed.xml" />
-
-    {% if site.banner %}
-    <script>
-    var trackOutboundLink = function(url) {
-      require(['ga'], function(ga) {
-        ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
-          function () {
-            document.location = url;
-          }
-        });
-      });
-    }
-    </script>
-    {% endif %}
   </head>
 
 {{ content }}
