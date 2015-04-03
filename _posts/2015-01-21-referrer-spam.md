@@ -33,11 +33,12 @@ disqus: true
     your site, use a filter based on the *Hostname* field. Make sure that you understand the implications and know the
     pitfalls.
 
-*   If you have control over the JavaScript code on your site and don't mind introducing a discontinuity in the
-    analytics data for your home page, change the tracking code to report `/index.html` instead of `/` and create a
-    filter based on the *Request URI* field to exclude all page views for `/`.
+*   If you have control over the JavaScript code on your site, change the tracking code to report `/index.html` instead
+    of `/` and create a filter based on the *Request URI* field to exclude all page views for `/`. To avoid introducing
+    a discontinuity in the analytics data for your home page, you may want to set up a second filter to remap
+    `/index.html` to `/`.
 
-*   If none of the above fits your needs, use custom dimensions to distinguish between ghost referral spam and
+*   Alternatively, use custom dimensions to distinguish between ghost referral spam and
     legitimate traffic.
 
 ## Introduction
@@ -264,13 +265,20 @@ the *Request URI* field set to `/`, because that URI will no longer be reported 
 [one of my previous articles][previous-post] that discusses another modification to the Google Analytics snippet that
 actually has the `/` &rarr; `/index.html` change as a side effect.
 
+As mentioned in my earlier article linked in the note above, replacing `/` with `/index.html` in the reported pageviews
+will introduce a discontinuity in the analytics data for your home page. If that is not acceptable, you can set up a
+search and replace filter to remap `/index.html` to `/` in your analytics data:
+
+![Remap home page URL filter](remap-home-page-url-filter.png)
+
+For obvious reasons, the ordering of the two filters is important here. The search and replace filter must come after
+the exclusion filter:
+
+![Filter order](filter-order.png)
+
 ## Limitations of the request URI filtering approach
 
-As mentioned in my earlier article linked in the note above, replacing `/` with `/index.html` in the reported pageviews
-will introduce a discontinuity in your analytics data. If that is not acceptable, then you should use a different
-method to eliminate referrer spam.
-
-It has also been argued that since the request URI in the page views reported to Google Analytics can also be forged,
+It has been argued that since the request URI in the page views reported to Google Analytics can also be forged,
 the method suggested here can easily be circumvented by targetting pages other than `/`. However, since spammers don't
 know anything about the structure of the targeted Web site, they would necessarily have to send page view reports for
 non existing pages. These fake pages would show up in the "All Pages" and "Landing Pages" reports and would immediately
