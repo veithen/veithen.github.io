@@ -7,7 +7,7 @@ tags:
 scripts:
  - /assets/2015-01-21-referrer-spam/ga.js
 image: /assets/2015-01-21-referrer-spam/referrer-spam.png
-updated: 2015-03-28
+updated: 2015-04-03
 description: >
  If you are using Google Analytics you may have noticed page views with referrals from ilovevitaly.com, darodar.com,
  priceg.com, blackhatworth.com, o-o-6-o-o.com and other suspicious domains appearing in your statistics. These are so
@@ -184,7 +184,7 @@ sections):
   page titles. This explains why ghost referral spam is reported with fake hastnames and page titles, as observed in the
   introduction.
 
-* Some users have [reported][so-29006845] that they received referrer spam even before their Web site went live or
+* [Some][so-29006845] [users][so-29422179] have reported that they received referrer spam even before their Web site went live or
   was widely known.
 
 * Some people also noticed that ghost referral spam is received only for the first Web property in an account, i.e. the
@@ -301,5 +301,6 @@ IDs and the spammer would have to crawl the Web to find public pages that use Go
 [semalt]: http://semalt.com/project_crawler.php
 [ga-ranking]: https://www.youtube.com/watch?v=CgBw9tbAQhU
 [so-29006845]: http://stackoverflow.com/questions/29006845/how-this-strange-traffic-from-samara-russia-works
+[so-29422179]: http://stackoverflow.com/questions/29422179/google-analytics-showing-hundreds-of-views-for-page-that-doesnt-exist
 [referral-exclusion]: https://support.google.com/analytics/answer/2795830
 [webmasters-78446]: http://webmasters.stackexchange.com/questions/78446/why-does-it-seem-my-ga-include-only-hostname-filter-is-filtering-out-hits-from-t
