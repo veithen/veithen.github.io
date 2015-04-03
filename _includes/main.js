@@ -1,6 +1,3 @@
-/* Used by logo.html */
-loadCSS("//fonts.googleapis.com/css?family=Nunito");
-
 window.GoogleAnalyticsObject = "__ga__";
 window.__ga__ = function() {
     for (var i=0; i<arguments.length; i++) {
