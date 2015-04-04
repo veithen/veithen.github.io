@@ -5,7 +5,7 @@ category: opinion
 tags:
  - Islam
 scripts:
- - /assets/2015-02-01-religion-monitor-islam/charts.js
+ - /2015/02/01/charts.js
 disqus: true
 description: >
  This article presents some results from a recent study about Islam in Germany published by the Bertelsmann Foundation.
@@ -32,7 +32,7 @@ group over 45*[^2]:
 
 [^2]: [Religion Monitor, An International Comparison of Religious Belief, 2014](https://www.bertelsmann-stiftung.de/fileadmin/files/BSt/Publikationen/GrauePublikationen/Studie_LW_Religionsmonitor_Internationaler_Vergleich_2014.pdf), p.24
 
-![Centrality of religion by age groups](/assets/2015-02-01-religion-monitor-islam/centrality-of-religion.png)
+![Centrality of religion by age groups](centrality-of-religion.png)
 
 It is important not to confuse "highly religious" with fundamentalist or radical (although it's reasonable to assume
 that there is a correlation between the two). E.g. the study shows that even among highly religious Sunni Muslims, the

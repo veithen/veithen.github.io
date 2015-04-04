@@ -7,7 +7,7 @@ tags:
  - Google Cloud
 twitter_text: "#Docker in the cloud"
 twitter_tags: GoogleComputeEngine
-image: /assets/2015-03-04-docker-in-the-cloud/my_other_computer.png
+image: /2015/03/04/my_other_computer.png
 disqus: true
 description: >
  Learn how to run a Docker daemon remotely in Google Compute Engine and control it from your Mac OS X workstation.
@@ -20,7 +20,7 @@ a Mac OS X client. This is an alternative to [boot2docker][boot2docker] (or to r
 virtual machine) and is especially interesting if your workstation lacks the resources to start up your Docker
 containers.
 
-![My other computer is a data center]({{ page.image }})
+![My other computer is a data center](my_other_computer.png)
 
 To achieve this, we need to install a Docker client on the Mac OS X workstation and the full Docker distribution in a
 VM running on GCE. Since the protocol is incompatible between different Docker versions, it is important to use the same

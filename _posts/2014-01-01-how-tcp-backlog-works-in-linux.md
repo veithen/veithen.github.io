@@ -10,14 +10,14 @@ disqus: true
 description: >
  This article gives an in-depth description how TCP backlog works in Linux and in particular what happens when the
  accept queue is full. Includes references to the relevant kernel sources.
-image: /assets/2014-01-01-how-tcp-backlog-works-in-linux/tcp-state-diagram.png
+image: /2014/01/01/tcp-state-diagram.png
 updated: 2015-03-14
 ---
 
 When an application puts a socket into LISTEN state using the [`listen`](http://linux.die.net/man/2/listen) syscall, it
 needs to specify a backlog for that socket. The backlog is usually described as the limit for the queue of incoming connections.
 
-![TCP state diagram]({{ page.image }})
+![TCP state diagram](tcp-state-diagram.png)
 
 Because of the 3-way handshake used by TCP, an incoming connection goes through an intermediate state SYN RECEIVED
 before it reaches the ESTABLISHED state and can be returned by the [`accept`](http://linux.die.net/man/2/accept) syscall

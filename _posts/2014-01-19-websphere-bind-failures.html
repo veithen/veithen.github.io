@@ -54,7 +54,7 @@ The question is now why WebSphere doesn't use <code>SO_REUSEADDR</code>. The tec
 <p>
 There is another interesting aspect. I mentioned earlier that the problem only affects some ports opened by WebSphere, in particular the ones used by the Web container, the SIB service and the core group services. Interestingly, these ports are all managed by the <a href="http://www-01.ibm.com/support/docview.wss?uid=swg27037778">WebSphere channel framework</a>. They can easily be identified by looking at the "Ports" page for the server in the admin console:
 </p>
-<img src="/assets/2014-01-19-websphere-bind-failures/screenshot.png" />
+<img src="screenshot.png" />
 <p>
 Ports that have a link "View associated transports" are managed by the channel framework and don't use <code>SO_REUSEADDR</code> (Note that this suggests that the problem also exists for the ports used by the SIP service not considered earlier).
 </p>

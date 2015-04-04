@@ -54,7 +54,7 @@ manager to call rollback on a transactional resource has resulted in an XAER_RMF
 being logged. While WebSphere is attempting to complete the rollback, the transaction will also appear
 in the list of retry transactions in the admin console:
 
-![Retry transactions in the admin console](/assets/2012-07-24-websphere-heuristicmixedexception/retry-transactions.gif)
+![Retry transactions in the admin console](retry-transactions.gif)
 
 If the error is not transient, then completing the transaction may take a significant amount of time.
 For obvious reasons, WebSphere cannot simply block the application until the status of the transaction
@@ -69,7 +69,7 @@ WebSphere internally puts this kind of transaction into status 11, which is the 
 `HEURISTIC_HAZARD` (see [this](http://pic.dhe.ibm.com/infocenter/wasinfo/v7r0/topic/%20com.ibm.websphere.nd.doc/info/ae/ae/tjta_manage_scripts.html)
  documentation):
  
-![Heuristic transactions in the admin console](/assets/2012-07-24-websphere-heuristicmixedexception/heuristic-transactions.gif)
+![Heuristic transactions in the admin console](heuristic-transactions.gif)
  
 The `HEURISTIC_HAZARD` status means that "The transaction branch **may** have been heuristically
 completed". Unfortunately, JTA defines no exception corresponding to `HEURISTIC_HAZARD` that could

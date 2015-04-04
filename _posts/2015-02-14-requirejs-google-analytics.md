@@ -132,7 +132,7 @@ After replacing the standard tracking code with the one suggested in this articl
 be able to use Google Analytics as an ownership verification method for Google Webmaster Tools. If your site is
 currently verified using that method, reverification will eventually fail:
 
-![Reverification failure](/assets/2015-02-14-requirejs-google-analytics/reverification-failure.png)
+![Reverification failure](reverification-failure.png)
 
 The solution is to switch to an alternate method, such as HTML file upload or adding a meta tag to the site's home page.
 

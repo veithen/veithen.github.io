@@ -7,7 +7,7 @@ tags:
  - LDAP
 blogger: /2013/11/websphere-apacheds-quick-setup-guide.html
 disqus: true
-image: /assets/2013-11-16-websphere-apacheds-quick-setup-guide/browser.png
+image: /2013/11/16/browser.png
 description: >
  This article explains how to quickly configure WebSphere with Apache Directory Server (packaged with Apache Directory
  Studio) for LDAP authentication.
@@ -29,7 +29,7 @@ Start by setting up the LDAP server:
 1.  Using the "Servers" view, create a new ApacheDS server. There is no need to change the configuration; the default settings
     are appropriate for a test server. After the server has been created, start it:
     
-    ![LDAP Servers](/assets/2013-11-16-websphere-apacheds-quick-setup-guide/servers.png)
+    ![LDAP Servers](servers.png)
     
 1.  Create a connection to the server. To do this, right click on the server and choose "Create a Connection". The new
     connection should then appear in the "Connections" view. Double click on the connection to open it. You should see the
@@ -54,7 +54,7 @@ Start by setting up the LDAP server:
 
 The resulting LDAP tree should look as follows:
 
-![Browser]({{ page.image }})
+![Browser](browser.png)
 
 You can now configure the standalone LDAP registry in WebSphere. The settings are as follows:
 

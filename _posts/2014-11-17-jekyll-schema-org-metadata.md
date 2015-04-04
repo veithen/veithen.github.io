@@ -5,7 +5,7 @@ subtitle: "How to ensure that Google+ extracts snippets from your blog posts"
 category: tech
 tags:
  - Jekyll
-image: /assets/2014-11-17-jekyll-schema-org-metadata/with-metadata.png
+image: /2014/11/17/with-metadata.png
 updated: 2015-01-31
 disqus: true
 description: >
@@ -18,7 +18,7 @@ description: >
 I recently decided to migrate my Blogger blog to Jekyll, using [Jekyll Now](https://github.com/barryclark/jekyll-now)
 as a starting point. I soon realized that Google+ no longer extracted snippets from links to posts I wanted to share:
 
-![Screenshot without metadata](/assets/2014-11-17-jekyll-schema-org-metadata/without-metadata.png)
+![Screenshot without metadata](without-metadata.png)
 
 As can be seen in this screenshot, Google+ only shows the title and the Web site, but no snippets for posts
 generated with the kind of Jekyll layout I was using.
@@ -78,7 +78,7 @@ Also notice the usage of `<meta>` tags for properties the values of which don't 
 
 With this layout, Google+ will now generate the kind of snippets we would expect:
 
-![Screenshot with metadata]({{ page.image }})
+![Screenshot with metadata](with-metadata.png)
 
 ## Checking the metadata
 
@@ -91,7 +91,7 @@ If your site is registered with [Google's Webmaster Tools](https://www.google.co
 check the extracted metadata for your site under *Search Appearance* > *Structured Data*, but you will have to wait until the
 Web crawler has processed the pages (which may take a few days):
 
-![Webmaster Tools](/assets/2014-11-17-jekyll-schema-org-metadata/webmaster-tools.png)
+![Webmaster Tools](webmaster-tools.png)
 
 ## Images
 

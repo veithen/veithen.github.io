@@ -5,7 +5,7 @@ category: opinion
 tags:
  - Islam
  - QOTD
-image: /assets/2015-01-15-toujours-mahomet/une.jpg
+image: /2015/01/15/une.jpg
 disqus: true
 description: >
  Abdallah Zekri: "Mahomet, Mahomet, toujours Mahomet... Il est mort il y a 15 siècles!"
@@ -21,7 +21,7 @@ dernier:
 
 En effet! C'est ahurissant de voir combien de gens font une obsession d'un type mort il y a 1400 ans...
 
-![La une de Charlie Hebdo]({{ page.image }})
+![La une de Charlie Hebdo](une.jpg)
 
 [1]: http://www.lefigaro.fr/actualite-france/2015/01/13/01016-20150113ARTFIG00115-la-representation-de-mahomet-a-la-une-de-charlie-hebdo-divise-les-musulmans.php
 [2]: http://fr.wikipedia.org/wiki/Conseil_fran%C3%A7ais_du_culte_musulman

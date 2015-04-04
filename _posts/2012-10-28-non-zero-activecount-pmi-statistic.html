@@ -39,6 +39,6 @@ In WebSphere, thread pools are instances of a generic component and that compone
 <p>
 Since a thread pool is a generic component which doesn't know anything about the HTTP request processor, it simply counts these tasks as active threads, even if they are actually idle waiting for new HTTP requests. That is why the ActiveCount never becomes zero even on a completely idle system. It should be noted that the HTTP request processor may execute more than one of these tasks and that their number is not necessarily constant over time. This is illustrated by the following plot of the ActiveCount metric, where one can see that (on that particular system) the ActiveCount never drops below 3:
 </p>
-<img src="/assets/2012-10-28-non-zero-activecount-pmi-statistic/ActiveCount.png"/>
+<img src="ActiveCount.png"/>
 </li>
 </ol>

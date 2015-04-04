@@ -5,8 +5,8 @@ category: tech
 tags:
  - Google Analytics
 scripts:
- - /assets/2015-01-21-referrer-spam/ga.js
-image: /assets/2015-01-21-referrer-spam/referrer-spam.png
+ - /2015/01/21/ga.js
+image: /2015/01/21/referrer-spam.png
 updated: 2015-04-03
 description: >
  If you are using Google Analytics you may have noticed page views with referrals from ilovevitaly.com, darodar.com,
@@ -46,16 +46,16 @@ disqus: true
 If you are using Google Analytics you may have noticed page views with referrals from `ilovevitaly.com`, `darodar.com`,
 `priceg.com`, `blackhatworth.com`, `o-o-6-o-o.com` and other suspicious domains appearing in your statistics:
 
-![Referrer spam in Google Analytics]({{ page.image }})
+![Referrer spam in Google Analytics](referrer-spam.png)
 
 This is so called *referrer spam*. What is characteristic for these spam requests is that they are reported with fake
 page titles...
 
-![Fake page titles](/assets/2015-01-21-referrer-spam/fake-pagetitles.png)
+![Fake page titles](fake-pagetitles.png)
 
 ...as well as fake host names:
 
-![Fake host names](/assets/2015-01-21-referrer-spam/fake-hostnames.png)
+![Fake host names](fake-hostnames.png)
 
 We will see later why this is so. The purpose of this spam is to trick webmasters into visiting the sites reported as
 referrers. Wiyre has published an interesting [infographic][wiyre] that explains how this generates revenue for the
@@ -155,7 +155,7 @@ Analytics can be found [here]({{ page.scripts[0] }}).
 
 This is what you should see appear in the real-time overview in Google Analytics after submitting the form:
 
-![Fake page view](/assets/2015-01-21-referrer-spam/fake-pageview.png)
+![Fake page view](fake-pageview.png)
 
 There are two important lessons to be learned from this exercise that should help to overcome some misconceptions about
 referrer spam:
@@ -259,7 +259,7 @@ ga('send', 'pageview', '/index.html');
 With that change, you can safely eliminate ghost referrals by creating a filter that excludes all page views with
 the *Request URI* field set to `/`, because that URI will no longer be reported in legitimate page views:
 
-![Referrer spam filter](/assets/2015-01-21-referrer-spam/filter.png)
+![Referrer spam filter](filter.png)
 
 **Note:** If you are using Jekyll to generate your site, you may want to have a look at
 [one of my previous articles][previous-post] that discusses another modification to the Google Analytics snippet that

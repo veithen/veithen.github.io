@@ -5,7 +5,7 @@ category: tech
 tags:
  - Jekyll
  - Google Analytics
-image: /assets/2015-01-05-jekyll-improving-ga-data-quality/ga-screenshot.png
+image: /2015/01/05/ga-screenshot.png
 disqus: true
 description: >
  Learn how to make the data sent to Google Analytics more consistent for pages loaded from Google's cache or displayed
@@ -23,7 +23,7 @@ in the page will (in general) still be executed.
 The end result is that this particular type of page view is still recorded, but with somewhat unexpected data,
 as shown in the following screenshot:
 
-![Google Analytics screenshot]({{ page.image }})
+![Google Analytics screenshot](ga-screenshot.png)
 
 The solution for this problem is to pass the page location and title information explicitly when sending the page view event.
 Of course, for this to work these values must appear as constants in the JavaScript returned by the site.

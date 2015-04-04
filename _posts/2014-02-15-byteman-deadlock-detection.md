@@ -5,7 +5,7 @@ category: tech
 tags:
  - Java
  - WebSphere
-image: /assets/2014-02-15-byteman-deadlock-detection/deadlock.jpg
+image: /2014/02/15/deadlock.jpg
 blogger: /2014/02/byteman-deadlock-detection.html
 disqus: true
 description: Learn how to use Byteman on WebSphere to detect certain data source access patterns that may result in deadlock.
@@ -41,7 +41,7 @@ explanation of that problem in the [WebSphere documentation][2]:
 The deadlock situation can be visualized using a resource allocation diagram. With 4 threads, a maximum connection pool size of
 4 and C=2, the diagram would look as follows:
 
-![Resource allocation diagram]({{ page.image }})
+![Resource allocation diagram](deadlock.jpg)
 
 Note that since blocked connection requests eventually time out (by default after 3 minutes), the situation is not a real
 (permanent) deadlock. However, after a given thread is unblocked by a timeout (and the connection held by that thread released),
