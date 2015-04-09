@@ -4,7 +4,7 @@ title: "Tracking outbound links with Google Analytics"
 category: tech
 tags:
  - Google Analytics
-updated: 2015-03-29
+updated: 2015-04-09
 disqus: true
 description: Learn how to avoid the pitfalls when using Google Analytics to track clicks on outbound links.
 ---
@@ -28,7 +28,14 @@ Links to be tracked need to be modified as follows:
 <a href="http://example.com" onclick="trackOutboundLink('http://example.com'); return false;">...</a>
 ~~~
 
-The problem with this approach is that the visitor may have blocked Google Analytics using a privacy protection tool
+The purpose of the hit callback is to ensure that the event is sent to Google Analytics before the new page starts
+loading. This is necessary because the `ga` function is asynchronous and loading a new document will stop execution of
+JavaScript code for the current document, so that events may be lost. Note that this only applies if the new document
+replaces the current document; if the link has a `target="_blank"` attribute, then the new document will be loaded in
+a new window or tab and using a hit callback is not necessary.
+
+The problem with the approach described in the documentation
+is that the visitor may have blocked Google Analytics using a privacy protection tool
 such as [Ghostery][2]. In general, these tools don't block execution of the GA [tracking code][3] itself, but prevent
 `analytics.js` from being loaded. This means that the `ga` function is defined, but tracking events pushed using that
 function are not processed. In this case, the hit callback used by `trackOutboundLink` is never executed and clicking
