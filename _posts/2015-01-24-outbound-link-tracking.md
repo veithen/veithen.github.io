@@ -14,7 +14,7 @@ JavaScript function:
 
 ~~~ javascript
 var trackOutboundLink = function(url) {
-  ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+  ga("send", "event", "outbound", "click", url, {"hitCallback":
     function () {
       document.location = url;
     }
@@ -54,7 +54,7 @@ var trackOutboundLink = function(url) {
     // Google Analytics is blocked
     document.location = url;
   } else {
-    ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+    ga("send", "event", "outbound", "click", url, {"hitCallback":
       function () {
         document.location = url;
       }
@@ -93,7 +93,7 @@ $(function() {
   $("a.tracked").click(function(e) {
     if (!ga.q) {
       var url = $(this).attr("href");
-      ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+      ga("send", "event", "outbound", "click", url, {"hitCallback":
         function () {
           document.location = url;
         }
