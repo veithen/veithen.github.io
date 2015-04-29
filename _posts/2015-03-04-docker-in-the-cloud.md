@@ -11,6 +11,7 @@ image: /2015/03/04/my_other_computer.png
 disqus: true
 description: >
  Learn how to run a Docker daemon remotely in Google Compute Engine and control it from your Mac OS X workstation.
+updated: 2015-04-29
 ---
 
 ## Introduction
@@ -79,6 +80,11 @@ to listen to a TCP port instead. To do this, edit `/etc/default/docker` and add 
 
 This configures the Docker daemon to listen on the loopback device. This means that SSH access to the VM is required
 to connect to Docker. This provides the desired level of security.
+
+Note that if in addition to connecting remotely you want to continue to be able to use the docker client locally on the
+VM, you should also configure the default UNIX domain socket:
+
+    DOCKER_OPTS="-H tcp://localhost:2375 -H unix:///var/run/docker.sock"
 
 Don't forget to restart the Docker daemon to apply the change:
 
