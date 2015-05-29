@@ -25,6 +25,6 @@ where I used Groovy as part of a Maven build:
   assertions on the content of the document.
 
 [1]: http://maven.apache.org/plugins/maven-antrun-plugin/
-[2]: http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/axiom/modules/axiom-api/pom.xml
-[3]: http://svn.apache.org/repos/asf/axis/axis2/java/core/trunk/modules/tool/axis2-ant-plugin/pom.xml
-[4]: http://groovy.codehaus.org/GPath
+[2]: http://svn.apache.org/viewvc/webservices/axiom/tags/1.2.14/modules/axiom-testutils/pom.xml?view=markup#l89
+[3]: http://svn.apache.org/viewvc/axis/axis2/java/core/tags/v1.6.2/modules/tool/axis2-ant-plugin/pom.xml?view=markup#l156
+[4]: http://www.groovy-lang.org/processing-xml.html#_gpath
