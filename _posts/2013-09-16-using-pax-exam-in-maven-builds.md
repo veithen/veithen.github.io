@@ -5,6 +5,7 @@ category: tech
 tags:
  - Maven
  - OSGi
+ - Pax Exam
 blogger: /2013/09/using-pax-exam-in-maven-builds.html
 disqus: true
 description: >
