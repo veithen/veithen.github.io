@@ -11,6 +11,7 @@ disqus: true
 description: >
  Discover some of the pitfalls when using Pax Exam in a Maven build and learn how to avoid them.
 updated: 2015-06-03
+twitter_text: "Using #PaxExam in #Maven builds"
 ---
 
 The [recommended approach][1] (see also [here][2]) to run OSGi unit tests with Pax Exam in a Maven build relies on the
