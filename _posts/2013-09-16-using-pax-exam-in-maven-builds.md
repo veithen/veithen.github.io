@@ -10,7 +10,7 @@ blogger: /2013/09/using-pax-exam-in-maven-builds.html
 disqus: true
 description: >
  Discover some of the pitfalls when using Pax Exam in a Maven build and learn how to avoid them.
-updated: 2014-02-23
+updated: 2015-06-03
 ---
 
 The [recommended approach][1] (see also [here][2]) to run OSGi unit tests with Pax Exam in a Maven build relies on the
@@ -55,94 +55,20 @@ a very useful feature when used outside of a Maven build (e.g. to provision bund
 a stand-alone OSGi container), but in a Maven build, it should be Maven's responsibility to download artifacts, and Pax
 Exam's role should be limited to provisioning them to the embedded OSGi container.
 
-The question is then how to achieve this. There seems to be no out-of-the-box way to do this with Pax Exam, and
-therefore I decided to develop my own tools to implement this approach in one of the projects ([Apache Axiom][5]) where
-I encountered the issues described earlier. The approach is actually quite simple. I have a [custom Maven plugin][6]
-that does the following:
+It is indeed possible to set up a project so that artifact downloading is handled exclusively by the Maven build, but
+this requires the help of a custom Maven plugin to generate a set of [link files][5]. Some time ago I developed a plugin
+that (among other things) is able to generate these files. This plugin is now available in Maven central and I'm using
+it in several project, e.g. in [Apache Axiom][6]. Usage instructions can be found [here][7]. Feel free to experiment
+with it and provide [feedback][8].
 
-*   It scans the dependencies (including transitive dependencies) of the Maven project for artifacts of type `jar` that
-    are OSGi bundles.
-
-*   For each OSGi bundle found, it generates a [link file][7] with a `file` URL pointing to the downloaded artifact in
-    the local Maven repository. The name of the link file is derived from the symbolic name of the bundle (with a suffix
-    of `.link`).
-
-*   It adds the directory containing the link files to the test resource locations of the project, so that the link
-    files will be available from the class path when the tests are executed.
-
-The plugin doesn't require any additional configuration. In the Maven project, it is simply set up as follows:
-
-~~~ markup
-<plugin>
-  <groupId>org.apache.ws.commons.axiom</groupId>
-  <artifactId>paxexam-maven-plugin</artifactId>
-  <version>1.2.15-SNAPSHOT</version>
-  <executions>
-    <execution>
-      <goals>
-        <goal>generate-link-files</goal>
-      </goals>
-    </execution>
-  </executions>
-</plugin>
-~~~
-
-In the Pax Exam configuration, these bundles can then easily be provisioned to the OSGi runtime using `link:classpath:`
-URLs as shown in the following example:
-
-~~~ java
-@Configuration
-public static Option[] configuration() {
-    return options(
-        url("link:classpath:org.example.mybundle.link"),
-        junitBundles());
-}
-~~~
-
-Note that the plugin is currently only available from the [Apache snapshot repository][8]. Feel free to experiment with
-it and provide feedback.
-
-There is one remaining question that needs to be addressed. While the approach described here works very well when the
-tests are executed by the Maven build, what about IDE integration? Is it possible to execute the tests easily in Eclipse
-(sorry for NetBeans and IntelliJ users, but Eclipse is my favored IDE)? It turns out that this is indeed possible. As
-mentioned earlier, the plugin is designed to add the directory containing the links as a test resource location to the
-Maven project. That location will be picked up (and added to the Eclipse project) automatically by the
-maven-eclipse-plugin, provided that the `generate-test-resources` phase is executed. Therefore, the Maven project can be
-successfully imported into Eclipse using the following command line:
-
-    mvn clean install -DskipTests=true eclipse:eclipse
-
-----------------------------------------
-
-*Update, Febrary 23, 2014*
-
-Even with the project setup described above, `pax-exam-link-mvn` is still a required dependency. If that dependency is
-removed, then the build will fail with the following obscure error message:
-
-    java.lang.IllegalStateException: Stream handler unavailable due to: null
-
-The reason for the obscure and not very helpful error message is some sloppy error handling in
-`org.apache.felix.framework.URLHandlersStreamHandlerProxy#openConnection(URL)`. The code in that method uses reflection,
-but doesn't process `InvocationTargetException` correctly: instead of attempting to unwrap the exception and rethrow the
-original exception, it will actually always wrap the `InvocationTargetException` in an `IllegalStateException` without
-properly chaining the exceptions, resulting in the error message shown above.
-
-Debugging reveals that the actual exception is:
-
-    java.io.IOException: URL [META-INF/links/org.ops4j.pax.exam.link] could not be resolved from classpath
-
-That resource is part of `pax-exam-link-mvn` and has the following content:
-
-    mvn:org.ops4j.pax.exam/pax-exam/3.3.0
-
-What this means is that Pax Exam will still use its own Maven session to resolve certain artifacts, namely the core
-bundles that are deployed by default into the OSGi runtime.
+**Note:** A previous version of this article mentioned `org.apache.ws.commons.axiom:paxexam-maven-plugin`. That plugin
+no longer exists. Please use the plugin described above.
 
 [1]: http://wiki.ops4j.org/display/paxexam/Pax+Exam+-+Tutorial+1
 [2]: http://docs.peergreen.com/peergreen_server/latest/reference/xhtml-single/peergreen-server-osgi-paxexam-junit-guide.xhtml
 [3]: https://groups.google.com/forum/#!msg/ops4j/kRxAXidbt7A/w0i6tM1Mn9MJ
 [4]: https://ops4j1.jira.com/browse/PAXEXAM-543
-[5]: http://ws.apache.org/axiom/
-[6]: https://svn.apache.org/repos/asf/webservices/axiom/trunk/buildutils/paxexam-maven-plugin/
-[7]: https://ops4j1.jira.com/wiki/display/paxurl/Link+Protocol
-[8]: https://repository.apache.org/content/repositories/snapshots/
+[5]: https://ops4j1.jira.com/wiki/display/paxurl/Link+Protocol
+[6]: http://ws.apache.org/axiom/
+[7]: http://veithen.github.io/alta/examples/pax-exam.html
+[8]: https://github.com/veithen/alta/issues
