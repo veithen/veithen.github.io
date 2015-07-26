@@ -7,11 +7,10 @@ tags:
  - Google Cloud
 twitter_text: "#Docker in the cloud"
 twitter_tags: GoogleComputeEngine
-image: /2015/03/04/my_other_computer.png
 disqus: true
 description: >
  Learn how to run a Docker daemon remotely in Google Compute Engine and control it from your Mac OS X workstation.
-updated: 2015-04-29
+updated: 2015-07-26
 ---
 
 ## Introduction
@@ -20,8 +19,6 @@ This article explains how to run a [Docker][docker] daemon remotely in [Google C
 a Mac OS X client. This is an alternative to [boot2docker][boot2docker] (or to running Docker entirely in a local Linux
 virtual machine) and is especially interesting if your workstation lacks the resources to start up your Docker
 containers.
-
-![My other computer is a data center](my_other_computer.png)
 
 To achieve this, we need to install a Docker client on the Mac OS X workstation and the full Docker distribution in a
 VM running on GCE. Since the protocol is incompatible between different Docker versions, it is important to use the same
@@ -120,6 +117,22 @@ You are now all set to build your Docker images and start containers remotely in
 *   When building images from Dockerfiles containing [`ADD`][add] or [`COPY`][copy] instructions, the Docker client
     needs to send the contents of the specified files or directories to the Docker daemon as part of the build context.
     Be aware that for large files this will take a significant amount of time and consume bandwidth.
+    
+    A possible solution for this problem is to store these files in a GCS bucket. If the bucket is public, the data can
+    simply be retrieved with `curl` or `wget`. Otherwise `gsutil` can be used. Use the following instructions in your
+    Dockerfile to make that command available:
+    
+        RUN \
+         wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip -qO /tmp/google-cloud-sdk.zip && \
+         unzip -qd /usr/local /tmp/google-cloud-sdk.zip && \
+         /usr/local/google-cloud-sdk/install.sh --usage-reporting=false --path-update=false --bash-completion=false && \
+         rm -rf /tmp/google-cloud-sdk.zip
+        
+        ENV PATH /usr/local/google-cloud-sdk/bin:$PATH
+    
+    Note that since the Docker daemon runs on a GCE instance, `gsutil` doesn't require authentication, provided that
+    the instance has been configured with read access to GCS (which is the case if you followed the instructions given
+    in the previous sections).
 
 [docker]: https://www.docker.com/
 [gce]: https://cloud.google.com/compute/
