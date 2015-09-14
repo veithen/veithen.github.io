@@ -10,8 +10,21 @@ twitter_tags: GoogleComputeEngine
 disqus: true
 description: >
  Learn how to run a Docker daemon remotely in Google Compute Engine and control it from your Mac OS X workstation.
-updated: 2015-07-26
+updated: 2015-09-14
 ---
+
+**Note:** This article is obsolete because the use case it describes is now supported by
+[Docker Machine][docker-machine]. To achieve the same result with that tool, do the following:
+
+*   Use [Docker Toolbox][docker-toolbox] to install Docker and Docker Machine.
+
+*   Create a VM instance using the following command:
+
+        docker-machine create -d google --google-project myproject --google-zone europe-west1-b --google-machine-type n1-standard-1 docker
+
+*   Set up the environment with:
+
+        eval "$(docker-machine env docker)"
 
 ## Introduction
 
@@ -145,3 +158,5 @@ You are now all set to build your Docker images and start containers remotely in
 [ubuntu-install-version]: https://github.com/docker/docker/issues/9697#issuecomment-67232206
 [add]: https://docs.docker.com/reference/builder/#add
 [copy]: https://docs.docker.com/reference/builder/#copy
+[docker-machine]: https://docs.docker.com/machine/
+[docker-toolbox]: https://www.docker.com/toolbox
