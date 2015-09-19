@@ -40,7 +40,8 @@ twitter_text: "Publishing releases using #Github, #Bintray and #Maven release pl
     ~~~
 
 4.  Add your Bintray credentials to `settings.xml`. Note that Bintray REST API
-    [uses API keys](https://bintray.com/docs/rest/api.html#_authentication) instead of passwords:
+    [uses API keys](https://bintray.com/docs/api/#_authentication) instead of passwords.
+    (Use the [API Key section](https://bintray.com/docs/usermanual/interacting/interacting_editingyouruserprofile.html#anchorAPIKEY) of your profile settings to obtain your `bintray-api-key`):
 
     ~~~ markup
     <server>
@@ -49,6 +50,7 @@ twitter_text: "Publishing releases using #Github, #Bintray and #Maven release pl
       <password>{bintray-api-key}</password>
     </server>
     ~~~
+
 
 5.  Add the release plugin to your POM:
 
