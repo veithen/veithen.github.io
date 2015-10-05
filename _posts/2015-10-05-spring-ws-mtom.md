@@ -4,6 +4,7 @@ title: "Broken by design: MTOM processing in Spring-WS"
 category: tech
 tags:
  - Spring-WS
+ - Broken by design
 disqus: true
 description: >
  This article identifies the common root cause of several known issues related to MTOM/XOP processing in Spring-WS

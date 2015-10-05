@@ -6,6 +6,7 @@ tags:
  - WebSphere
  - StAX
  - Exploit
+ - Broken by design
 blogger: /2013/10/broken-by-design-xlxp2.html
 disqus: true
 description: >
