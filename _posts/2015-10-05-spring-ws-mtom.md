@@ -10,6 +10,7 @@ description: >
  This article identifies the common root cause of several known issues related to MTOM/XOP processing in Spring-WS
  and discusses a possible long term solution.
 twitter_text: "#BrokenByDesign: #MTOM processing in #SpringWS"
+updated: 2015-10-14
 ---
 
 ## Introduction
@@ -123,6 +124,40 @@ other issues that could be addressed at the same time as the XOP decoding proble
     implications for the performance of the calling code because the "wrong" choice may require the caller to perform
     additional conversion to get the representation it needs. To avoid this problem, the caller should be given the
     opportunity to specify a preference for the type of the returned `Source`.
+
+## Additional issues on the client side
+
+In order to support large attachments a Web service stack needs to provide mechanisms to process them without copying
+them in their entirety into memory. There are two techniques commonly used for this:
+
+*   **Streaming.** This means that the Web service stack hands an `InputStream` to the application code that reads the
+    encoded content directly from the HTTP response stream and decodes it on the fly. Note that this requires that the
+    Web service stack keeps the HTTP request active until the application code has finished reading the attachments.
+
+*   **Offloading to disk.** In this case, the content of the attachment is copied to disk instead of keeping it in
+    memory. This is typically implemented using a threshold so that small attachments can still be kept in memory,
+    thus avoiding the I/O overhead. Note that this requires a reliable cleanup mechanism that removes the temporary
+    files once they are no longer needed.
+
+None of this is supported by the SAAJ API. On the other hand, Axiom has always supported offloading to disk, and
+streaming support was [added in 1.2.13](https://issues.apache.org/jira/browse/AXIOM-377). However, the design issues
+described in the previous sections prevent Spring-WS from leveraging these capabilities. In addition to that (i.e.
+even if these design flaws were fixed), there are two other issues that occur on the client side:
+
+*   [SWS-707](https://jira.spring.io/browse/SWS-707) causes the HTTP transport used by `WebServiceTemplate` to read the
+    entire response into a byte array. Strictly speaking this only occurs if the response has no `Content-Length`
+    header, but since MTOM messages with large attachments are typically sent used chunked encoding, this is almost
+    always the case. That issue makes streaming or offloading to disk pointless because processing the attachments still
+    requires an amount of heap memory equal to the size of the attachments. Note that this is not a design problem
+    though, because the issue would be easy to fix.
+
+*   Both streaming and offloading to disk require cleanup after the application code has finished processing the
+    attachments. With the current design of the `marshalSendAndReceive` methods in `WebServiceTemplate` there
+    is no reliable way to do that because they return control to the application code before the cleanup can happen and
+    at the same time there is no mechanism that allows the application code to inform the `WebServiceTemplate` instance
+    that it is done processing the attachments. A possible solution here would be to have `marshalSendAndReceive`
+    methods that instead of returning the response, pass the response to a callback provided by the application code.
+    The cleanup would then be performed after the callback exits.
 
 [1]: http://docs.oracle.com/javase/7/docs/api/javax/xml/soap/SOAPMessage.html#getAttachment(javax.xml.soap.SOAPElement)
 [2]: https://ws.apache.org/axiom/apidocs/org/apache/axiom/om/OMText.html
