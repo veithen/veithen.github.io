@@ -9,6 +9,7 @@ disqus: true
 description: >
  Cet article examine une série d'affirmations attribuées à Maurice Bucaille et relatées dans une vidéo qui circule
  sur Internet.
+updated: 2015-11-26
 ---
 
 {:nofollow: rel="nofollow"}
@@ -70,8 +71,12 @@ serait encore détectable après des milliers d'années et surtout après la pro
 des sels. C'est certainement impossible sans destruction de la momie. De plus, on sait que les égyptiens enlevaient les
 organes internes pendant la procédure de momification.
 
-En fait, le livre de Bucaille ne fait même pas mention de traces de sel. Voici ce qu'il est dit concernant la cause de
+En fait, le livre de Bucaille ne fait même pas mention de traces de sel[^2]. Voici ce qu'il est dit concernant la cause de
 la mort de Mérenptah dans la traduction anglaise de son livre:
+
+[^2]: Il semble que la source de cette histoire de traces de sel soit le roman (!)
+      ["La Perle et la braise"](http://www.publibook.com/librairie/livre.php?isbn=9782748360523){:nofollow} d'un certain
+      Mohamed Messen. En tout cas, ce livre est cité comme source par certains sites islamo-obscurantistes.
 
 >   What may already be derived from this examination is the discovery of multiple lesions of the bones with broad
 >   lacunae, some of which may have been mortal although it is not yet possible to ascertain whether some of them
