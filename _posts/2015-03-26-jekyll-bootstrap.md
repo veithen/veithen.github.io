@@ -10,7 +10,7 @@ disqus: true
 description: >
  There are multiple ways to integrate Bootstrap with Jekyll. This article documents how I did it for my site which runs
  on Github pages (which means that I can't use Jekyll plugins) and only uses Bootstrap CSS.
-updated: 2015-03-29
+updated: 2016-01-16
 ---
 
 There are multiple ways to integrate [Bootstrap](http://getbootstrap.com/) with [Jekyll](http://jekyllrb.com/).
@@ -33,6 +33,8 @@ Here are the basic steps to integrate the Sass port into your Jekyll site:
     *   `assets/stylesheets/_bootstrap.scss`
 
     *   `assets/stylesheets/bootstrap`
+
+    If you need glyphicons, also copy the `assets/fonts` directory to the root of your Jekyll project.
 
 3.  Create a basic stylesheet (e.g. `styles/site.scss`) as follows:
 
