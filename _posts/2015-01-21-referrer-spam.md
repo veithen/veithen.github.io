@@ -7,7 +7,7 @@ tags:
 scripts:
  - /2015/01/21/ga.js
 image: /2015/01/21/referrer-spam.png
-updated: 2015-04-03
+updated: 2016-01-26
 description: >
  If you are using Google Analytics you may have noticed page views with referrals from ilovevitaly.com, darodar.com,
  priceg.com, blackhatworth.com, o-o-6-o-o.com and other suspicious domains appearing in your statistics. These are so
@@ -43,8 +43,9 @@ disqus: true
 
 ## Introduction
 
-If you are using Google Analytics you may have noticed page views with referrals from `ilovevitaly.com`, `darodar.com`,
-`priceg.com`, `blackhatworth.com`, `o-o-6-o-o.com` and other suspicious domains appearing in your statistics:
+If you are using Google Analytics you may have noticed page views with referrals from `get-free-social-traffic.com`,
+`copyrightclaims.org`, `floating-share-buttons.com`, `free-traffic.xyz`, `o-o-6-o-o.com` and other suspicious
+domains appearing in your statistics:
 
 ![Referrer spam in Google Analytics](referrer-spam.png)
 
@@ -57,7 +58,13 @@ page titles...
 
 ![Fake host names](fake-hostnames.png)
 
-We will see later why this is so. The purpose of this spam is to trick webmasters into visiting the sites reported as
+Also note that all of these referrals seem to target the home page (`/`), in some cases with an additional parameter
+in the URL:
+
+![Referrer spam with URL parameters](referrer-spam-with-url-params.png)
+
+We will see later why these requests all have these these three characteristics.
+The purpose of this spam is to trick webmasters into visiting the sites reported as
 referrers. Wiyre has published an interesting [infographic][wiyre] that explains how this generates revenue for the
 spammer. Note however that the technical explanation given in that infographic is not entirely accurate, as we will show
 later.
@@ -260,6 +267,9 @@ With that change, you can safely eliminate ghost referrals by creating a filter 
 the *Request URI* field set to `/`, because that URI will no longer be reported in legitimate page views:
 
 ![Referrer spam filter](filter.png)
+
+However, this filter wouldn't match ghost referrals targeting URIs that include parameters, such as
+`/?from=http://web-revenue.xyz/`. To deal with them as well use `^/(\?.*)?$` instead of `^/$` as filter pattern.
 
 **Note:** If you are using Jekyll to generate your site, you may want to have a look at
 [one of my previous articles][previous-post] that discusses another modification to the Google Analytics snippet that
