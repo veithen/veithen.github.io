@@ -8,6 +8,7 @@ tags:
 disqus: true
 description: >
  Learn how to use axis2-repo-maven-plugin to properly package Axis2 modules into Web applications built using Maven.
+updated: 2016-07-03
 ---
 
 This article explains how to properly package Axis2 modules (MAR files) into Web applications
@@ -52,7 +53,7 @@ to generate the Axis2 repository[^1]. That plug-in was initially developed to ma
 but you can use it in your own projects as well.
 
 If you choose this approach, then the first step is to disable the MAR packaging feature in `maven-war-plugin`.
-The only way to do this is to exclude the entire `WEB-INF/modules` tree from the WAR by adding 
+One way to do this[^2] is to exclude the entire `WEB-INF/modules` tree from the WAR by adding 
 the following option to the plug-in configuration:
 
 ~~~ markup
@@ -166,6 +167,8 @@ This requires the following changes:
 [^1]: In Axis2, the *repository* is the directory structure containing modules and services. `maven-war-plugin` assumes
       that the repository location is `WEB-INF`, so that (with a standard Axis2 configuration) modules are stored under
       `WEB-INF/modules` and services under `WEB-INF/services`.
+
+[^2]: See [AXIS2-5783](https://issues.apache.org/jira/browse/AXIS2-5783) for a discussion about alternative solutions.
 
 [1]: /2015/01/10/maven-undefined-artifact-types.html
 [2]: http://maven.apache.org/plugins/maven-war-plugin/
