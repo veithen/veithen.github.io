@@ -149,7 +149,7 @@ terminal (which in the case considered here comprises the shell process and its 
 The problem is that Bash configures commands started in the background to [ignore SIGINT][2].
 This means that CTRL+C only stops the script, but not the JVM.
 To solve this issue and to mimic the behavior of the original script (which simply
-executes `$JAVA_EXECUTABLE $JAVA_ARGS` in the foreground), it is sufficient to confiure the
+executes `$JAVA_EXECUTABLE $JAVA_ARGS` in the foreground), it is sufficient to configure the
 same trap for the INT signal:
 
 ~~~ bash
