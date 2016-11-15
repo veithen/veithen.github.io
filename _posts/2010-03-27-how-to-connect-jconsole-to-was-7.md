@@ -8,6 +8,16 @@ blogger: /2010/03/how-to-connect-jconsole-to-was-7.html
 disqus: true
 description: >
  This article describes how to connect JConsole (on Windows) to WAS 7.0.
+updated: 2016-11-15
+---
+
+**Update:** To make your life easier you may want to use the
+[VisualWAS plugin](https://github.com/veithen/visualwas) for VisualVM instead of trying to connect
+JConsole to WebSphere as described in this post. VisualVM supports all the features that JConsole
+has, and the VisualWAS plugin makes it very easy to connect VisualVM to WebSphere. The VisualWAS
+project also provides an extension for WebSphere that makes the platform MXBeans available in
+WebSphere's MBean server, so that memory, CPU and GC information can be visualized.
+
 ---
 
 It's a bit tricky, but it's perfectly possible to connect (Sun's) JConsole to a remote WAS7 instance
