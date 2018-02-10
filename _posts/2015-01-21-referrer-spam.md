@@ -7,7 +7,7 @@ tags:
 scripts:
  - /2015/01/21/ga.js
 image: /2015/01/21/referrer-spam.png
-updated: 2016-01-26
+updated: 2018-02-10
 description: >
  If you are using Google Analytics you may have noticed page views with referrals from ilovevitaly.com, darodar.com,
  priceg.com, blackhatworth.com, o-o-6-o-o.com and other suspicious domains appearing in your statistics. These are so
@@ -271,11 +271,7 @@ the *Request URI* field set to `/`, because that URI will no longer be reported 
 However, this filter wouldn't match ghost referrals targeting URIs that include parameters, such as
 `/?from=http://web-revenue.xyz/`. To deal with them as well use `^/(\?.*)?$` instead of `^/$` as filter pattern.
 
-**Note:** If you are using Jekyll to generate your site, you may want to have a look at
-[one of my previous articles][previous-post] that discusses another modification to the Google Analytics snippet that
-actually has the `/` &rarr; `/index.html` change as a side effect.
-
-As mentioned in my earlier article linked in the note above, replacing `/` with `/index.html` in the reported pageviews
+Note that replacing `/` with `/index.html` in the reported pageviews
 will introduce a discontinuity in the analytics data for your home page. If that is not acceptable, you can set up a
 search and replace filter to remap `/index.html` to `/` in your analytics data:
 

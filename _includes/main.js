@@ -72,7 +72,7 @@ require(["ga"], function(ga) {
         ga("set", "dimension1", pageProperties.category);
     }
     ga("send", "pageview", {
-      "page": pageProperties.url,
+      "page": pageProperties.url == "/" ? "/index.html" : pageProperties.url,
       "title": pageProperties.title
     });
 });
