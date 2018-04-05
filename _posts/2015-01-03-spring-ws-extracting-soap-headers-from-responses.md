@@ -43,7 +43,7 @@ ResponseAndHeader responseAndHeader = webServiceTemplate.sendAndReceive(
             it.hasNext() ? (ResponseHeader)unmarshaller.unmarshal(it.next().getSource())
                          : null,
             MarshallingUtils.unmarshal(unmarshaller, message));
-        }
+      }
     });
 ~~~
 
