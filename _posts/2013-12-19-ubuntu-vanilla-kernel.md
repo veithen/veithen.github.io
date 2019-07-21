@@ -5,7 +5,7 @@ category: tech
 tags:
  - Linux
 blogger: /2013/12/ubuntu-vanilla-kernel.html
-updated: 2017-02-11
+updated: 2019-07-21
 disqus: true
 description: >
  This post describes a simple procedure to build and install a new Linux kernel on Ubuntu using the
@@ -30,7 +30,7 @@ versions.
 1.  Install the necessary build tools:
 
     ~~~ bash
-    sudo apt-get install kernel-package git libssl-dev
+    sudo apt-get install kernel-package git libssl-dev bison flex
     ~~~
 
 1.  Download the kernel sources:
